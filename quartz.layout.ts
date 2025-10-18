@@ -14,13 +14,23 @@ export const sharedPageComponents: SharedLayout = {
   }),
 }
 
+const ExplorerPane = Component.Explorer({
+  title: "Contents",            // ← 你要的名字
+  folderClickBehavior: "link",  // 点文件夹进入该文件夹的 index.md
+  folderDefaultState: "open",
+  useSavedState: true,
+  // 可选：过滤/排序
+  // filterFn: (n) => !["tags","assets"].includes(n.name),
+  // sortFn: (a,b) => (a.order ?? 1e9) - (b.order ?? 1e9) || a.displayName.localeCompare(b.displayName),
+})
+
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
+    // Component.ConditionalRender({
+    //   component: Component.Breadcrumbs(),
+    //   condition: (page) => page.fileData.slug !== "index",
+    // }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
     Component.TagList(),
@@ -38,12 +48,12 @@ export const defaultContentPageLayout: PageLayout = {
         { Component: Component.ReaderMode() },
       ],
     }),
-    Component.Explorer(),
+    ExplorerPane,
   ],
   right: [
-    Component.Graph(),
+    // Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    // Component.Backlinks(),
   ],
 }
 
@@ -62,7 +72,7 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    Component.Explorer(),
+    ExplorerPane,
   ],
   right: [],
 }
