@@ -1,3 +1,42 @@
 @use "./base.scss";
 
+.toc {
+  position: sticky;
+  top: var(--header-height, 0px);
+  height: calc(100vh - var(--header-height, 0px));
+}
 
+.toc .toc-content {
+  max-height: 100%;
+  overflow: auto;
+  display: block !important;
+}
+
+.toc .toc-content li > a {
+  display: block;
+  font-size: 0.90em;
+  line-height: 1.55;
+  hyphens: auto;
+}
+
+.toc .toc-content li > a {
+  text-decoration: none;
+  font-weight: 500;
+  transition: text-underline-offset .15s ease, text-decoration-color .15s ease;
+}
+
+.toc .toc-content li > a:hover,
+.toc .toc-content li > a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 2px;
+  font-weight: 600;              
+}
+
+.toc .toc-content li > a.active,
+.toc .toc-content li > a[aria-current="true"] {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+}

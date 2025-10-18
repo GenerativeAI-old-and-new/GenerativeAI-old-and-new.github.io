@@ -1,5 +1,5 @@
 ---
-title: "Policy Optimization: A Second Look"
+title: "Generative AI: Old and New"
 description: Policy optimization from my perspective.
 publish: true
 ---
@@ -12,11 +12,4 @@ Starting from the policy gradient theorem, we build up toward proximal policy op
 
 ## Contents
 
-- [Introduction to Policy Gradient](/PolicyGradient/)
-- [Proximal Policy Optimization](/PPO/)
-- [Proximal Penalties and KL Regularization](/ProximalPenalties/)
-- [Policy Optimization and Inference](/PolicyOptInference/)
-- [Policy Optimization and EM](/PolicyOptEM/)
-- [Policy Gradient Theorem and New Derivations](/PolicyGradientTheorem/)
-- [Are We Using the Correct Divergences?](/Divergences/)
-- [Understanding PPO Clipping and MOEs](/Clipping/)
+- [Probability Basis](/ProbabilityBasis/)

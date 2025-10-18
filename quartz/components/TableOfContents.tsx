@@ -33,7 +33,7 @@ export default ((opts?: Partial<Options>) => {
     const id = `toc-${numTocs++}`
     return (
       <div class={classNames(displayClass, "toc")}>
-        <button
+        {/* <button
           type="button"
           class={fileData.collapseToc ? "collapsed toc-header" : "toc-header"}
           aria-controls={id}
@@ -54,7 +54,7 @@ export default ((opts?: Partial<Options>) => {
           >
             <polyline points="6 9 12 15 18 9"></polyline>
           </svg>
-        </button>
+        </button> */}
         <OverflowList
           id={id}
           class={fileData.collapseToc ? "collapsed toc-content" : "toc-content"}

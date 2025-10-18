@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Policy Optimization: a Second Look",
+    pageTitle: "Generative AI: Old and New",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,

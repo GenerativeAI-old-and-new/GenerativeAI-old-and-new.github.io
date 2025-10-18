@@ -1,28 +1,29 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
-// components shared across all pages
-export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(),
-  header: [],
-  afterBody: [],
-  footer: Component.Footer({
-    links: {
-      GitHub: "https://github.com/jackyzha0/quartz",
-      "Discord Community": "https://discord.gg/cRFFHYye7t",
-    },
-  }),
-}
-
 const ExplorerPane = Component.Explorer({
-  title: "Contents",            // ← 你要的名字
-  folderClickBehavior: "link",  // 点文件夹进入该文件夹的 index.md
+  title: "Contents",
+  folderClickBehavior: "link",
   folderDefaultState: "open",
-  useSavedState: true,
-  // 可选：过滤/排序
+  useSavedState: false,
   // filterFn: (n) => !["tags","assets"].includes(n.name),
   // sortFn: (a,b) => (a.order ?? 1e9) - (b.order ?? 1e9) || a.displayName.localeCompare(b.displayName),
 })
+
+
+// === 全站共享：把站点标题和 ExplorerPane 放到页面最上方（随页面滚动；不是 fixed） ===
+export const sharedPageComponents: SharedLayout = {
+  head: Component.Head(),
+  header: [
+    Component.PageTitle(),
+  ],
+  afterBody: [],
+  footer: Component.Footer({
+    links: {
+      "By Qiang Liu": "https://www.cs.utexas.edu/~lqiang/",
+    },
+  }),
+}
 
 // components for pages that display a single page (e.g. a single note)
 export const defaultContentPageLayout: PageLayout = {
@@ -36,23 +37,28 @@ export const defaultContentPageLayout: PageLayout = {
     Component.TagList(),
   ],
   left: [
-    Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
       components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
+        { Component: Component.Search(), grow: true },
         { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
+        // { Component: Component.ReaderMode() },
       ],
     }),
-    ExplorerPane,
+    // 非首页：显示目录（ToC）
+    Component.ConditionalRender({
+      component: Component.DesktopOnly(Component.TableOfContents()),
+      condition: (page) => page.fileData.slug !== "index",
+    }),
+    // 首页：显示站点“Contents”树（Explorer）
+    Component.ConditionalRender({
+      component: Component.DesktopOnly(ExplorerPane),
+      condition: (page) => page.fileData.slug === "index",
+    }),
   ],
   right: [
     // Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
+    // Component.DesktopOnly(Component.TableOfContents()),
     // Component.Backlinks(),
   ],
 }
@@ -72,7 +78,6 @@ export const defaultListPageLayout: PageLayout = {
         { Component: Component.Darkmode() },
       ],
     }),
-    ExplorerPane,
   ],
   right: [],
 }
