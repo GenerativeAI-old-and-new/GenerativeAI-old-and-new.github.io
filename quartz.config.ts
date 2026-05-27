@@ -23,9 +23,9 @@ const config: QuartzConfig = {
       fontOrigin: "googleFonts",
       cdnCaching: true,
       typography: {
-        header: { name: "Inter",          weights: [600, 700], includeItalic: false },
-        body:   { name: "IBM Plex Serif", weights: [400, 600, 700], includeItalic: true },
-        code:   { name: "IBM Plex Mono",  weights: [400, 600], includeItalic: false },
+        header: { name: "Inter", weights: [600, 700], includeItalic: false },
+        body: { name: "IBM Plex Serif", weights: [400, 600, 700], includeItalic: true },
+        code: { name: "IBM Plex Mono", weights: [400, 600], includeItalic: false },
       },
       colors: {
         lightMode: {

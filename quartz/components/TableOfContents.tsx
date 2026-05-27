@@ -21,11 +21,7 @@ let numTocs = 0
 export default ((opts?: Partial<Options>) => {
   const layout = opts?.layout ?? defaultOptions.layout
   const { OverflowList, overflowListAfterDOMLoaded } = OverflowListFactory()
-  const TableOfContents: QuartzComponent = ({
-    fileData,
-    displayClass,
-    cfg,
-  }: QuartzComponentProps) => {
+  const TableOfContents: QuartzComponent = ({ fileData, displayClass }: QuartzComponentProps) => {
     if (!fileData.toc) {
       return null
     }

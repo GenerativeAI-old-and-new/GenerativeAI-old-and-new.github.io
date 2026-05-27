@@ -14,7 +14,7 @@
 
 .toc .toc-content li > a {
   display: block;
-  font-size: 0.90em;
+  font-size: 0.9em;
   line-height: 1.55;
   hyphens: auto;
 }
@@ -22,7 +22,9 @@
 .toc .toc-content li > a {
   text-decoration: none;
   font-weight: 500;
-  transition: text-underline-offset .15s ease, text-decoration-color .15s ease;
+  transition:
+    text-underline-offset 0.15s ease,
+    text-decoration-color 0.15s ease;
 }
 
 .toc .toc-content li > a:hover,
@@ -30,7 +32,7 @@
   text-decoration: underline;
   text-underline-offset: 0.15em;
   text-decoration-thickness: 2px;
-  font-weight: 600;              
+  font-weight: 600;
 }
 
 .toc .toc-content li > a.active,

@@ -10,13 +10,10 @@ const ExplorerPane = Component.Explorer({
   // sortFn: (a,b) => (a.order ?? 1e9) - (b.order ?? 1e9) || a.displayName.localeCompare(b.displayName),
 })
 
-
 // === 全站共享：把站点标题和 ExplorerPane 放到页面最上方（随页面滚动；不是 fixed） ===
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
-  header: [
-    Component.PageTitle(),
-  ],
+  header: [Component.PageTitle()],
   afterBody: [],
   footer: Component.Footer({
     links: {
