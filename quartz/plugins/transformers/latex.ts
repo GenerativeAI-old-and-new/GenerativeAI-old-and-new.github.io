@@ -1,6 +1,8 @@
 import remarkMath from "remark-math"
 import rehypeKatex from "rehype-katex"
 import rehypeMathjax from "rehype-mathjax/svg"
+import { readFileSync } from "node:fs"
+import { createRequire } from "node:module"
 //@ts-ignore
 import rehypeTypst from "@myriaddreamin/rehype-typst"
 import { QuartzTransformerPlugin } from "../types"
@@ -8,6 +10,14 @@ import { KatexOptions } from "katex"
 import { Options as MathjaxOptions } from "rehype-mathjax/svg"
 //@ts-ignore
 import { Options as TypstOptions } from "@myriaddreamin/rehype-typst"
+
+const require = createRequire(import.meta.url)
+const katexCssPath = require.resolve("katex/dist/katex.min.css")
+const katexFontCdn = "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/fonts/"
+
+function localKatexStylesheet() {
+  return readFileSync(katexCssPath, "utf8").replaceAll("url(fonts/", `url(${katexFontCdn}`)
+}
 
 interface Options {
   renderEngine: "katex" | "mathjax" | "typst"
@@ -60,7 +70,7 @@ export const Latex: QuartzTransformerPlugin<Partial<Options>> = (opts) => {
       switch (engine) {
         case "katex":
           return {
-            css: [{ content: "https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" }],
+            css: [{ content: localKatexStylesheet(), inline: true }],
             js: [
               {
                 // fix copy behaviour: https://github.com/KaTeX/KaTeX/blob/main/contrib/copy-tex/README.md

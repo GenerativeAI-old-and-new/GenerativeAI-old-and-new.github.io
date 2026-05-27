@@ -32,10 +32,10 @@ export function pageResources(
 
   const resources: StaticResources = {
     css: [
+      ...staticResources.css,
       {
         content: joinSegments(baseDir, "index.css"),
       },
-      ...staticResources.css,
     ],
     js: [
       {
