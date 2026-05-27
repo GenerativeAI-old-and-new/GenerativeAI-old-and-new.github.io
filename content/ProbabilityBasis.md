@@ -1,13 +1,17 @@
 
 ---
-title: Probability and Random Variables
-description: Probability and Random Variables
+title: Probability Basis
+description: Probability Basis
 
 ---
 
-## Probability and Random Variables
+## Overview
 
 Probability theory provides a mathematical framework for modeling uncertainty and randomness. We give a quick and informal overview of probability. 
+
+> [!example] 
+> dsaddds
+> 
 
 ### Random Variables and Distributions
 
@@ -31,8 +35,7 @@ This limiting function $\mu$, which maps a subset $A$ to a probability scalar in
 is a *probability measure*,  or *distribution* of the random variable $X$. It quantifies how likely it is for outcomes to fall within any set $A$. 
 It is expected that a probability measure should satisfy the following basic properties: 
 $$
-\boxed{
-\mu(\Omega) =1, ~~~ \mu(A) \geq 0, ~~~ \mu(A\cup B) = \mu(A) + \mu(B)- \mu(A\cap B), } 
+\mu(\Omega) =1, ~~~ \mu(A) \geq 0, ~~~ \mu(A\cup B) = \mu(A) + \mu(B)- \mu(A\cap B), 
 $$
 for any sets $A, B\subseteq \Omega$ on which $\mu$ is well defined (such sets are called measurable). 
 
@@ -54,6 +57,7 @@ $$
 \mathbb{P}(X \in A) = \sum_{x \in A} p_X(x).
 $$
 As defined as limits of the empirical frequencies, we should obviously have $\sum_x p_X(x)=1$ and $p_X(x)\geq 0$ for all $x\in \Omega$.  
+
 
 **Example [Bernoulli and Categorical Distributions].**  
 The Bernoulli distribution, denoted as $\mathtt{Bernouli}(p)$, is a discrete distribution on $\{0,1\}$ with probability mass function: 
