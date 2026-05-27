@@ -1,16 +1,21 @@
 ---
 title: "Generative AI: Old and New"
-description: Policy optimization from my perspective.
+description: "Course notes on generative modeling."
 publish: true
 ---
 
 %%**_By <a href="https://www.cs.utexas.edu/~lqiang/" target="_blank" rel="noopener noreferrer">Qiang Liu</a>_**%%
 
-These notes provide a unified treatment of policy optimization methods, connecting perspectives from reinforcement learning, probabilistic inference, and optimization theory.  
-Starting from the policy gradient theorem, we build up toward proximal policy optimization (PPO) and its extensions, discussing their interpretations through KL regularization, importance weighting, and proximal point methods.
+These notes provide a unified treatment of modern generative modeling methods, connecting probabilistic foundations, deep learning, invertible models, adversarial training, autoencoder models, flow and diffusion models, and autoregressive language models.
 
 ---
 
 ## Contents
 
-- [Probability Basis](/ProbabilityBasis/)
+- [Module 1: Probability Basics](/modules/01-probability-basics)
+- [Module 2: Deep Learning Basics](/modules/02-deep-learning-basics)
+- [Module 3: Invertible Models](/modules/03-invertible-models)
+- [Module 4: Generative Adversarial Networks](/modules/04-generative-adversarial-networks)
+- [Module 5: Autoencoder Models](/modules/05-autoencoder-models)
+- [Module 6: Flow and Diffusion](/modules/06-flow-and-diffusion)
+- [Module 7: Language Models](/modules/07-language-models)
