@@ -24,7 +24,7 @@ const config: QuartzConfig = {
       cdnCaching: true,
       typography: {
         header: { name: "IBM Plex Sans", weights: [500, 600, 700], includeItalic: false },
-        body: { name: "Source Serif 4", weights: [400, 500, 600, 700], includeItalic: true },
+        body: { name: "STIX Two Text", weights: [400, 500, 600, 700], includeItalic: true },
         code: { name: "IBM Plex Mono", weights: [400, 600], includeItalic: false },
       },
       colors: {
@@ -71,7 +71,16 @@ const config: QuartzConfig = {
       Plugin.TableOfContents(),
       Plugin.CrawlLinks({ markdownLinkResolution: "shortest" }),
       Plugin.Description(),
-      Plugin.Latex({ renderEngine: "katex" }),
+      Plugin.Latex({
+        renderEngine: "mathjax",
+        mathJaxOptions: {
+          svg: {
+            fontCache: "local",
+            mtextInheritFont: false,
+            scale: 1,
+          },
+        },
+      }),
     ],
     filters: [Plugin.RemoveDrafts()],
     emitters: [

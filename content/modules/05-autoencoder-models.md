@@ -293,16 +293,24 @@ $$
 
 The distribution $q(z|x)$ serves as an approximate posterior or a probabilistic encoder, typically parameterized by a neural network with parameters $\phi$.
 
-The expression inside the maximization is known as the Evidence Lower Bound (ELBO): $$\mathcal{L}_{\text{ELBO}}(\theta, \phi)
+The expression inside the maximization is known as the Evidence Lower Bound (ELBO):
 
+$$
+\mathcal{L}_{\text{ELBO}}(\theta, \phi)
 =
 \mathbb{E}_{q^\phi(z|x)}\!\left[
 \log p^\theta(x, z) - \log q^\phi(z|x)
-\right].$$ Maximizing the ELBO jointly over $(\theta, \phi)$ provides a tractable surrogate for maximizing the intractable marginal likelihood $\log p^\theta(x)$.
+\right].
+$$
+
+Maximizing the ELBO jointly over $(\theta, \phi)$ provides a tractable surrogate for maximizing the intractable marginal likelihood $\log p^\theta(x)$.
 
 ##### Expanded Form.
 
-Since $p^\theta(x, z) = p^\theta(x|z)\, p^\theta(z)$, the ELBO can be rewritten as: $$\begin{aligned}
+Since $p^\theta(x, z) = p^\theta(x|z)\, p^\theta(z)$, the ELBO can be rewritten as:
+
+$$
+\begin{aligned}
 \mathcal{L}_{\text{ELBO}}(\theta, \phi)
 &=
 \mathbb{E}_{q^\phi(z|x)}\!\left[
@@ -310,17 +318,26 @@ Since $p^\theta(x, z) = p^\theta(x|z)\, p^\theta(z)$, the ELBO can be rewritten 
 \right]
 
 - \mathrm{KL}\!\left(q^\phi(z|x)\,\|\,p^\theta(z)\right),
-  \end{aligned}$$ where the first term encourages accurate reconstruction (expected log-likelihood) and the second term regularizes the latent posterior to stay close to the prior.
+  \end{aligned}
+$$
+
+where the first term encourages accurate reconstruction (expected log-likelihood) and the second term regularizes the latent posterior to stay close to the prior.
 
 ##### Joint Optimization.
 
-In practice, both $\theta$ and $\phi$ are learned together via: $$\max_{\theta, \phi}\;
+In practice, both $\theta$ and $\phi$ are learned together via:
+
+$$
+\max_{\theta, \phi}\;
 \mathcal{L}_{\text{ELBO}}(\theta, \phi)
 =
 \mathbb{E}_{q^\phi(z|x)}\!\left[
 \log p^\theta(x|z)
 \right]
 
-- \mathrm{KL}\!\left(q^\phi(z|x)\,\|\,p^\theta(z)\right).$$ This variational reformulation converts the intractable integral in $\log p^\theta(x)$ into an optimization problem over the encoder distribution $q^\phi(z|x)$---the core idea behind the Variational Autoencoder.
+- \mathrm{KL}\!\left(q^\phi(z|x)\,\|\,p^\theta(z)\right).
+$$
+
+This variational reformulation converts the intractable integral in $\log p^\theta(x)$ into an optimization problem over the encoder distribution $q^\phi(z|x)$---the core idea behind the Variational Autoencoder.
 
 <!-- prettier-ignore-end -->

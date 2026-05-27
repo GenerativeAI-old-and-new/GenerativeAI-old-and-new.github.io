@@ -135,6 +135,15 @@ article p {
   margin: 1rem 0;
 }
 
+article p,
+article ul,
+article ol,
+article li,
+.callout-content,
+.callout-content > * {
+  min-width: 0;
+}
+
 article strong {
   color: var(--dark);
   font-weight: 600;
@@ -244,44 +253,89 @@ tr {
 }
 
 .katex,
-.katex * {
+.katex *,
+mjx-container[jax="SVG"],
+mjx-container[jax="SVG"] * {
   overflow-wrap: normal;
   text-wrap: nowrap;
 }
 
-.katex {
+.katex,
+mjx-container[jax="SVG"] {
+  color: var(--dark);
   white-space: nowrap;
 }
 
-.katex-display {
+.katex-display,
+article mjx-container[jax="SVG"][display="true"] {
   display: block;
   width: 100%;
+  min-width: 0;
   max-width: 100%;
-  margin: 1.15rem auto;
-  padding: 0.8rem 0.35rem;
+  margin: 0.68rem auto;
+  padding: 0.05rem 0.15rem;
+  contain: inline-size;
   overflow-x: auto;
   overflow-y: hidden;
-  border-radius: 8px;
-  background: var(--math-bg);
+  border-radius: 6px;
+  background: transparent;
   text-align: center;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--secondary) 35%, transparent) transparent;
   -webkit-overflow-scrolling: touch;
 }
 
-.katex-display > .katex {
+.katex-display > .katex,
+article mjx-container[jax="SVG"][display="true"] > svg {
   display: inline-block;
+  width: auto;
   max-width: none;
   text-align: initial;
 }
 
+article mjx-container[jax="SVG"]:not([display="true"]) {
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+  vertical-align: -0.16em;
+  scrollbar-width: none;
+}
+
+article mjx-container[jax="SVG"]:not([display="true"])::-webkit-scrollbar {
+  display: none;
+}
+
+article mjx-container[jax="SVG"] > svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+article mjx-container[jax="SVG"] svg a,
+article mjx-container[jax="SVG"] svg g {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
 p > .katex-display,
 li > .katex-display,
-blockquote .katex-display {
-  margin: 1rem 0;
+blockquote .katex-display,
+p > mjx-container[jax="SVG"][display="true"],
+li > mjx-container[jax="SVG"][display="true"],
+blockquote mjx-container[jax="SVG"][display="true"] {
+  margin: 0.55rem 0;
+}
+
+article mjx-container[jax="SVG"][display="true"] + mjx-container[jax="SVG"][display="true"] {
+  margin-top: -0.2rem;
 }
 
 article img {
   display: block;
+  content-visibility: visible;
   max-width: 100%;
+  max-height: min(72vh, 720px);
   height: auto;
   margin: 1.35rem auto;
   padding: 0.35rem;
@@ -557,7 +611,8 @@ body[data-slug="index"] article > ul > li > a {
     margin-top: 2.4rem;
   }
 
-  .katex-display {
+  .katex-display,
+  article mjx-container[jax="SVG"][display="true"] {
     margin-left: -0.25rem;
     margin-right: -0.25rem;
   }

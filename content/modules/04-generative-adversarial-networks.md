@@ -127,7 +127,10 @@ In practice, it is common to add
 
 ### Generative Adversarial Networks (GANs)
 
-In practice, one often considers a parametric critic $h_\beta$ and introduces a regularized empirical approximation: $$\begin{aligned}
+In practice, one often considers a parametric critic $h_\beta$ and introduces a regularized empirical approximation:
+
+$$
+\begin{aligned}
 D_{\mathrm{reg}}(P_\theta, P_{\text{data}})
 \;=\;
 \max_{\beta}
@@ -137,9 +140,15 @@ D_{\mathrm{reg}}(P_\theta, P_{\text{data}})
 - \mathbb{E}\!\left[h_\beta(X_\theta)\right]
 - \lambda\,\Phi(h_\beta)
   \right\},
-  \end{aligned}$$ where we introduce a regularization term in which $\Phi(\cdot)$ measures the magnitude or smoothness of the test function $h$, and $\lambda > 0$ controls the strength of this regularization. The regularization term prevents the critic from growing without bound and helps ensure stability during optimization.
+  \end{aligned}
+$$
 
-Training the generator then becomes a minimax problem: $$\min_{\theta}\; D_{\mathrm{reg}}(P_\theta, P_{\text{data}})
+where we introduce a regularization term in which $\Phi(\cdot)$ measures the magnitude or smoothness of the test function $h$, and $\lambda > 0$ controls the strength of this regularization. The regularization term prevents the critic from growing without bound and helps ensure stability during optimization.
+
+Training the generator then becomes a minimax problem:
+
+$$
+\min_{\theta}\; D_{\mathrm{reg}}(P_\theta, P_{\text{data}})
 \;=\;
 \min_{\theta}\max_{\beta}
 \left\{
@@ -147,7 +156,8 @@ Training the generator then becomes a minimax problem: $$\min_{\theta}\; D_{\mat
 
 - \mathbb{E}\!\left[h_\beta(X_\theta)\right]
 - \lambda\,\Phi(h_\beta)
-  \right\}.$$
+  \right\}.
+$$
 
 This formulation captures the essence of adversarial training, in which two components (the generator and the critic) interact in a competitive optimization process:
 
@@ -209,40 +219,70 @@ More generally, $\phi(\cdot)$ can be replaced by any other nonnegative convex fu
 
 ##### Wasserstein GAN
 
-The Wasserstein GAN [@arjovsky2017wasserstein] reformulates GAN training as minimizing the Wasserstein distance between the data and model distributions. This distance arises naturally from the integral probability metric (IPM) framework when the critic $h$ is constrained to be 1-Lipschitz continuous. $$W(P_\theta, P_{\text{data}})
+The Wasserstein GAN [@arjovsky2017wasserstein] reformulates GAN training as minimizing the Wasserstein distance between the data and model distributions. This distance arises naturally from the integral probability metric (IPM) framework when the critic $h$ is constrained to be 1-Lipschitz continuous.
 
+$$
+W(P_\theta, P_{\text{data}})
 =
 \sup_{h:\, \|h\|_{\text{Lip}} \le 1}
 \left\{
 \mathbb{E}[h(X_{\text{data}})] - \mathbb{E}[h(X_\theta)]
-\right\},$$ where the Lipschitz norm is defined as $$\|h_\beta\|_{\text{Lip}}
+\right\},
+$$
+
+where the Lipschitz norm is defined as
+
+$$
+\|h_\beta\|_{\text{Lip}}
 =
 \sup_{x \neq y}
 \frac{|h_\beta(x) - h_\beta(y)|}{\|x - y\|_2}
 =
-\sup_x \|\nabla_x h_\beta(x)\|_2.$$
+\sup_x \|\nabla_x h_\beta(x)\|_2.
+$$
 
 ##### Practical Implementation
 
-In practice, the Lipschitz constraint is enforced approximately by constraining the parameters of the critic $h_\beta$: $$\min_{\theta} \max_{\beta}
+In practice, the Lipschitz constraint is enforced approximately by constraining the parameters of the critic $h_\beta$:
+
+$$
+\min_{\theta} \max_{\beta}
 \left\{
 \mathbb{E}[h_\beta(X_{\text{data}})] - \mathbb{E}[h_\beta(X_\theta)]
 \quad \text{s.t.} \quad |\beta|_\infty \le c
-\right\},$$ where $c > 0$ controls the scale of the critic's weights.
+\right\},
+$$
+
+where $c > 0$ controls the scale of the critic's weights.
 
 ##### WGAN-GP
 
-Weight clipping can restrict the critic's capacity and lead to optimization issues. To address this, the improved WGAN by [@gulrajani2017improved] replaces the hard constraint with a gradient penalty (GP) that softly enforces the Lipschitz condition: $$\min_{\theta}\max_{\beta}
+Weight clipping can restrict the critic's capacity and lead to optimization issues. To address this, the improved WGAN by [@gulrajani2017improved] replaces the hard constraint with a gradient penalty (GP) that softly enforces the Lipschitz condition:
+
+$$
+\min_{\theta}\max_{\beta}
 \left\{
 \mathbb{E}[h_\beta(X_{\text{data}})] - \mathbb{E}[h_\beta(X_\theta)]
 
 - \lambda\,\texttt{GP}(h_\beta)
-  \right\},$$ where $$\texttt{GP}(h_\beta)
+  \right\},
+$$
+
+where
+
+$$
+\texttt{GP}(h_\beta)
   =
   \mathbb{E}\!\left[\left(\|\nabla_{\hat X} h_\beta(\hat X)\|_2 - 1\right)^2\right],
-  \qquad$$ and $$\hat X = U X_{\text{data}} + (1 - U) X_\theta,
+$$
+
+and
+
+$$
+\hat X = U X_{\text{data}} + (1 - U) X_\theta,
 \qquad
-U \sim \text{Uniform}[0,1].$$
+U \sim \text{Uniform}[0,1].
+$$
 
 Here, $X_{\text{data}} \sim P^*$ is a real data sample, and $X_\theta = T_\theta(\xi)$ is a generated sample drawn from the model distribution $P_\theta$. The random interpolation coefficient $U$ ensures that $\hat X$ lies uniformly along the straight line segment between a real and a generated point.
 
@@ -253,13 +293,25 @@ The gradient penalty encourages the critic to have gradients of unit norm along 
 
 ### Solving Minimax with Alternating Gradient Descent
 
-In general, GAN training can be formulated as solving a minimax optimization problem: $$\min_{\theta}\max_{\beta} L(T_\theta,\, h_\beta),$$ where $$L(T_\theta,\, h_\beta)
+In general, GAN training can be formulated as solving a minimax optimization problem:
+
+$$
+\min_{\theta}\max_{\beta} L(T_\theta,\, h_\beta),
+$$
+
+where
+
+$$
+L(T_\theta,\, h_\beta)
 
 =
 \mathbb{E}_{X_{\text{data}}\sim P^*}[h_\beta(X_{\text{data}})]
 
 - \mathbb{E}_{X_\theta\sim P_\theta}[h_\beta(X_\theta)]
-- \lambda\,\Phi(h_\beta)$$ is the adversarial loss functional that couples the generator $T_\theta$ and the critic $h_\beta$.
+- \lambda\,\Phi(h_\beta)
+$$
+
+is the adversarial loss functional that couples the generator $T_\theta$ and the critic $h_\beta$.
 
 In practice, GANs are trained by alternating gradient descent, that is, by repeatedly updating the critic and the generator in turn using gradient-based optimization. A typical training iteration alternates between:
 
@@ -278,10 +330,26 @@ Update generator parameters: $$\theta_t \gets \theta_t - \epsilon\, \nabla_\thet
 
 A practical implementation of the improved WGAN algorithm is summarized below:
 
-Given: dataset $X_{\text{data}}$, prior $\pi_0$, generator $T_\theta$, critic $h_\beta$, penalty weight $\lambda$, total iterations $T$, and critic update frequency $T_{\text{critic}}$. Sample real data $x_{\text{data}}^{(i)} \sim X_{\text{data}}$ Sample noise $\xi^{(i)} \sim \pi_0$, generate fake data $x_\theta^{(i)} = T_\theta(\xi^{(i)})$ Compute interpolation: $$\hat x^{(i)} = \alpha_i x_{\text{data}}^{(i)} + (1 - \alpha_i)x_\theta^{(i)},
-    \quad \alpha_i \sim U[0,1].$$ Update critic $h_\beta$ by minimizing $$\frac{1}{n}\sum_{i=1}^{n}
+Given: dataset $X_{\text{data}}$, prior $\pi_0$, generator $T_\theta$, critic $h_\beta$, penalty weight $\lambda$, total iterations $T$, and critic update frequency $T_{\text{critic}}$. Sample real data $x_{\text{data}}^{(i)} \sim X_{\text{data}}$ Sample noise $\xi^{(i)} \sim \pi_0$, generate fake data $x_\theta^{(i)} = T_\theta(\xi^{(i)})$ Compute interpolation:
+
+$$
+\hat x^{(i)} = \alpha_i x_{\text{data}}^{(i)} + (1 - \alpha_i)x_\theta^{(i)},
+    \quad \alpha_i \sim U[0,1].
+$$
+
+Update critic $h_\beta$ by minimizing
+
+$$
+\frac{1}{n}\sum_{i=1}^{n}
     \Bigl[h_\beta(x_\theta^{(i)}) - h_\beta(x_{\text{data}}^{(i)})\Bigr]
     +
-    \lambda\left(\|\nabla_{\hat x^{(i)}} h_\beta(\hat x^{(i)})\|_2 - 1\right)^2.$$ Sample noise $\xi^{(i)} \sim \pi_0$, generate fake data $x_\theta^{(i)} = T_\theta(\xi^{(i)})$ Update generator by minimizing $$\frac{1}{n}\sum_{i=1}^{n} -h_\beta(x_\theta^{(i)}).$$
+    \lambda\left(\|\nabla_{\hat x^{(i)}} h_\beta(\hat x^{(i)})\|_2 - 1\right)^2.
+$$
+
+Sample noise $\xi^{(i)} \sim \pi_0$, generate fake data $x_\theta^{(i)} = T_\theta(\xi^{(i)})$ Update generator by minimizing
+
+$$
+\frac{1}{n}\sum_{i=1}^{n} -h_\beta(x_\theta^{(i)}).
+$$
 
 <!-- prettier-ignore-end -->
