@@ -50,11 +50,23 @@ With this, it is easy to see that the empirical average of $f$ can be simply rew
 Since the measure $\mu_X$ is defined on subsets of $\Omega$, it is often inconvenient to use directly for computation. If $\Omega$ is a finite or countable set, we can fully specify the distribution of $X$ by probability mass function (PMF) $p_X(x)$ that gives the probability that $X$ takes the specific value $x$: $$p_X(x) = \mathrm{Pr}(X = x) \quad \text{for each } x \in \Omega.$$ The probability of any subset $A\subseteq \Omega$ is obtained by summing: $$\mu_X(A) = \mathrm{Pr}(X \in A) = \sum_{x \in A} p_X(x).$$ As defined as limits of the empirical frequencies, we should obviously have $\sum_x p_X(x)=1$ and $p_X(x)\geq 0$ for all $x\in \Omega$.
 
 > [!example]
-> The Bernoulli distribution, denoted as $\mathtt{Bernouli}(p)$, is a discrete distribution on $\{0,1\}$ with probability mass function: $$p_X(x) = \begin{cases}
->         p & \text{if } x=1, \\
->         1-p & \text{if } x=0.
->     \end{cases}$$ The Categorical distribution is a discrete distribution on $\{1,2,\ldots, k\}$ with probability mass function: $$p_X(x_i) =  p_i,
->     ~~~~~~ \text{where $p_i \geq 0$ and $\sum_{i=1}^k p_i = 1$.}$$ It is denoted as $\mathtt{Categorical}([p_1,p_2,\ldots,p_k])$.
+> The Bernoulli distribution, denoted as $\mathtt{Bernouli}(p)$, is a discrete distribution on $\{0,1\}$ with probability mass function:
+>
+> $$
+> p_X(x) = \begin{cases}
+> p & \text{if } x=1, \\
+> 1-p & \text{if } x=0.
+> \end{cases}
+> $$
+>
+> The Categorical distribution is a discrete distribution on $\{1,2,\ldots, k\}$ with probability mass function:
+>
+> $$
+> p_X(x_i) = p_i,
+> \qquad \text{where } p_i \geq 0 \text{ and } \sum_{i=1}^k p_i = 1.
+> $$
+>
+> It is denoted as $\mathtt{Categorical}([p_1,p_2,\ldots,p_k])$.
 
 ##### Continuous Random Variables
 
@@ -240,7 +252,9 @@ A sample of the mixture model can be obtained by first drawing an index $I \sim 
 >
 > In terms of random variables, assume $U \sim \texttt{Uniform}(0,1)$ and define $$X = F^{-1}(U),$$ so that $X \sim p_0$. To generate a sample from $p_\alpha$, it suffices to draw $$U_\alpha \sim \texttt{Uniform}(0,1),
 >     \qquad
->     X_\alpha = F^{-1}\!\bigl(U_\alpha^{1/\alpha}\bigr).$$ Indeed, since $\mathbb{P}(U_\alpha^{1/\alpha} \le u) = u^\alpha$, the resulting random variable $X_\alpha$ has CDF $F_\alpha$ and density $p_\alpha$.
+>     X_\alpha = F^{-1}\!\bigl(U_\alpha^{1/\alpha}\bigr).$$
+>
+> Indeed, since $\mathbb{P}(U_\alpha^{1/\alpha} \le u) = u^\alpha$, the resulting random variable $X_\alpha$ has CDF $F_\alpha$ and density $p_\alpha$.
 
 ---
 

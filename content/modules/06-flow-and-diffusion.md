@@ -182,9 +182,19 @@ $$X_t \overset{d}{=} Z_t, \qquad \forall t \in [0,1],$$ meaning that they share 
 ![image](/assets/modules/06-flow-and-diffusion/rf_x.png)
 
 > [!note] Theorem
-> Let $p_t$ denote the marginal density of either process $\{X_t\}$ or $\{Z_t\}$. Then $p_t$ satisfies the continuity equation $$\frac{d}{dt} p_t(x)
->     = - \nabla \cdot \left( v_t^{*}(x)\, p_t(x) \right),
->     \qquad \forall t \in [0,1].$$ Here the divergence of a vector field $g(x) = (g_1(x),\ldots,g_d(x))$ is $$\nabla \cdot g(x) = \sum_{i=1}^{d} \partial_{x_i} g_i(x).$$
+> Let $p_t$ denote the marginal density of either process $\{X_t\}$ or $\{Z_t\}$. Then $p_t$ satisfies the continuity equation
+>
+> $$
+> \frac{d}{dt} p_t(x)
+> = - \nabla \cdot \left( v_t^{*}(x)\, p_t(x) \right),
+> \qquad \forall t \in [0,1].
+> $$
+>
+> Here the divergence of a vector field $g(x) = (g_1(x),\ldots,g_d(x))$ is
+>
+> $$
+> \nabla \cdot g(x) = \sum_{i=1}^{d} \partial_{x_i} g_i(x).
+> $$
 >
 > If the continuity equation admits a unique solution for the given initial density $p_0$, then both processes must share the same marginal distribution at all times. Thus, the rectified flow ODE and the linear interpolation induce the same family of marginals $\{p_t\}_{t\in[0,1]}$.
 

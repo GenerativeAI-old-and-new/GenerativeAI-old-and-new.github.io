@@ -50,18 +50,45 @@ Here, the function class $\mathcal{H}$ serves as a collection of test functions 
 > \mathbb{E}\bigl[h(X_\theta)\bigr] = \mathbb{E}\bigl[h(X_{\text{data}})\bigr],
 > \quad \forall\, h \in \mathcal{H},$$ where the choice of the function class $\mathcal{H}$ determines which moments are being matched. Several important examples include:
 >
-> - **Bounded Continuous Functions:** $$\mathbb{E}[f(X_\theta)] = \mathbb{E}[f(X_{\text{data}})]
->       ,\quad \text{for all bounded and continuous } f.$$ Matching expectations for all bounded continuous functions guarantees equality of the two distributions.
-> - **Polynomials:** $$\mathbb{E}[\mathrm{poly}(X_\theta)] = \mathbb{E}[\mathrm{poly}(X_{\text{data}})],
->       \quad \text{for all polynomial functions.}$$ If all polynomial moments agree, the two distributions coincide (under suitable regularity conditions).
-> - **Moment Generating Functions:** $$\mathbb{E}\!\left[\exp(X_\theta^\top \omega)\right]
->       =
->       \mathbb{E}\!\left[\exp(X_{\text{data}}^\top \omega)\right],
->       \quad \text{for all vectors } \omega.$$ Equality of moment generating functions implies that the distributions are identical.
-> - **Single-Neuron Neural Network:** $$\mathbb{E}[\sigma(\omega^\top X_\theta + b)]
->       =
->       \mathbb{E}[\sigma(\omega^\top X_{\text{data}} + b)],
->       ~ \text{for all weights } \omega \text{ and biases } b,$$ where $\sigma$ is a nonlinear activation function, such as $\sigma(x) = \max(x, 0)$.
+> **Bounded Continuous Functions**
+>
+> $$
+> \mathbb{E}[f(X_\theta)] = \mathbb{E}[f(X_{\text{data}})],
+> \quad \text{for all bounded and continuous } f.
+> $$
+>
+> Matching expectations for all bounded continuous functions guarantees equality of the two distributions.
+>
+> **Polynomials**
+>
+> $$
+> \mathbb{E}[\mathrm{poly}(X_\theta)] = \mathbb{E}[\mathrm{poly}(X_{\text{data}})],
+> \quad \text{for all polynomial functions.}
+> $$
+>
+> If all polynomial moments agree, the two distributions coincide (under suitable regularity conditions).
+>
+> **Moment Generating Functions**
+>
+> $$
+> \mathbb{E}\!\left[\exp(X_\theta^\top \omega)\right]
+> =
+> \mathbb{E}\!\left[\exp(X_{\text{data}}^\top \omega)\right],
+> \quad \text{for all vectors } \omega.
+> $$
+>
+> Equality of moment generating functions implies that the distributions are identical.
+>
+> **Single-Neuron Neural Network**
+>
+> $$
+> \mathbb{E}[\sigma(\omega^\top X_\theta + b)]
+> =
+> \mathbb{E}[\sigma(\omega^\top X_{\text{data}} + b)],
+> \quad \text{for all weights } \omega \text{ and biases } b.
+> $$
+>
+> Here, $\sigma$ is a nonlinear activation function, such as $\sigma(x) = \max(x, 0)$.
 
 In practice, we may choose the test function class $\mathcal{H}$ to be a family of neural networks. The example above shows that even a single neuron defines a valid test function for comparing distributions. More generally, multilayer neural networks provide a flexible and expressive class of test functions that can efficiently capture complex, high-dimensional relationships. They are also easy to implement and optimize using standard tools in modern machine learning.
 

@@ -108,7 +108,7 @@ function createDisplayMath(value: string, position: InlineMath["position"]): Roo
 }
 
 function splitQuotePrefix(line: string): [prefix: string, body: string] {
-  const match = line.match(/^(\s*(?:>\s*)*)/)
+  const match = line.match(/^(\s*(?:>\s*)+)/)
   const prefix = match?.[0] ?? ""
   return [prefix, line.slice(prefix.length)]
 }
@@ -122,6 +122,11 @@ function normalizeDoubleDollarBlocks(src: string): string {
   let inMath = false
   let mathPrefix = ""
   let inFenceBlock = false
+
+  const pushBoundary = (prefix: string) => {
+    const boundary = prefix.trim() === "" ? "" : prefix.trimEnd()
+    if (output[output.length - 1] !== boundary) output.push(boundary)
+  }
 
   for (const line of src.split(/\r?\n/)) {
     if (isFence(line)) {
@@ -160,10 +165,12 @@ function normalizeDoubleDollarBlocks(src: string): string {
       if (inMath) {
         if (segment.trim() !== "") output.push(mathPrefix + segment.trimEnd())
         output.push(mathPrefix + "$$")
+        pushBoundary(mathPrefix)
         inMath = false
         cursor = marker + 2
       } else {
         if (segment.trim() !== "") output.push(linePrefix + segment.trimEnd())
+        pushBoundary(linePrefix)
         output.push(linePrefix + "$$")
         inMath = true
         mathPrefix = linePrefix
