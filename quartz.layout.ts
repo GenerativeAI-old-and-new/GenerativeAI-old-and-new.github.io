@@ -46,9 +46,11 @@ export const defaultContentPageLayout: PageLayout = {
   left: [
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
+      gap: "0.5rem",
       components: [
-        { Component: Component.Search(), grow: true },
-        { Component: Component.Darkmode() },
+        { Component: Component.HomeButton(), shrink: false },
+        { Component: Component.Darkmode(), shrink: false },
+        { Component: Component.Search(), basis: "10.4rem" },
         // { Component: Component.ReaderMode() },
       ],
     }),
@@ -77,12 +79,11 @@ export const defaultListPageLayout: PageLayout = {
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.Flex({
+      gap: "0.5rem",
       components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
+        { Component: Component.HomeButton(), shrink: false },
+        { Component: Component.Darkmode(), shrink: false },
+        { Component: Component.Search(), basis: "10.4rem" },
       ],
     }),
   ],

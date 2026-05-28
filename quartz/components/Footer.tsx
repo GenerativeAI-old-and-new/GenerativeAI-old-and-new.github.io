@@ -19,10 +19,10 @@ interface Options {
 export default ((opts?: Options) => {
   const Footer: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
     const year = new Date().getFullYear()
-    const legacyLinks = opts?.links
+    const legacyLinks: FooterCredit[] = opts?.links
       ? Object.entries(opts.links).map(([text, href]) => ({ text, href }))
       : []
-    const credits = opts?.credits ?? legacyLinks
+    const credits: FooterCredit[] = opts?.credits ?? legacyLinks
     return (
       <footer class={`${displayClass ?? ""}`}>
         {opts?.showQuartz !== false && (
