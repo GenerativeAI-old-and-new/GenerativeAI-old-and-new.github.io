@@ -107,6 +107,63 @@ function createDisplayMath(value: string, position: InlineMath["position"]): Roo
   } as RootContent
 }
 
+function mathjaxMacroPreamble(macros: MacroType): string {
+  return Object.entries(macros)
+    .map(([name, replacement]) => {
+      if (Array.isArray(replacement)) {
+        const [body, argCount] = replacement
+        if (typeof body !== "string" || typeof argCount !== "number") return ""
+
+        const args = Array.from({ length: argCount }, (_, i) => `#${i + 1}`).join("")
+        return `\\def${name}${args}{${body}}`
+      }
+
+      return `\\def${name}{${replacement}}`
+    })
+    .filter(Boolean)
+    .join("\n")
+}
+
+function injectMathjaxMacros(macros: MacroType) {
+  const preamble = mathjaxMacroPreamble(macros)
+
+  return () => {
+    return (tree: Root) => {
+      if (preamble === "") return
+
+      visit(tree, ["math", "inlineMath"], ((node: { value?: string }) => {
+        if (typeof node.value !== "string" || node.value.startsWith(preamble)) return
+        node.value = `${preamble}\n${node.value}`
+      }) as BuildVisitor<Root>)
+    }
+  }
+}
+
+function injectMathjaxMacrosHtml(macros: MacroType) {
+  const preamble = mathjaxMacroPreamble(macros)
+
+  return () => {
+    return (tree: Root) => {
+      if (preamble === "") return
+
+      visit(tree, "element", (node: any) => {
+        const className = node.properties?.className
+        const classes = Array.isArray(className) ? className : []
+        const isMathCode = classes.some((name) =>
+          ["language-math", "math-display", "math-inline"].includes(String(name)),
+        )
+
+        if (!isMathCode || !Array.isArray(node.children)) return
+
+        for (const child of node.children) {
+          if (child.type !== "text" || typeof child.value !== "string") continue
+          if (!child.value.startsWith(preamble)) child.value = `${preamble}\n${child.value}`
+        }
+      })
+    }
+  }
+}
+
 function splitQuotePrefix(line: string): [prefix: string, body: string] {
   const match = line.match(/^(\s*(?:>\s*)+)/)
   const prefix = match?.[0] ?? ""
@@ -180,6 +237,14 @@ function normalizeDoubleDollarBlocks(src: string): string {
   }
 
   return output.join("\n")
+}
+
+function normalizeAnnotationMacros(src: string): string {
+  return src
+    .replace(/\\ant\{\$([^$]+)\$\}/g, "\\ant{$1}")
+    .replace(/\\ant\{([^{}\n$]+?),\s*\$([^$]+)\$\}/g, (_match, text, math) => {
+      return `\\ant{\\text{${String(text).trim()}},\\,${math}}`
+    })
 }
 
 function nodeSource(node: PhrasingContent, source: string): string {
@@ -311,10 +376,15 @@ export const Latex: QuartzTransformerPlugin<Partial<Options>> = (opts) => {
   return {
     name: "Latex",
     textTransform(_ctx, src) {
-      return normalizeDoubleDollarBlocks(src)
+      return normalizeAnnotationMacros(normalizeDoubleDollarBlocks(src))
     },
     markdownPlugins() {
-      return [remarkMath, splitRawDoubleDollarMath, promoteDoubleDollarInlineMath]
+      return [
+        remarkMath,
+        splitRawDoubleDollarMath,
+        promoteDoubleDollarInlineMath,
+        ...(engine === "mathjax" ? [injectMathjaxMacros(macros)] : []),
+      ]
     },
     htmlPlugins() {
       switch (engine) {
@@ -327,14 +397,11 @@ export const Latex: QuartzTransformerPlugin<Partial<Options>> = (opts) => {
         default:
         case "mathjax": {
           return [
+            injectMathjaxMacrosHtml(macros),
             [
               rehypeMathjax,
               {
                 ...(opts?.mathJaxOptions ?? {}),
-                tex: {
-                  ...(opts?.mathJaxOptions?.tex ?? {}),
-                  macros,
-                },
               },
             ],
           ]

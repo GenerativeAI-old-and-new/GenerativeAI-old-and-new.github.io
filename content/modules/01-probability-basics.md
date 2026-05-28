@@ -110,12 +110,13 @@ Given a reference random variable $\omega \sim \mu_0$, we can construct new rand
 The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transformation changes the volume element.
 
 > [!proof] Proof
-> _Proof._ For any measurable function $h$, we have
+> For any measurable function $h$, we have
 >
 > $$
 > \begin{aligned}
 > \mathbb{E}[h(X)] = \int p_X(x) h(x) \,{\rm d}x.
 > \end{aligned}
+> \tag{1}\label{equ:ehpx}
 > $$
 >
 > On the other hand, we have
@@ -124,16 +125,13 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 > \begin{aligned}
 > \mathbb{E}[h(X)] = \mathbb{E}[h(T(\omega))]
 > & = \int h(T(\omega)) p_\omega(\omega) \,{\rm d}\omega \\
-> & = \int h(x) p_\omega(T^{-1}(x)) \,{\rm d}T^{-1}(x) \quad \omega = T^{-1}(x) \\
-> & = \int h(x) p_\omega(T^{-1}(x)) \left|\det(\nabla T^{-1}(x))\right| \,{\rm d}x,
+> & = \int h(x) p_\omega(T^{-1}(x)) \,{\rm d}T^{-1}(x) \ant{\omega = T^{-1}(x)} \\
+> & = \int h(x) p_\omega(T^{-1}(x)) \left|\det(\nabla T^{-1}(x))\right| \,{\rm d}x
+>   \ant{\text{change of variables},\,{\rm d}T^{-1}(x)=\left|\det(\nabla T^{-1}(x))\right|\,{\rm d}x}.
 > \end{aligned}
 > $$
 >
-> where we used change of variables:
->
-> $${\rm d}T^{-1}(x) = \left|\det(\nabla T^{-1}(x))\right| \,{\rm d}x.$$
->
-> Matching the expression of $\mathbb{E}[h(X)]$ above with Eq. `equ:ehpx`, we get
+> Matching this with Eq. $\eqref{equ:ehpx}$, we get
 >
 > $$p_X(x) = p_\omega(T^{-1}(x)) \cdot \left|\det(\nabla T^{-1}(x))\right|.$$
 >

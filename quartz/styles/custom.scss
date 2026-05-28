@@ -240,6 +240,27 @@ article strong {
   font-weight: 700;
 }
 
+article em {
+  font-style: italic;
+}
+
+article p > strong:first-child,
+article li > strong:first-child {
+  color: var(--book-sienna);
+  font-weight: 700;
+}
+
+article ol,
+article ul {
+  padding-left: 1.35rem;
+}
+
+article ol > li::marker {
+  color: var(--book-sienna);
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
 h1,
 h2,
 h3,
@@ -280,13 +301,19 @@ article h4,
 article h5,
 article h6 {
   color: var(--dark);
-  font-weight: 400;
+  font-weight: 700;
 }
 
 article h1,
 article h2,
 article h3 {
-  font-weight: 400;
+  font-weight: 700;
+}
+
+article h2 strong,
+article h3 strong,
+article h4 strong {
+  color: inherit;
 }
 
 blockquote {
@@ -371,6 +398,22 @@ blockquote {
 .callout-content {
   color: var(--book-ink);
   font-size: 1em;
+}
+
+.callout-content strong:first-child {
+  color: var(--box-color);
+}
+
+.note-red,
+.latex-red,
+.red-comment {
+  color: #af3235;
+}
+
+.note-magenta,
+.latex-magenta,
+.inline-annotation {
+  color: #af3235;
 }
 
 .callout-content p,
@@ -755,8 +798,7 @@ article mjx-container[jax="SVG"] > svg {
   stroke: currentColor;
 }
 
-article mjx-container[jax="SVG"] svg a,
-article mjx-container[jax="SVG"] svg g {
+article mjx-container[jax="SVG"] svg a {
   fill: currentColor;
   stroke: currentColor;
 }
