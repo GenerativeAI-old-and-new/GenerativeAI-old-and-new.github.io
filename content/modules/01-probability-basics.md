@@ -249,7 +249,9 @@ _Estimating distribution from observation._
 
 Consider a dataset of independent samples drawn from an unknown distribution: $$\mathcal{D} = \{ x_i \}_{i=1}^n, \quad x_i \sim P^*,$$ where $P^*$ is the unknown true distribution governing the data generation process. Our goal is to estimate $P^*$ using a learning algorithm that takes the dataset as input: $$\hat{P} = \texttt{Algorithm}(\mathcal{D}).$$ To make this problem tractable, we typically assume that $P^*$ belongs to a known parametric family: $$\mathcal{P} = \{ P_\theta : \theta \in \Theta \},$$ where $\theta$ represents the parameters of the model and $\Theta$ is the parameter space. The problem then reduces to finding the optimal parameter $\theta$ that best explains the observed data.
 
-![image](/assets/modules/01-probability-basics/gaussian_1d_histogram.png)
+<figure class="side-figure">
+  <img src="/assets/modules/01-probability-basics/gaussian_1d_histogram.png" alt="Gaussian sample histogram" />
+</figure>
 
 > [!example]
 > For the data $\{x^{(i)}\}_{i=1}^n$ shown in the figure, it is reasonable to assume that $P^*$ follows a Gaussian distribution $\mathcal{N}(\mu, \sigma^2)$. In this case, the parameter vector is $\theta = (\mu, \sigma)$. A natural estimation approach is to use the empirical mean and variance: $$\begin{aligned}
@@ -257,7 +259,9 @@ Consider a dataset of independent samples drawn from an unknown distribution: $$
 >
 > \end{aligned}$$ These estimators have well-understood statistical properties and provide a solid foundation for understanding the underlying data distribution.
 
-![image](/assets/modules/01-probability-basics/categorical_counts.png)
+<figure class="side-figure">
+  <img src="/assets/modules/01-probability-basics/categorical_counts.png" alt="Categorical sample counts" />
+</figure>
 
 > [!example]
 > Consider a dataset of categorical variables, such as words in a text corpus or items in a shopping basket. Let $\mathcal{X} = \{1,\ldots,K\}$ be the set of possible categories. The data consists of counts $n_k$ for each category $k$: $$\{n_k\}_{k=1}^K, \quad \text{where } n_k = \sum_{i=1}^n \mathbb{I}[x_i = k]$$ A natural model for this type of data is the categorical distribution with parameters $\theta = (\theta_1,\ldots,\theta_K)$ where $\theta_k \geq 0$ and $\sum_k \theta_k = 1$. The maximum likelihood estimate is simply the empirical frequencies: $$\hat{\theta}_k = \frac{n_k}{n}$$ This intuitive result demonstrates how the data naturally suggests the appropriate parameter estimates.
@@ -380,7 +384,9 @@ with equality if and only if $P = Q$ almost everywhere.
 >
 > The proof is completed by observing that $\mathbb{E}_P\left[\frac{q(x)}{p(x)}\right] = 1$, which follows from the fact that $q(x)$ is a probability density integrating to 1.
 
-![image](/assets/modules/01-probability-basics/output.png)
+<figure class="side-figure">
+  <img src="/assets/modules/01-probability-basics/output.png" alt="KL divergence non-negativity illustration" />
+</figure>
 
 This definition of KL divergence may seem mysterious at first glance. The non-negativity is not immediately obvious since we're taking an expectation of log density ratios $\log \frac{q(x)}{p(x)}$ which can be negative for some values of $x$. Yet remarkably, Jensen's inequality guarantees that this expectation is always non-negative, regardless of the specific distributions $P$ and $Q$.
 
@@ -410,7 +416,9 @@ Let us develop another way to understand the non-negativity of KL divergence. We
 
 To recover the KL divergence, we can choose $$c(x) = x - \log x - 1.$$
 
-![image](/assets/modules/01-probability-basics/fx.png)
+<figure class="side-figure">
+  <img src="/assets/modules/01-probability-basics/fx.png" alt="Convex function for KL divergence" />
+</figure>
 
 So we have $$\begin{aligned}
 \texttt{D}(P, Q) & = \mathbb{E}_{x \sim P} \left[\frac{q(x)}{p(x)} - \log \frac{q(x)}{p(x)} - 1\right] \\

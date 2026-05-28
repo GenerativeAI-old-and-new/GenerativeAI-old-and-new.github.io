@@ -14,7 +14,7 @@ const ExplorerPane = Component.Explorer({
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [Component.PageTitle()],
-  afterBody: [],
+  afterBody: [Component.SideFigureLightbox()],
   footer: Component.Footer({
     showQuartz: false,
     credits: [
