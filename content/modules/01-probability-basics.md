@@ -143,6 +143,15 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 > [!example|Log-Normal Distribution]
 > Let $\omega \sim \mathcal{N}(0,1)$ be standard normal, and define $X = \exp(\omega)$. Then: $$p_X(x) = \frac{1}{x\sqrt{2\pi}} \exp\left(-\frac{(\log x)^2}{2}\right), \quad x > 0.$$ This gives the log-normal distribution, useful for modeling positive-valued data like incomes or stock prices.
 
+<figure
+  class="side-figure interactive-figure"
+  data-interactive-figure="lognormal-density"
+  data-mu="0"
+  data-sigma="0.5"
+  data-n="1000"
+  data-bins="30"
+></figure>
+
 > [!example|Box-Muller Transform]
 > To generate samples from $\mathcal{N}(0,1)$, we can use the Box-Muller transform. Let $U_1, U_2 \sim \text{Uniform}(0,1)$ be independent, then: $$Z_1 = \sqrt{-2\log U_1} \cos(2\pi U_2), \quad Z_2 = \sqrt{-2\log U_1} \sin(2\pi U_2)$$ are independent $\mathcal{N}(0,1)$ random variables.
 

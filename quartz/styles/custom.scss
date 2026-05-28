@@ -1150,6 +1150,10 @@ article .side-figure.interactive-figure:focus-within {
   border-top: 2px solid var(--chart-true);
 }
 
+.gaussian-histogram-legend i.is-samples {
+  border-top-color: var(--chart-hist-stroke);
+}
+
 .gaussian-histogram-legend i.is-fit {
   border-top-color: var(--chart-fit);
   border-top-style: dashed;
@@ -1189,6 +1193,10 @@ article .side-figure.interactive-figure:focus-within {
   color: var(--darkgray);
   font-family: var(--codeFont);
   text-align: right;
+}
+
+.lognormal-parameter-slider {
+  margin-top: 0.34rem;
 }
 
 .gaussian-histogram-ticks {
