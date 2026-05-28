@@ -73,6 +73,8 @@ html:root {
   --shadow-soft: 0 12px 32px rgba(45, 38, 28, 0.06);
   --math-bg: color-mix(in srgb, var(--surface) 88%, var(--highlight));
   --image-bg: #fff;
+  --selection-bg: rgba(177, 205, 238, 0.58);
+  --selection-ink: #171d25;
   --book-green: #228b22;
   --book-blue: #2d62a0;
   --book-sienna: #a65f2e;
@@ -89,6 +91,8 @@ html:root {
   --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
   --math-bg: color-mix(in srgb, var(--surface) 84%, var(--highlight));
   --image-bg: #f7f2e9;
+  --selection-bg: rgba(120, 165, 220, 0.42);
+  --selection-ink: #f4f7fb;
   --book-green: #7fcf7f;
   --book-blue: #8ab7f2;
   --book-sienna: #e1a06f;
@@ -128,6 +132,16 @@ a:hover,
 a:focus-visible {
   text-decoration: underline;
   text-decoration-thickness: 1px;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-ink);
+}
+
+::-moz-selection {
+  background: var(--selection-bg);
+  color: var(--selection-ink);
 }
 
 .page {
