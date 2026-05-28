@@ -242,10 +242,26 @@ export function renderPage(
   const Body = BodyConstructor()
 
   const LeftComponent = (
-    <div class="left sidebar">
-      {left.map((BodyComponent) => (
-        <BodyComponent {...componentData} />
-      ))}
+    <div id="left-sidebar" class="left sidebar">
+      <button
+        type="button"
+        class="sidebar-collapse-button"
+        aria-controls="left-sidebar"
+        aria-expanded="true"
+        aria-label="Hide contents"
+        title="Hide contents"
+      >
+        <svg role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4.5 5.5h15v13h-15z" />
+          <path d="M9 5.5v13" />
+          <path class="sidebar-collapse-arrow" d="m15.5 9-3 3 3 3" />
+        </svg>
+      </button>
+      <div class="sidebar-content">
+        {left.map((BodyComponent) => (
+          <BodyComponent {...componentData} />
+        ))}
+      </div>
     </div>
   )
 

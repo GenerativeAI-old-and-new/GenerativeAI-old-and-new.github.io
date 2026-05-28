@@ -249,9 +249,14 @@ _Estimating distribution from observation._
 
 Consider a dataset of independent samples drawn from an unknown distribution: $$\mathcal{D} = \{ x_i \}_{i=1}^n, \quad x_i \sim P^*,$$ where $P^*$ is the unknown true distribution governing the data generation process. Our goal is to estimate $P^*$ using a learning algorithm that takes the dataset as input: $$\hat{P} = \texttt{Algorithm}(\mathcal{D}).$$ To make this problem tractable, we typically assume that $P^*$ belongs to a known parametric family: $$\mathcal{P} = \{ P_\theta : \theta \in \Theta \},$$ where $\theta$ represents the parameters of the model and $\Theta$ is the parameter space. The problem then reduces to finding the optimal parameter $\theta$ that best explains the observed data.
 
-<figure class="side-figure">
-  <img src="/assets/modules/01-probability-basics/gaussian_1d_histogram.png" alt="Gaussian sample histogram" />
-</figure>
+<figure
+  class="side-figure interactive-figure"
+  data-interactive-figure="gaussian-sample-histogram"
+  data-mu="2.5"
+  data-sigma="1.2"
+  data-n="1000"
+  data-bins="30"
+></figure>
 
 > [!example]
 > For the data $\{x^{(i)}\}_{i=1}^n$ shown in the figure, it is reasonable to assume that $P^*$ follows a Gaussian distribution $\mathcal{N}(\mu, \sigma^2)$. In this case, the parameter vector is $\theta = (\mu, \sigma)$. A natural estimation approach is to use the empirical mean and variance: $$\begin{aligned}

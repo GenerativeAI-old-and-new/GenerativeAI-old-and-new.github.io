@@ -25,6 +25,7 @@ import Comments from "./Comments"
 import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import SideFigureLightbox from "./SideFigureLightbox"
+import InteractiveFigures from "./InteractiveFigures"
 
 export {
   ArticleTitle,
@@ -54,4 +55,5 @@ export {
   Flex,
   ConditionalRender,
   SideFigureLightbox,
+  InteractiveFigures,
 }

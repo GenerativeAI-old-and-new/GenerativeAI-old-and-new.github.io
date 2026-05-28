@@ -74,6 +74,7 @@ function setupSideFigureLightbox() {
 
   const figures = document.querySelectorAll<HTMLElement>("article .side-figure")
   for (const figure of figures) {
+    if (figure.matches("[data-interactive-figure]")) continue
     if (figure.dataset.lightboxReady === "true") continue
 
     const image = figure.querySelector<HTMLImageElement>("img")
