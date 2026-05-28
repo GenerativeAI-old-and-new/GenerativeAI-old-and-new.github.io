@@ -184,13 +184,14 @@ header {
 }
 
 .article-title {
-  max-width: 15ch;
+  max-width: none;
   margin: 0;
   color: var(--dark);
   font-family: var(--bodyFont);
   font-size: 2.55rem;
   font-weight: 400;
   line-height: 1.08;
+  white-space: nowrap;
 }
 
 .content-meta {
@@ -993,8 +994,16 @@ footer {
 }
 
 body[data-slug="index"] .article-title {
-  max-width: 18ch;
+  max-width: none;
   font-size: 3rem;
+  white-space: nowrap;
+}
+
+@media all and (max-width: 900px) {
+  .article-title,
+  body[data-slug="index"] .article-title {
+    white-space: normal;
+  }
 }
 
 body[data-slug="index"] article > p:first-of-type {
