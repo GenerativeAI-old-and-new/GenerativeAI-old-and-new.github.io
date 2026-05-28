@@ -1,9 +1,73 @@
 @use "./variables.scss" as *;
 @use "./base.scss";
 
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Sans";
+  src: url("/static/fonts/LatinModernSans-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Sans";
+  src: url("/static/fonts/LatinModernSans-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Mono";
+  src: url("/static/fonts/LatinModernMono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html:root {
+  --titleFont: "Latin Modern Sans", Helvetica, Arial, sans-serif;
+  --headerFont: "Latin Modern Sans", Helvetica, Arial, sans-serif;
+  --bodyFont: "Latin Modern Roman", Georgia, "Times New Roman", serif;
+  --codeFont: "Latin Modern Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
 :root {
   --surface: #fffdf8;
   --surface-muted: color-mix(in srgb, var(--lightgray) 38%, var(--light));
+  --book-ink: #24201c;
   --line: color-mix(in srgb, var(--lightgray) 82%, var(--dark) 18%);
   --line-strong: color-mix(in srgb, var(--gray) 62%, var(--dark) 38%);
   --shadow-soft: 0 12px 32px rgba(45, 38, 28, 0.06);
@@ -19,6 +83,7 @@
 :root[saved-theme="dark"] {
   --surface: #201f1a;
   --surface-muted: color-mix(in srgb, var(--lightgray) 58%, var(--light));
+  --book-ink: #eee7dd;
   --line: color-mix(in srgb, var(--lightgray) 82%, var(--dark) 18%);
   --line-strong: color-mix(in srgb, var(--gray) 70%, var(--dark) 30%);
   --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
@@ -46,6 +111,10 @@ html {
 body {
   min-height: 100vh;
   background: var(--light);
+  font-family: var(--bodyFont);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
   font-feature-settings:
     "kern" 1,
     "liga" 1;
@@ -91,7 +160,7 @@ header {
 .page-title {
   font-family: var(--headerFont);
   font-size: 0.98rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.2;
 }
 
@@ -106,7 +175,7 @@ header {
   color: var(--dark);
   font-family: var(--bodyFont);
   font-size: 2.55rem;
-  font-weight: 600;
+  font-weight: 400;
   line-height: 1.08;
 }
 
@@ -115,12 +184,15 @@ header {
   color: var(--gray);
   font-family: var(--headerFont);
   font-size: 0.92rem;
+  font-weight: 400;
 }
 
 article {
   min-width: 0;
-  color: var(--darkgray);
+  color: var(--book-ink);
+  font-family: var(--bodyFont);
   font-size: 1.03rem;
+  font-weight: 400;
 }
 
 article > :first-child {
@@ -148,7 +220,7 @@ article li,
 
 article strong {
   color: var(--dark);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 h1,
@@ -159,7 +231,7 @@ h5,
 h6,
 thead {
   font-family: var(--headerFont);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 article h1,
@@ -191,6 +263,13 @@ article h4,
 article h5,
 article h6 {
   color: var(--dark);
+  font-weight: 400;
+}
+
+article h1,
+article h2,
+article h3 {
+  font-weight: 400;
 }
 
 blockquote {
@@ -272,7 +351,7 @@ blockquote {
 }
 
 .callout-content {
-  color: var(--darkgray);
+  color: var(--book-ink);
   font-size: 0.98em;
 }
 
@@ -286,6 +365,7 @@ blockquote {
 }
 
 pre {
+  font-family: var(--codeFont);
   margin: 1.25rem 0;
   border-color: var(--line);
   border-radius: 8px;
@@ -294,6 +374,7 @@ pre {
 }
 
 code {
+  font-family: var(--codeFont);
   border: 1px solid color-mix(in srgb, var(--lightgray) 74%, transparent);
   background: color-mix(in srgb, var(--lightgray) 62%, var(--surface));
 }
@@ -324,7 +405,7 @@ th {
   border-bottom: 1px solid var(--line-strong);
   color: var(--dark);
   font-family: var(--headerFont);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 td,
@@ -566,7 +647,7 @@ hr {
   color: var(--darkgray);
   font-family: var(--headerFont);
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.45;
   hyphens: auto;
   text-decoration: none;
@@ -583,7 +664,7 @@ hr {
 .toc .toc-content li > a[aria-current="true"] {
   border-left-color: var(--secondary);
   color: var(--dark);
-  font-weight: 600;
+  font-weight: 400;
   text-decoration: none;
   opacity: 1;
 }
@@ -592,6 +673,7 @@ hr {
 .folder-container div > a,
 .folder-container div > button span {
   color: var(--darkgray);
+  font-weight: 400;
 }
 
 .explorer-content ul li > a.active,
