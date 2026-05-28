@@ -104,7 +104,7 @@ In practice, we often need to construct complex distributions from simpler distr
 
 Given a reference random variable $\omega \sim \mu_0$, we can construct new random variables through deterministic transformations: $$X = T(\omega),$$ where $T: \Omega \to \Omega'$ is a measurable mapping. The resulting random variable $X$ follows a transformed distribution.
 
-> [!theorem] Theorem
+> [!theorem|Change of Variables Formula]
 > If $T$ is continuously differentiable and invertible, and $\omega$ has density $p_\omega$, then $X = T(\omega)$ has density: $$p_X(x) = p_\omega(T^{-1}(x)) \cdot \left|\det(\nabla T^{-1}(x))\right|,$$ where $\nabla T^{-1}(x)$ is the Jacobian matrix of the inverse transformation.
 
 The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transformation changes the volume element.
@@ -140,10 +140,10 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 > [!remark] Remark
 > Let $x = T(z)$, we have $\nabla T^{-1}(x) = (\nabla T(z))^{-1}$, where the first inverse is function inverse, and second is matrix inverse, and hence $\det(\nabla T^{-1}(x)) = 1/\det(\nabla T(z))$.
 
-> [!example]
+> [!example|Log-Normal Distribution]
 > Let $\omega \sim \mathcal{N}(0,1)$ be standard normal, and define $X = \exp(\omega)$. Then: $$p_X(x) = \frac{1}{x\sqrt{2\pi}} \exp\left(-\frac{(\log x)^2}{2}\right), \quad x > 0.$$ This gives the log-normal distribution, useful for modeling positive-valued data like incomes or stock prices.
 
-> [!example]
+> [!example|Box-Muller Transform]
 > To generate samples from $\mathcal{N}(0,1)$, we can use the Box-Muller transform. Let $U_1, U_2 \sim \text{Uniform}(0,1)$ be independent, then: $$Z_1 = \sqrt{-2\log U_1} \cos(2\pi U_2), \quad Z_2 = \sqrt{-2\log U_1} \sin(2\pi U_2)$$ are independent $\mathcal{N}(0,1)$ random variables.
 
 ### Density Reweighting
@@ -155,19 +155,19 @@ p_r(x)
 Z_r := \int p_0(x)\, r(x) \,{\rm d}x.
 \end{aligned}$$ Here $r(x) \ge 0$ is called an _importance weight function_, and $Z_r$ is the normalization constant ensuring that $p_r$ integrates to $1$.
 
-> [!example]
+> [!example|Gaussian Distribution with Different Means]
 > Let $\phi(x)$ denote the density of the standard normal distribution $\mathcal{N}(0,I)$. The density of $\mathcal{N}(\mu,I)$ can be written as a reweighting of $\phi$: $$\begin{aligned}
 > p(x)
 > &= \phi(x)\, \exp\!\left(x^\top \mu - \tfrac{1}{2}\|\mu\|^2\right).
 > \end{aligned}$$ The exponential weight shifts the mean from $0$ to $\mu$ while preserving the covariance.
 
-> [!example]
+> [!example|Truncated Normal Distribution]
 > Let $X \sim \mathcal{N}(0,1)$ and define the weight $$r(x) = \mathbb{I}(x \in [a,b]).$$ The resulting truncated normal distribution has density $$\begin{aligned}
 > p(x)
 > &= \frac{\phi(x)\, \mathbb{I}(x \in [a,b])}{\Phi(b)-\Phi(a)},
 > \end{aligned}$$ where $\phi$ and $\Phi$ denote the standard normal PDF and CDF, respectively. This construction restricts the support to $[a,b]$ and renormalizes the density.
 
-> [!remark] Remark
+> [!remark|Importance of Normalization]
 > When modifying densities, proper normalization is essential. The constant $Z_r$ guarantees that the reweighted function defines a valid probability density. Without normalization, $p_0(x) r(x)$ would generally not integrate to $1$.
 
 Given a sample $X \sim p_0$, how can we obtain a sample from $p_r(x) = \frac{p_0(x)\, r(x)}{Z_r}$? Several general-purpose strategies are available.
@@ -223,12 +223,12 @@ w_k \ge 0,
 
 A sample of the mixture model can be obtained by first drawing an index $I \sim \texttt{Categorical}([w_1, \ldots, w_K])$ to determine which component to select, and then drawing $X$ from $p_I$.
 
-> [!example]
+> [!example|Mixture Distributions]
 > Let $p_k(x) = \mathcal{N}(x \mid \mu_k, \Sigma_k)$ and $w_k$ be mixing weights. The resulting Gaussian mixture model represents a multi-modal distribution whose mass is distributed among the Gaussian components. Sampling proceeds by first selecting a component index $Z \sim \texttt{Categorical}(w_1,\ldots,w_K)$ and then drawing $$X \sim \mathcal{N}(\mu_Z, \Sigma_Z).$$
 
 ### Other Distribution Transforms
 
-> [!example]
+> [!example|Power Transformations of CDFs]
 > Let $p_0$ be a density function, and $F(x) = \int_{-\infty}^{x} p_0(z) \,{\rm d}z$ be its cumulative distribution function (CDF). For $\alpha > 0$, we can define a new distribution: $$F_\alpha(x) = F(x)^\alpha, \quad \text{and} \quad p_\alpha(x) = \alpha F(x)^{\alpha-1} p_0(x).$$ This transformation creates a new density function $p_\alpha$ that concentrates more mass in regions where $F(x)$ is large when $\alpha > 1$, and spreads it out when $0 < \alpha < 1$. The factor $\alpha$ ensures proper normalization.
 >
 > In terms of random variables, assume $U \sim \texttt{Uniform}(0,1)$ and define $$X = F^{-1}(U),$$ so that $X \sim p_0$. To generate a sample from $p_\alpha$, it suffices to draw $$U_\alpha \sim \texttt{Uniform}(0,1),
@@ -271,7 +271,7 @@ Consider a dataset of independent samples drawn from an unknown distribution: $$
 > [!example]
 > Consider a dataset of categorical variables, such as words in a text corpus or items in a shopping basket. Let $\mathcal{X} = \{1,\ldots,K\}$ be the set of possible categories. The data consists of counts $n_k$ for each category $k$: $$\{n_k\}_{k=1}^K, \quad \text{where } n_k = \sum_{i=1}^n \mathbb{I}[x_i = k]$$ A natural model for this type of data is the categorical distribution with parameters $\theta = (\theta_1,\ldots,\theta_K)$ where $\theta_k \geq 0$ and $\sum_k \theta_k = 1$. The maximum likelihood estimate is simply the empirical frequencies: $$\hat{\theta}_k = \frac{n_k}{n}$$ This intuitive result demonstrates how the data naturally suggests the appropriate parameter estimates.
 
-> [!remark] Remark
+> [!remark|Inference vs. Learning: Key Distinctions]
 > The fundamental problems in probability theory, statistics, and machine learning can be viewed as converting between data and distributions.
 >
 > - **Probabilistic Inference**: Given a probability distribution, we infer its properties. Examples include calculating the mean, variance, or probabilities like $P(X \leq 1)$ from a known density function.
@@ -300,7 +300,7 @@ where $p_0$ is a simple base distribution (typically a standard normal or unifor
 > [!example]
 > We can represent Gaussian distributions in a generative way as the distribution of a random variable $X_\theta$: $$X_\theta = \mu + \sigma \xi, \quad \xi \sim \mathcal{N}(0,1), \quad \theta = (\mu, \sigma)$$ where samples are obtained by applying appropriate linear transformations to the standard Gaussian random variable $\xi$. This generative perspective makes it easy to sample from the distribution and provides insight into the underlying data generation process.
 
-> [!remark] Remark
+> [!remark|Inverse CDF Transform Sampling]
 > One-dimensional distributions provide another case where both density and generative representations are possible.
 >
 > For a 1D distribution $P$, we can represent it using its cumulative distribution function (CDF): $$F(x) = \mathrm{Pr}(X \leq x) = \int_{-\infty}^x \,{\rm d}P(\omega).$$ When $F$ is differentiable, we obtain the density function as $p(x) = F'(x)$.
@@ -395,7 +395,7 @@ with equality if and only if $P = Q$ almost everywhere.
 
 This definition of KL divergence may seem mysterious at first glance. The non-negativity is not immediately obvious since we're taking an expectation of log density ratios $\log \frac{q(x)}{p(x)}$ which can be negative for some values of $x$. Yet remarkably, Jensen's inequality guarantees that this expectation is always non-negative, regardless of the specific distributions $P$ and $Q$.
 
-> [!example]
+> [!example|Numerical Example]
 > Consider two discrete distributions over three outcomes: $$\begin{aligned}
 > P &= [0.2, 0.3, 0.5] \quad \text{(a skewed distribution)} \\
 > Q &= [0.33, 0.33, 0.34] \quad \text{(approximately uniform)}.
@@ -413,10 +413,10 @@ This definition of KL divergence may seem mysterious at first glance. The non-ne
 
 Let us develop another way to understand the non-negativity of KL divergence. We can consider the following obvious notion of discrepancy between two distributions $P$ and $Q$: $$\texttt{D}(P, Q) = \mathbb{E}_{x \sim P} \left[c\left(\frac{q(x)}{p(x)}\right)\right],$$ where $c\colon [0,\infty) \to [0,\infty)$ is any **non-negative** function, which attains its minimum at $c(1) = 0$. This obviously defines a valid notion of discrepancy with $\texttt{D}(P, Q) = 0$ if and only if $P = Q$ almost everywhere.
 
-> [!example]
+> [!example|Chi-Squared Divergence]
 > A simple example of $c$ is $c(x) = (x - 1)^2$, then $$\texttt{D}(P, Q) = \mathbb{E}_{x \sim P} \left[\left(\frac{q(x)}{p(x)} - 1\right)^2\right].$$ This yields the $\chi^2$ divergence.
 
-> [!example]
+> [!example|Total Variation Distance]
 > Consider $c(x) = |x - 1|$, we have $$\texttt{D}(P, Q) = \mathbb{E}_{x \sim P} \left[\left|\frac{q(x)}{p(x)} - 1\right|\right] = \int |p(x) - q(x)| \,{\rm d}x.$$ This yields the total variation distance.
 
 To recover the KL divergence, we can choose $$c(x) = x - \log x - 1.$$
@@ -433,13 +433,13 @@ So we have $$\begin{aligned}
 
 To verify that $c(x) = x - \log x - 1$ is a valid loss function, we examine its properties: $$c'(x) = 1 - \frac{1}{x}, \quad c''(x) = \frac{1}{x^2}.$$ We have $c'(1) = 0$, $c(1) = 0$, and $c''(x) > 0$ for all $x > 0$. Therefore, $c(x)$ is a non-negative convex function that attains its minimum at $x = 1$. See the figure for a visualization of the KL divergence.
 
-> [!remark] Remark
+> [!remark|KL Divergence: Complete vs. Practical Forms]
 > The "complete" definition of KL divergence can be written as: $$\begin{aligned}
 > \mathrm{KL}(P \,\|\, Q) = \mathbb{E}_{x \sim P} \left[\log\frac{p(x)}{q(x)}\right] = \mathbb{E}_{x \sim P} \left[\log\frac{p(x)}{q(x)} - \left(\frac{q(x)}{p(x)} - 1\right)\right].
 >
 > \end{aligned}$$ The term $\mathbb{E}_{x \sim P} \left[\frac{q(x)}{p(x)} - 1\right] = 0$ is theoretically zero (since $\mathbb{E}_{x \sim P}[\frac{q(x)}{p(x)}] = \int q(x) \,{\rm d}x = 1$), and is "hidden" in typical definitions. In practice, we may or may not want to include it depending on the application context.
 
-> [!remark] Remark
+> [!remark|f-Divergence: A General Framework]
 > Let $f$ be a convex function satisfying $f(1) = 0$. Then, we can define a general family of $f$-divergences: $$D_f(Q,P) = \mathbb{E}_{P}\left[f\left(\frac{q(x)}{p(x)}\right)\right].$$ This includes KL divergence as the special case when $f(x) = -\log x$.
 >
 > Similar to KL divergence, $D_f(Q,P) \geq 0$ with equality if and only if $Q = P$ almost everywhere. The non-negativity follows directly from Jensen's inequality: $$D_f(Q,P) = \mathbb{E}_{P}\left[f\left(\frac{q(x)}{p(x)}\right)\right] \geq f\left(\mathbb{E}_{P}\left[\frac{q(x)}{p(x)}\right]\right) = f(1) = 0.$$
@@ -468,7 +468,7 @@ $$\max_\theta \frac{1}{n} \sum_{i=1}^n \log p_\theta(x_i)$$
 
 This equivalence provides a theoretical foundation for maximum likelihood estimation and explains why it is such a powerful and widely-used method.
 
-> [!example]
+> [!example|Gaussian Maximum Likelihood]
 > For the Gaussian density $p_\theta(x) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)$, the log-likelihood function becomes:
 >
 > $$\hat{\ell}(\theta) = -\frac{1}{2\sigma^2}\left(\frac{1}{n} \sum_{i=1}^n (x_i - \mu)^2\right) - \log \sigma + \text{const}.$$
@@ -479,7 +479,7 @@ This equivalence provides a theoretical foundation for maximum likelihood estima
 >
 > Maximizing this function with respect to $\mu$ and $\sigma$ leads to the familiar sample mean and sample variance estimators, demonstrating how the maximum likelihood principle naturally recovers intuitive parameter estimates.
 
-> [!example]
+> [!example|Maximum Likelihood for Energy-based Models]
 > For energy-based models with density $p_\theta(x) = \frac{1}{Z_\theta} \exp(f_\theta(x))$, the log-likelihood takes the form:
 >
 > $$\hat{\ell}(\theta) = \mathbb{E}_{\hat{P}^{\text{data}}}[f_\theta(x)] - \log Z_\theta$$

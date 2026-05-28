@@ -11,7 +11,10 @@ import {
 } from "d3"
 
 const gaussianFigureSelector = '[data-interactive-figure="gaussian-sample-histogram"]'
-const gaussianSampleStops = [10, 100, 1000, 10000]
+const gaussianSampleTicks = [10, 100, 1000, 10000]
+const gaussianSampleMin = gaussianSampleTicks[0]
+const gaussianSampleMax = gaussianSampleTicks[gaussianSampleTicks.length - 1]
+const gaussianSampleSliderMax = 1000
 const interactiveLightboxId = "interactive-figure-lightbox"
 
 type GaussianState = {
@@ -49,14 +52,23 @@ function readNumber(value: string | undefined, fallback: number) {
   return Number.isFinite(parsed) ? parsed : fallback
 }
 
-function closestSampleStop(value: number) {
-  return gaussianSampleStops.reduce((closest, current) =>
-    Math.abs(current - value) < Math.abs(closest - value) ? current : closest,
-  )
+function clampSampleSize(value: number) {
+  return Math.min(gaussianSampleMax, Math.max(gaussianSampleMin, Math.round(value)))
 }
 
-function sampleStopIndex(value: number) {
-  return gaussianSampleStops.indexOf(closestSampleStop(value))
+function sampleSizeToSliderValue(value: number) {
+  const clamped = clampSampleSize(value)
+  const minLog = Math.log10(gaussianSampleMin)
+  const maxLog = Math.log10(gaussianSampleMax)
+  const ratio = (Math.log10(clamped) - minLog) / (maxLog - minLog)
+  return Math.round(ratio * gaussianSampleSliderMax)
+}
+
+function sliderValueToSampleSize(value: number) {
+  const minLog = Math.log10(gaussianSampleMin)
+  const maxLog = Math.log10(gaussianSampleMax)
+  const ratio = Math.min(1, Math.max(0, value / gaussianSampleSliderMax))
+  return clampSampleSize(10 ** (minLog + ratio * (maxLog - minLog)))
 }
 
 function seededRandom(seed: number) {
@@ -298,7 +310,7 @@ function renderGaussianHistogram(figure: HTMLElement, state: GaussianState) {
 }
 
 function initialGaussianState(figure: HTMLElement): GaussianState {
-  const n = closestSampleStop(Math.round(readNumber(figure.dataset.n, 1000)))
+  const n = clampSampleSize(readNumber(figure.dataset.n, 1000))
   const state = {
     binCount: Math.round(readNumber(figure.dataset.bins, 30)),
     mu: readNumber(figure.dataset.mu, 2.5),
@@ -365,13 +377,13 @@ function createGaussianFigure(
     <label class="gaussian-histogram-slider">
       <div class="gaussian-histogram-slider-row">
         <span>n</span>
-        <input type="range" min="0" max="${gaussianSampleStops.length - 1}" step="1" value="${sampleStopIndex(
+        <input type="range" min="0" max="${gaussianSampleSliderMax}" step="1" value="${sampleSizeToSliderValue(
           state.n,
         )}" aria-describedby="${id}-ticks" />
         <output class="gaussian-histogram-n">${state.n}</output>
       </div>
       <div class="gaussian-histogram-ticks" id="${id}-ticks" aria-hidden="true">
-        ${gaussianSampleStops.map((stop) => `<span>${stop}</span>`).join("")}
+        ${gaussianSampleTicks.map((stop) => `<span>${stop}</span>`).join("")}
       </div>
     </label>
     <div class="gaussian-histogram-tooltip" hidden></div>
@@ -383,7 +395,7 @@ function createGaussianFigure(
   const plot = figure.querySelector<HTMLElement>(".gaussian-histogram-plot")
   const output = figure.querySelector<HTMLOutputElement>(".gaussian-histogram-n")
   const syncControls = () => {
-    if (slider) slider.value = String(sampleStopIndex(state.n))
+    if (slider) slider.value = String(sampleSizeToSliderValue(state.n))
     if (output) output.value = String(state.n)
   }
   const render = () => {
@@ -398,7 +410,7 @@ function createGaussianFigure(
   const updateSampleSize = () => {
     if (!slider) return
 
-    state.n = gaussianSampleStops[Number(slider.value)] ?? 1000
+    state.n = sliderValueToSampleSize(Number(slider.value))
     state.samples = makeGaussianSamples(state.mu, state.sigma, state.n, state.seed)
     render()
   }
