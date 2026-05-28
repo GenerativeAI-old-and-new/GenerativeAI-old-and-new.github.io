@@ -247,6 +247,117 @@ function normalizeAnnotationMacros(src: string): string {
     })
 }
 
+function replaceSimpleTextFormattingMacros(segment: string): string {
+  return segment
+    .replace(/\\(?:emph|textit)\{([^{}\n]+)\}/g, "_$1_")
+    .replace(/\\textbf\{([^{}\n]+)\}/g, "**$1**")
+}
+
+function isEscaped(value: string, index: number): boolean {
+  let backslashes = 0
+  for (let cursor = index - 1; cursor >= 0 && value[cursor] === "\\"; cursor--) {
+    backslashes++
+  }
+
+  return backslashes % 2 === 1
+}
+
+function findUnescapedToken(value: string, token: string, from: number): number {
+  let cursor = from
+  while (cursor < value.length) {
+    const index = value.indexOf(token, cursor)
+    if (index === -1) return -1
+    if (!isEscaped(value, index)) return index
+    cursor = index + token.length
+  }
+
+  return -1
+}
+
+function findNextInlineMathStart(line: string, from: number) {
+  const candidates = [
+    { index: findUnescapedToken(line, "$", from), opener: "$", closer: "$" },
+    { index: line.indexOf("\\(", from), opener: "\\(", closer: "\\)" },
+    { index: line.indexOf("\\[", from), opener: "\\[", closer: "\\]" },
+  ].filter((candidate) => candidate.index !== -1)
+
+  if (candidates.length === 0) return null
+
+  const next = candidates.reduce((best, candidate) =>
+    candidate.index < best.index ? candidate : best,
+  )
+
+  if (next.opener === "$" && line[next.index + 1] === "$") {
+    return { ...next, opener: "$$", closer: "$$" }
+  }
+
+  return next
+}
+
+function normalizeInlineTextFormattingMacros(line: string): string {
+  let output = ""
+  let cursor = 0
+
+  while (cursor < line.length) {
+    const mathStart = findNextInlineMathStart(line, cursor)
+    if (mathStart === null) {
+      output += replaceSimpleTextFormattingMacros(line.slice(cursor))
+      break
+    }
+
+    output += replaceSimpleTextFormattingMacros(line.slice(cursor, mathStart.index))
+
+    const contentStart = mathStart.index + mathStart.opener.length
+    const mathEnd = findUnescapedToken(line, mathStart.closer, contentStart)
+    if (mathEnd === -1) {
+      output += line.slice(mathStart.index)
+      break
+    }
+
+    cursor = mathEnd + mathStart.closer.length
+    output += line.slice(mathStart.index, cursor)
+  }
+
+  return output
+}
+
+function normalizeTextFormattingMacros(src: string): string {
+  const output: string[] = []
+  let inFenceBlock = false
+  let inDisplayMath = false
+
+  for (const line of src.split(/\r?\n/)) {
+    if (isFence(line)) {
+      inFenceBlock = !inFenceBlock
+      output.push(line)
+      continue
+    }
+
+    if (inFenceBlock) {
+      output.push(line)
+      continue
+    }
+
+    const [, body] = splitQuotePrefix(line)
+    const isDisplayBoundary = body.trim() === "$$"
+
+    if (isDisplayBoundary) {
+      inDisplayMath = !inDisplayMath
+      output.push(line)
+      continue
+    }
+
+    if (inDisplayMath) {
+      output.push(line)
+      continue
+    }
+
+    output.push(normalizeInlineTextFormattingMacros(line))
+  }
+
+  return output.join("\n")
+}
+
 function nodeSource(node: PhrasingContent, source: string): string {
   const start = node.position?.start.offset
   const end = node.position?.end.offset
@@ -376,7 +487,9 @@ export const Latex: QuartzTransformerPlugin<Partial<Options>> = (opts) => {
   return {
     name: "Latex",
     textTransform(_ctx, src) {
-      return normalizeAnnotationMacros(normalizeDoubleDollarBlocks(src))
+      return normalizeTextFormattingMacros(
+        normalizeAnnotationMacros(normalizeDoubleDollarBlocks(src)),
+      )
     },
     markdownPlugins() {
       return [
