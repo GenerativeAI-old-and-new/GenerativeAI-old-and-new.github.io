@@ -6,10 +6,6 @@ publish: true
 
 %%**_By <a href="https://www.cs.utexas.edu/~lqiang/" target="_blank" rel="noopener noreferrer">Qiang Liu</a>_**%%
 
-These notes provide a unified treatment of modern generative modeling methods, connecting probabilistic foundations, deep learning, invertible models, adversarial training, autoencoder models, flow and diffusion models, and autoregressive language models.
-
----
-
 ## Contents
 
 - [Module 1: Probability Basics](/modules/01-probability-basics)

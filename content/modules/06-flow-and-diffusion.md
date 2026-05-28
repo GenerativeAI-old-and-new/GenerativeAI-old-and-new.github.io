@@ -12,7 +12,7 @@ Our goal is to learn a transport mapping $X = T^\theta(Z)$ that pushes a simple 
 
 We now discuss an alternative approach, in which $T^\theta$ is defined implicitly as the result of solving an iterative or continuous-time process whose local update is parameterized by a neural network. Such models are typically more flexible and can be easier to train because they only require learning local update directions, despite bringing higher computational cost in sampling.
 
-> [!note] Remark
+> [!remark] Remark
 > We distinguish two broad types of generative models:
 >
 > - **One-step models.** The mapping $T^\theta$ is specified directly by a neural network, as in normalizing flows, GANs, and autoencoder-based models.
@@ -181,7 +181,7 @@ $$X_t \overset{d}{=} Z_t, \qquad \forall t \in [0,1],$$ meaning that they share 
 
 ![image](/assets/modules/06-flow-and-diffusion/rf_x.png)
 
-> [!note] Theorem
+> [!theorem] Theorem
 > Let $p_t$ denote the marginal density of either process $\{X_t\}$ or $\{Z_t\}$. Then $p_t$ satisfies the continuity equation
 >
 > $$
@@ -285,7 +285,7 @@ At time $t$, let $\rho_t$ be the density of the interpolation $$X_t = t X_1 + (1
 
 Then, Tweedie's formula gives: $$\nabla \log \rho_t(x) = \mathbb{E}\left[\frac{t X_1 - x}{(1 - t)^2}\,\bigg|\, X_t = x\right].$$
 
-> [!note] Proof
+> [!proof] Proof
 > _Proof._ Given $X_t = x$, we have $t X_1 + (1 - t) X_0 = x$, thus $$X_0 = \frac{x - t X_1}{1 - t}.$$
 >
 > Since $X_0 \sim \mathcal{N}(0, I)$, we have $$\rho_t(x) \propto \int \rho_1(x_1) \exp\left(-\frac{\|x - t X_1\|^2}{2(1 - t)^2}\right)\,\,d x_1.$$

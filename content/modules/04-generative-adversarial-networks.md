@@ -38,7 +38,7 @@ This idea can be generalized by requiring that the generated distribution $P_\th
 
 Here, the function class $\mathcal{H}$ serves as a collection of test functions used to probe and compare the two distributions. If $\mathcal{H}$ is sufficiently rich, then equality of expectations over all $h \in \mathcal{H}$ is enough to guarantee equality of the underlying distributions.
 
-> [!note] Definition
+> [!definition] Definition
 > A set of functions $\mathcal{H}$ is called discriminative if it is rich enough such that matching the expectations over all $h \in \mathcal{H}$ implies equality of the distributions: $$P_\theta = P_{\text{data}}
 > \quad \Longleftrightarrow \quad
 > \mathbb{E}\bigl[h(X_\theta)\bigr] = \mathbb{E}\bigl[h(X_{\text{data}})\bigr],
@@ -136,7 +136,7 @@ $$
 
 In other words, the symmetry of $\mathcal{H}$ allows us to drop the absolute value without changing the value of the supremum.
 
-> [!note] Remark
+> [!remark] Remark
 > The supremum in the IPM definition can diverge if the test function $h$ is allowed to grow arbitrarily large or oscillate too rapidly. For instance, if $h(x) = a\,x$ with an unrestricted constant $a>0$, then $$\mathbb{E}[a\,h(X_{\text{data}})] - \mathbb{E}[a\,h(X_\theta)]
 > = a\big(\mathbb{E}[h(X_{\text{data}})] - \mathbb{E}[h(X_\theta)]\big),$$ which can be made arbitrarily large by increasing $a$. Constraining $a$ (e.g., $|a|\le1$) prevents this divergence.
 >
@@ -315,7 +315,7 @@ Here, $X_{\text{data}} \sim P^*$ is a real data sample, and $X_\theta = T_\theta
 
 The gradient penalty encourages the critic to have gradients of unit norm along the straight line between real and generated samples.
 
-> [!note] Remark
+> [!remark] Remark
 > It is reasonable to use the following variance of gradient penalty: $$\texttt{GP}(h_\beta) = \mathbb{E}[(\max(\left\lVert \nabla_{\hat X} h_\beta(\hat X)\right\rVert^2 - 1, ~~0))^2],$$ which places penalty only when the gradient magnitude is larger than one, i.e., $|\nabla_{\hat X} h_\beta(\hat X)|^2 > 1$.
 
 ### Solving Minimax with Alternating Gradient Descent
@@ -352,7 +352,7 @@ Update critic parameters $\beta$ (with generator fixed): $$\beta_t \gets \beta_t
 
 Update generator parameters: $$\theta_t \gets \theta_t - \epsilon\, \nabla_\theta L(T_{\theta_t}, h_{\beta_t}).$$
 
-> [!note] Remark
+> [!remark] Remark
 > Although the regularization term $\Phi(h_\beta)$ may depend indirectly on the generator through the generated data (for example, in WGAN-GP where $\hat X = U X_{\text{data}} + (1-U) X_\theta$ depends on $X_\theta = T_\theta(\xi)$), it is common practice to stop the gradient through $\Phi(h_\beta)$ when updating the generator. That is, we treat $\Phi(h_\beta)$ as a fixed quantity that does not backpropagate into the generator parameters $\theta$.
 
 A practical implementation of the improved WGAN algorithm is summarized below:

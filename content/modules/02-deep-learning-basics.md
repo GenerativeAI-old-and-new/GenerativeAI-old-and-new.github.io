@@ -79,7 +79,7 @@ The main benefit of momentum is that it smooths out noise, encourages consistent
 
 In fact, in the limit of a small step size, momentum corresponds to the physical dynamics of a ball moving in a potential field with friction. The momentum term captures the effect of inertia in this analogy.
 
-> [!note] Remark
+> [!remark] Remark
 > Recall that $$1-\beta^t = (1-\beta) (1+\beta + \cdots + \beta^{t-1}).$$ Therefore, $m_t$ is a convex combination of $\{m_0, g_1, \ldots, g_t\}$ as shown in Eq. `equ:mtgt`.
 
 ##### Nesterov Momentum
@@ -189,7 +189,7 @@ This shows that $\hat{m}_t$ is a weighted average of $\{g_1, \ldots, g_t\}$. In 
 
 However, if we initialize $m_0 = g_0$ (using an initial gradient estimate), then $m_t$ without correction becomes a convex combination of $\{m_0, g_1, \ldots, g_{t-1}\}$, and bias correction should not be applied.
 
-> [!note] Remark
+> [!remark] Remark
 > Hence, the need for this correction term is directly tied to initializing the momentum with $m_0 = 0$, $v_0 = 0$.
 >
 > In practice, the bias correction becomes less important as $t$ increases, since $1 - \beta_i^t \to 1$ as $t \to \infty$.
@@ -250,7 +250,7 @@ In this way, neural networks can be seen as building blocks: each layer transfor
 
 ## Universal Approximation Theorem
 
-> [!note] Theorem
+> [!theorem] Theorem
 > A neural network with a single hidden layer can approximate any bounded continuous function $f^*$ on a bounded domain $\Omega$ to arbitrary accuracy, provided it has sufficiently many neurons: $$f_\theta(x) = \sum_{i=1}^N a_i \, \sigma(w_i^\top x + b_i).$$ More precisely, if $\sigma$ is continuous and not a polynomial, then for any $\epsilon > 0$ there exists $N>0$ and parameters $\theta = \{(a_i,w_i,b_i)\}_{i=1}^N$ such that $$\max_{x \in \Omega} |f^*(x) - f_\theta(x)| \leq \epsilon.$$
 
 ![image](/assets/modules/02-deep-learning-basics/Figure_1.png)

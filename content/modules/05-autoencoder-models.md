@@ -31,7 +31,7 @@ _Structure of an autoencoder. The encoder (left) compresses input data $X$ into 
 >
 > Equivalently, if the centered data matrix $X_{\text{data}} \in \mathbb{R}^{d_x \times n}$ has the singular value decomposition $X_{\text{data}} = U S V^\top$, the optimal linear autoencoder spans the same subspace as the top-$d_z$ left singular vectors $U_{1:d_z}$.
 
-> [!note] Remark
+> [!remark] Remark
 > Note that the solution of the autoencoder is not unique by definition. Given any encoder--decoder pair $(E^\phi, D^\theta)$, we can construct another pair with the same reconstruction mapping and hence the same loss. Specifically, for any invertible matrix $R \in \mathbb{R}^{d_z \times d_z}$, define $$\tilde E^\phi = R \circ  E^\phi, \qquad
 > \tilde D^\theta = D^\theta \circ  R^{-1},$$ where $\circ$ denotes function composition. Then $\tilde D^\theta \circ \tilde E^\phi = D^\theta \circ E^\phi$, so the reconstruction $\hat X$ and the loss remain unchanged. This shows that the latent representation $Z = E^\phi(X)$ is only defined up to an arbitrary invertible linear transformation of the latent space.
 
@@ -116,7 +116,7 @@ The deterministic encoder $Z = E^\phi(X)$ makes $P_Z^\phi$ an implicit distribut
 Each input $X$ is encoded as a Gaussian distribution rather than a point: $$Z = \mu^\phi(X) + \sigma^\phi(X) \odot \xi,
 \qquad \xi \sim \mathcal{N}(0, I),$$ where $\odot$ denotes elementwise product. Thus, the conditional distribution of the latent variable becomes $$P(Z \mid X) = \mathcal{N}\!\left(\mu^\phi(X),\, \mathrm{diag}(\sigma^\phi(X)^2)\right).$$ To align with the prior $P_\text{noise} = \mathcal{N}(0,I)$, we want encourage $\mu^\phi(X)\!\approx\!0$ and $\sigma^\phi(X)\!\approx\!1$. Although it is possible to use a vanilla square loss $\left\lVert \mu - 1\right\rVert^2$ and $\left\lVert \sigma - 1\right\rVert^2$, it is more natural to use KL divergence as follows.
 
-> [!note] Remark
+> [!remark] Remark
 > The divergence between two Gaussian distributions admits a closed-form expression: $$\mathrm{KL}\!\left(\mathcal{N}(\mu, \sigma)\,\|\,\mathcal{N}(0,1)\right)
 > = \frac{\mu^2}{2} + \left(\frac{\sigma^2}{2} - \log\sigma\right) - \frac{1}{2}.$$ Minimizing this yields $\mu=0$ and $\sigma=1$.
 
@@ -227,7 +227,7 @@ Taking the logarithm of both sides and applying Jensen's inequality gives $$\beg
 \mathbb{E}_q\!\left[\log \frac{f(z)}{q(z)}\right],
 \end{aligned}$$ where the inequality holds because the logarithm is a concave function. The lower bound $\mathbb{E}_q\!\left[\log \frac{f(z)}{q(z)}\right]$ is called the Evidence Lower Bound (ELBO) in variational inference. Optimizing it over $q$ transforms the original integration problem into an optimization problem.
 
-> [!note] Remark
+> [!remark] Remark
 > For a random variable $Z$ and a concave function $f$, $$f(\mathbb{E}[Z]) \ge \mathbb{E}[f(Z)],$$ and the inequality reverses for convex functions: $$f(\mathbb{E}[Z]) \le \mathbb{E}[f(Z)].$$
 > ![Jensen inequality for a convex quadratic function.](/assets/modules/05-autoencoder-models/jensen_x2.png)
 > ![Jensen inequality for a concave logarithm function.](/assets/modules/05-autoencoder-models/jensen_log.png)

@@ -28,12 +28,12 @@ $$
 
 Here, $\nabla_x (T_\theta)^{-1}(x) = [\partial_{x_j} (T_\theta)^{-1}(x)_i]$ is the $\mathbb{R}^d \times \mathbb{R}^d$ Jacobian matrix of the inverse mapping $(T_\theta)^{-1}$. The formula has two parts: the first term, $\pi_0((T_\theta)^{-1}(x))$, accounts for the change of variable via $\xi = (T_\theta)^{-1}(x)$, and the second term is a scaling factor introduced by the distortion of the mapping.
 
-> [!note] Remark
+> [!remark] Remark
 > For an invertible function, we have $$\nabla_x (T_\theta)^{-1}(x) = \bigl(\nabla_\xi T_\theta(\xi)\bigr)^{-1},$$ where $\xi = (T_\theta)^{-1}(x)$. Hence, we can also write $$p_\theta(x)
 > = \pi_0\bigl((T_\theta)^{-1}(x)\bigr)\;
 > \Bigl|\det\bigl(\nabla_\xi T_\theta(\xi)\bigr)\Bigr|^{-1}, \qquad \text{with } \xi = (T_\theta)^{-1}(x).$$
 
-> [!note] Proof
+> [!proof] Proof
 > _Proof._ Recall that a function $q(x)$ is the density of a random variable $X$ if and only if the following holds for all measurable functions $h$: $$\mathbb{E}[h(X)] = \int q(x) h(x)\, \,d x.$$ We compute $\mathbb{E}[h(X)]$ and express it in integral form to identify the density function of $X$: $$\begin{aligned}
 > \mathbb{E}[h(X)]
 > &= \mathbb{E}_{\xi\sim \pi_0}[h(T_\theta(\xi))] \\
@@ -196,7 +196,7 @@ Discrete flows: exact likelihoods, exact inverses, one-shot sampling; expressivi
 
 Monitor the distribution of $\log|\det J|$, bpd curves, and intermediate activations. Pathologies (e.g., overly negative $\log|\det|$ or saturated scales) often pinpoint subnetworks that need regularization or rescaling.
 
-> [!note] Remark
+> [!remark] Remark
 > Maximum likelihood is mode-covering: it heavily penalizes under-estimating density on data regions. This complements adversarial (often mode-seeking) training and partly explains empirical differences in sample diversity.
 
 ## Limitations and Trade-offs

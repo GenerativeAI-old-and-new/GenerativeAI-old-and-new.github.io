@@ -2,13 +2,18 @@
 @use "./base.scss";
 
 :root {
-  --surface: #fffdf9;
-  --surface-muted: color-mix(in srgb, var(--lightgray) 46%, var(--light));
-  --line: color-mix(in srgb, var(--lightgray) 84%, var(--dark) 16%);
-  --line-strong: color-mix(in srgb, var(--gray) 72%, var(--dark) 28%);
-  --shadow-soft: 0 18px 45px rgba(58, 42, 28, 0.08);
-  --math-bg: color-mix(in srgb, var(--surface) 86%, var(--highlight));
+  --surface: #fffdf8;
+  --surface-muted: color-mix(in srgb, var(--lightgray) 38%, var(--light));
+  --line: color-mix(in srgb, var(--lightgray) 82%, var(--dark) 18%);
+  --line-strong: color-mix(in srgb, var(--gray) 62%, var(--dark) 38%);
+  --shadow-soft: 0 12px 32px rgba(45, 38, 28, 0.06);
+  --math-bg: color-mix(in srgb, var(--surface) 88%, var(--highlight));
   --image-bg: #fff;
+  --book-green: #228b22;
+  --book-blue: #2d62a0;
+  --book-sienna: #a65f2e;
+  --book-gold: #9a7412;
+  --book-orange: #c06318;
 }
 
 :root[saved-theme="dark"] {
@@ -19,6 +24,11 @@
   --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
   --math-bg: color-mix(in srgb, var(--surface) 84%, var(--highlight));
   --image-bg: #f7f2e9;
+  --book-green: #7fcf7f;
+  --book-blue: #8ab7f2;
+  --book-sienna: #e1a06f;
+  --book-gold: #d7b95d;
+  --book-orange: #f0a15f;
 }
 
 *,
@@ -35,15 +45,7 @@ html {
 
 body {
   min-height: 100vh;
-  background:
-    linear-gradient(color-mix(in srgb, var(--secondary) 8%, transparent) 1px, transparent 1px),
-    linear-gradient(
-      90deg,
-      color-mix(in srgb, var(--secondary) 6%, transparent) 1px,
-      transparent 1px
-    ),
-    var(--light);
-  background-size: 34px 34px;
+  background: var(--light);
   font-feature-settings:
     "kern" 1,
     "liga" 1;
@@ -118,7 +120,7 @@ header {
 article {
   min-width: 0;
   color: var(--darkgray);
-  font-size: 1.04rem;
+  font-size: 1.03rem;
 }
 
 article > :first-child {
@@ -128,11 +130,11 @@ article > :first-child {
 article p,
 article li,
 article td {
-  line-height: 1.72;
+  line-height: 1.58;
 }
 
 article p {
-  margin: 1rem 0;
+  margin: 0.82rem 0;
 }
 
 article p,
@@ -160,16 +162,29 @@ thead {
   font-weight: 600;
 }
 
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  font-family: var(--bodyFont);
+}
+
 article h2 {
-  margin-top: 3rem;
-  padding-top: 1.25rem;
-  border-top: 1px solid var(--line);
-  font-size: 1.48rem;
+  margin-top: 2.7rem;
+  padding-top: 0.95rem;
+  border-top: 1px solid var(--line-strong);
+  color: var(--dark);
+  font-size: 1.42rem;
+  line-height: 1.2;
 }
 
 article h3 {
-  color: color-mix(in srgb, var(--dark) 88%, var(--secondary));
-  font-size: 1.16rem;
+  margin-top: 2rem;
+  color: var(--dark);
+  font-size: 1.18rem;
+  line-height: 1.25;
 }
 
 article h4,
@@ -186,19 +201,88 @@ blockquote {
 }
 
 .callout {
-  margin: 1.35rem 0;
-  border-color: color-mix(in srgb, var(--color) 42%, var(--line));
-  border-radius: 8px;
-  background: color-mix(in srgb, var(--bg) 70%, var(--surface));
+  --box-color: var(--color);
+  --box-bg: color-mix(in srgb, var(--box-color) 6%, var(--surface));
+
+  margin: 1.05rem 0 1.25rem;
+  border: 0;
+  border-left: 3px solid var(--box-color);
+  border-radius: 0;
+  background: var(--box-bg);
   box-shadow: none;
 }
 
+.callout[data-callout="note"],
+.callout[data-callout="definition"],
+.callout[data-callout="remark"],
+.callout[data-callout="info"],
+.callout[data-callout="tip"] {
+  --color: var(--book-green);
+  --box-bg: color-mix(in srgb, var(--book-green) 6%, var(--surface));
+}
+
+.callout[data-callout="example"] {
+  --color: var(--book-blue);
+  --box-bg: color-mix(in srgb, var(--book-blue) 7%, var(--surface));
+}
+
+.callout[data-callout="theorem"],
+.callout[data-callout="lemma"],
+.callout[data-callout="proposition"],
+.callout[data-callout="corollary"],
+.callout[data-callout="proof"] {
+  --color: var(--book-sienna);
+  --box-bg: color-mix(in srgb, var(--book-sienna) 5%, var(--surface));
+}
+
+.callout[data-callout="background"],
+.callout[data-callout="notation"],
+.callout[data-callout="question"],
+.callout[data-callout="warning"] {
+  --color: var(--book-orange);
+  --box-bg: color-mix(in srgb, var(--book-orange) 6%, var(--surface));
+}
+
+.callout[data-callout="solution"],
+.callout[data-callout="success"] {
+  --color: var(--book-blue);
+  --box-bg: color-mix(in srgb, var(--book-blue) 5%, var(--surface));
+}
+
 .callout-title {
-  padding: 0.9rem 0 0.65rem;
+  gap: 0;
+  padding: 0.72rem 0 0.32rem;
+  font-family: var(--headerFont);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.callout-title .callout-icon {
+  display: none;
+}
+
+.callout-title .fold-callout-icon {
+  margin-left: auto;
+}
+
+.callout-title > .callout-title-inner > p {
+  color: var(--box-color);
+  font-weight: 700;
 }
 
 .callout-content {
   color: var(--darkgray);
+  font-size: 0.98em;
+}
+
+.callout-content p,
+.callout-content li {
+  line-height: 1.55;
+}
+
+.callout-content > :last-child {
+  margin-bottom: 0.78rem;
 }
 
 pre {
@@ -297,14 +381,8 @@ article mjx-container[jax="SVG"]:not([display="true"]) {
   display: inline-block;
   max-width: 100%;
   line-height: 0;
-  overflow-x: auto;
-  overflow-y: hidden;
-  vertical-align: -0.16em;
-  scrollbar-width: none;
-}
-
-article mjx-container[jax="SVG"]:not([display="true"])::-webkit-scrollbar {
-  display: none;
+  overflow: visible;
+  vertical-align: baseline;
 }
 
 article mjx-container[jax="SVG"] > svg {
@@ -329,6 +407,29 @@ blockquote mjx-container[jax="SVG"][display="true"] {
 
 article mjx-container[jax="SVG"][display="true"] + mjx-container[jax="SVG"][display="true"] {
   margin-top: -0.2rem;
+}
+
+.callout-content > .katex-display,
+.callout-content > mjx-container[jax="SVG"][display="true"] {
+  margin: 0.2rem 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1;
+}
+
+.callout-content > p:has(+ .katex-display),
+.callout-content > p:has(+ mjx-container[jax="SVG"][display="true"]) {
+  margin-bottom: 0.35rem;
+}
+
+.callout-content > .katex-display + p,
+.callout-content > mjx-container[jax="SVG"][display="true"] + p {
+  margin-top: 0.35rem;
+}
+
+.callout-content > mjx-container[jax="SVG"][display="true"] > svg {
+  display: block;
+  margin: 0 auto;
 }
 
 article img {
@@ -521,8 +622,8 @@ body[data-slug="index"] article > p:first-of-type {
 
 body[data-slug="index"] article > ul {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem 1rem;
   margin: 1.25rem 0 0;
   padding: 0;
   list-style: none;
@@ -534,6 +635,7 @@ body[data-slug="index"] article > ul > li {
 
 body[data-slug="index"] article > ul > li > a {
   display: block;
+  height: 100%;
   min-height: 4.2rem;
   padding: 0.95rem 1rem;
   border: 1px solid var(--line);
@@ -609,6 +711,10 @@ body[data-slug="index"] article > ul > li > a {
 
   article h2 {
     margin-top: 2.4rem;
+  }
+
+  body[data-slug="index"] article > ul {
+    grid-template-columns: 1fr;
   }
 
   .katex-display,
