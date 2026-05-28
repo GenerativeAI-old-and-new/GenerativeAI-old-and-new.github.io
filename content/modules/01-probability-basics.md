@@ -43,33 +43,14 @@ When $\Omega$ is the Euclidean space $\mathbb{R}^d$, we can characterize the dis
 
 ### Examples
 
-> [!example]
-> The Bernoulli distribution, denoted as $\mathtt{Bernoulli}(p)$, is a discrete distribution on $\{0,1\}$ with probability mass function:
->
-> $$
-> p_X(x) = \begin{cases}
-> p & \text{if } x=1, \\
-> 1-p & \text{if } x=0.
-> \end{cases}
-> $$
->
-> The Categorical distribution is a discrete distribution on $\{1,2,\ldots, k\}$ with probability mass function:
->
-> $$
-> p_X(x_i) = p_i,
-> \qquad \text{where } p_i \geq 0 \text{ and } \sum_{i=1}^k p_i = 1.
-> $$
->
-> It is denoted as $\mathtt{Categorical}([p_1,p_2,\ldots,p_k])$.
-
-> [!example]
+> [!example|Uniform Distribution]
 > The uniform distribution on $[a,b]$ is a continuous distribution on $\mathbb{R}$ with density: $$p_X(x) =
 > \begin{cases}
 >  \frac{1}{b-a}, ~~~ \text{for } x \in [a,b]\\
 >  0, ~~~ \text{otherwise}.
 > \end{cases}$$ It is denoted as $\mathtt{Uniform}([a,b])$.
 
-> [!example]
+> [!example|Continuous and Discrete Gaussian Distributions]
 > The Gaussian distribution, denoted as $\mathtt{Normal}(\mu,\sigma^2)$ is a continuous distribution on $\mathbb{R}^d$ with density:
 >
 > $$p_X(x) = \frac{1}{Z} \exp\left(-\frac{(x-\mu)^2}{2\sigma^2}\right),$$
@@ -88,7 +69,26 @@ When $\Omega$ is the Euclidean space $\mathbb{R}^d$, we can characterize the dis
 >
 > where the normalization constant is different from the continuous case. It does not have a closed formula like the continuous case.
 
-> [!example]
+> [!example|Bernoulli and Categorical Distributions]
+> The Bernoulli distribution, denoted as $\mathtt{Bernoulli}(p)$, is a discrete distribution on $\{0,1\}$ with probability mass function:
+>
+> $$
+> p_X(x) = \begin{cases}
+> p & \text{if } x=1, \\
+> 1-p & \text{if } x=0.
+> \end{cases}
+> $$
+>
+> The Categorical distribution is a discrete distribution on $\{1,2,\ldots, k\}$ with probability mass function:
+>
+> $$
+> p_X(x_i) = p_i,
+> \qquad \text{where } p_i \geq 0 \text{ and } \sum_{i=1}^k p_i = 1.
+> $$
+>
+> It is denoted as $\mathtt{Categorical}([p_1,p_2,\ldots,p_k])$.
+
+> [!example|Hybrid Distributions]
 > Consider the following random variable: $$\begin{aligned}
 > X = \begin{cases}
 >     Z \sim \mathtt{Normal}(0,1)& \text{with probability } 0.5 , \\

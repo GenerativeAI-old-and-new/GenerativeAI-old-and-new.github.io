@@ -16,9 +16,19 @@ export const sharedPageComponents: SharedLayout = {
   header: [Component.PageTitle()],
   afterBody: [],
   footer: Component.Footer({
-    links: {
-      "By Qiang Liu": "https://www.cs.utexas.edu/~lqiang/",
-    },
+    showQuartz: false,
+    credits: [
+      {
+        prefix: "Made by ",
+        text: "Runlong Liao",
+        href: "https://github.com/CyberDragon93",
+      },
+      {
+        prefix: "Lecture notes by ",
+        text: "Qiang Liu",
+        href: "https://www.cs.utexas.edu/~lqiang/",
+      },
+    ],
   }),
 }
 

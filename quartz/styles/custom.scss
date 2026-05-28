@@ -189,6 +189,8 @@ header {
 
 article {
   min-width: 0;
+  counter-reset: definition remark note background notation example theorem lemma proposition
+    corollary;
   color: var(--book-ink);
   font-family: var(--bodyFont);
   font-size: 1.03rem;
@@ -284,6 +286,7 @@ blockquote {
   --box-bg: color-mix(in srgb, var(--box-color) 6%, var(--surface));
 
   margin: 1.05rem 0 1.25rem;
+  padding: 0.78rem 1rem 0.82rem;
   border: 0;
   border-left: 3px solid var(--box-color);
   border-radius: 0;
@@ -330,9 +333,9 @@ blockquote {
 
 .callout-title {
   gap: 0;
-  padding: 0.72rem 0 0.32rem;
+  padding: 0 0 0.34rem;
   font-family: var(--headerFont);
-  font-size: 0.88rem;
+  font-size: 1em;
   font-weight: 700;
   line-height: 1.35;
 }
@@ -352,7 +355,7 @@ blockquote {
 
 .callout-content {
   color: var(--book-ink);
-  font-size: 0.98em;
+  font-size: 1em;
 }
 
 .callout-content p,
@@ -361,7 +364,273 @@ blockquote {
 }
 
 .callout-content > :last-child {
-  margin-bottom: 0.78rem;
+  margin-bottom: 0;
+}
+
+.callout[data-callout="definition"] {
+  counter-increment: definition;
+}
+
+.callout[data-callout="remark"] {
+  counter-increment: remark;
+}
+
+.callout[data-callout="note"] {
+  counter-increment: note;
+}
+
+.callout[data-callout="background"] {
+  counter-increment: background;
+}
+
+.callout[data-callout="notation"] {
+  counter-increment: notation;
+}
+
+.callout[data-callout="example"] {
+  counter-increment: example;
+}
+
+.callout[data-callout="theorem"] {
+  counter-increment: theorem;
+}
+
+.callout[data-callout="lemma"] {
+  counter-increment: lemma;
+}
+
+.callout[data-callout="proposition"] {
+  counter-increment: proposition;
+}
+
+.callout[data-callout="corollary"] {
+  counter-increment: corollary;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title {
+  display: inline;
+  margin-right: 0.25rem;
+  padding: 0;
+  color: var(--box-color);
+  line-height: 1.55;
+}
+
+.callout[data-callout="definition"] > .callout-title::before {
+  content: "Definition " counter(definition);
+}
+
+.callout[data-callout="remark"] > .callout-title::before {
+  content: "Remark " counter(remark);
+}
+
+.callout[data-callout="note"] > .callout-title::before {
+  content: "Note " counter(note);
+}
+
+.callout[data-callout="background"] > .callout-title::before {
+  content: "Background " counter(background);
+}
+
+.callout[data-callout="notation"] > .callout-title::before {
+  content: "Notation " counter(notation);
+}
+
+.callout[data-callout="example"] > .callout-title::before {
+  content: "Example " counter(example);
+}
+
+.callout[data-callout="theorem"] > .callout-title::before {
+  content: "Theorem " counter(theorem);
+}
+
+.callout[data-callout="lemma"] > .callout-title::before {
+  content: "Lemma " counter(lemma);
+}
+
+.callout[data-callout="proposition"] > .callout-title::before {
+  content: "Proposition " counter(proposition);
+}
+
+.callout[data-callout="corollary"] > .callout-title::before {
+  content: "Corollary " counter(corollary);
+}
+
+.callout[data-callout="proof"] > .callout-title::before {
+  content: "Proof";
+}
+
+.callout[data-callout="solution"] > .callout-title::before {
+  content: "Solution";
+}
+
+.callout[data-callout="question"] > .callout-title::before {
+  content: "Question";
+}
+
+.callout[data-callout="warning"] > .callout-title::before {
+  content: "Warning";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title::before {
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title::after {
+  content: ". ";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title[data-callout-metadata]:not([data-callout-metadata=""])::after {
+  content: " (" attr(data-callout-metadata) "). ";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title
+  > .callout-title-inner {
+  display: none;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  ):not(.is-collapsible)
+  > .callout-content {
+  display: contents;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-content
+  > p:first-child {
+  display: inline;
+  margin: 0;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-content
+  > p:first-child
+  + :is(.katex-display, mjx-container[jax="SVG"][display="true"]) {
+  margin-top: 0.48rem;
 }
 
 pre {
