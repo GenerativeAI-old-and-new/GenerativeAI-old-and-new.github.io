@@ -224,11 +224,11 @@ w_i = \frac{r(X_i)}{\sum_{j=1}^N r(X_j)}.$$ This procedure produces an approxima
 > S_N(x)
 > &= \mathbb{E}_{X_2,\ldots,X_N}
 > \!\left[
-> \Bigl(\tfrac{r(x)}{N} + \tfrac{1}{N}\sum_{i=2}^N r(X_i)\Bigr)^{-1}
+> \Bigl(\dfrac{r(x)}{N} + \dfrac{1}{N}\sum_{i=2}^N r(X_i)\Bigr)^{-1}
 > \right].
-> \end{aligned}$$ By the _law of large numbers_, $\frac{1}{N}\sum_{i=2}^N r(X_i)
+> \end{aligned}$$ By the _law of large numbers_, $\dfrac{1}{N}\sum_{i=2}^N r(X_i)
 > \;\xrightarrow[]{\;}\;
-> \mathbb{E}_{p_0}[r(X)] = Z_r,$ which implies $S_N(x) \approx \frac{1}{Z_r}.$ Hence $\hat p_N(x) \approx p_r(x)$ for large $N$.
+> \mathbb{E}_{p_0}[r(X)] = Z_r,$ which implies $S_N(x) \approx \dfrac{1}{Z_r}.$ Hence $\hat p_N(x) \approx p_r(x)$ for large $N$.
 
 #### Markov Chain Monte Carlo (MCMC)
 
@@ -265,9 +265,14 @@ A sample of the mixture model can be obtained by first drawing an index $I \sim 
 
 In statistics and machine learning, we are given samples drawn from an unknown probability distribution and seek to recover the distribution that generated them. This distribution estimation task underlies density estimation, generative modeling, and many modern learning methods. It can be viewed as the inverse problem of probability theory: inferring the source distribution from its observed samples or induced properties.
 
-_TikZ diagram omitted; see source notes for the original figure._
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="distribution-learning-diagram"
+  data-n="120"
+  data-seed="19"
+></figure>
 
-_Estimating distribution from observation._
+_Estimating a distribution from observations: samples are visible, the source distribution is hidden, and the learned model is an approximation._
 
 ### Parametric Families
 
