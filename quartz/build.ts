@@ -21,6 +21,7 @@ import { getStaticResourcesFromPlugins } from "./plugins"
 import { randomIdNonSecure } from "./util/random"
 import { ChangeEvent } from "./plugins/types"
 import { minimatch } from "minimatch"
+import { finalizeFigureReferences } from "./plugins/transformers/figureReferences"
 import { finalizeTheoremReferences } from "./plugins/transformers/theoremReferences"
 
 type ContentMap = Map<
@@ -84,6 +85,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   const parsedFiles = await parseMarkdown(ctx, filePaths)
   const filteredContent = filterContent(ctx, parsedFiles)
+  finalizeFigureReferences(ctx, filteredContent)
   finalizeTheoremReferences(ctx, filteredContent)
 
   await emitContent(ctx, filteredContent)
@@ -263,7 +265,10 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
       .filter((file) => file.type === "markdown")
       .map((file) => file.content),
   )
-  const theoremAffectedSlugs = finalizeTheoremReferences(ctx, processedFiles)
+  const affectedSlugs = new Set<FullSlug>([
+    ...finalizeFigureReferences(ctx, processedFiles),
+    ...finalizeTheoremReferences(ctx, processedFiles),
+  ])
   const changeEventSlugs = new Set(
     changeEvents
       .map((event) => event.file?.data.slug)
@@ -271,7 +276,7 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
   )
   for (const [_tree, file] of processedFiles) {
     const slug = file.data.slug!
-    if (!theoremAffectedSlugs.has(slug) || changeEventSlugs.has(slug)) continue
+    if (!affectedSlugs.has(slug) || changeEventSlugs.has(slug)) continue
 
     changeEvents.push({
       type: "change",

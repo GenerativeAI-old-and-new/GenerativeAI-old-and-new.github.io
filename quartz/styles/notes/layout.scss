@@ -279,7 +279,7 @@ body[data-slug="index"] article > ul > li > a {
       "grid-sidebar-left . grid-footer . grid-sidebar-right";
     grid-template-columns:
       var(--folded-sidebar-width) minmax(var(--folded-content-gutter), 1fr)
-      minmax(0, #{$pageWidth}) minmax(var(--folded-content-gutter), 1fr)
+      minmax(0, #{$foldedPageWidth}) minmax(var(--folded-content-gutter), 1fr)
       var(--folded-sidebar-width);
     grid-template-rows: auto auto;
     column-gap: 0;
@@ -352,9 +352,9 @@ body[data-slug="index"] article > ul > li > a {
   html.sidebar-folded .page > #quartz-body .center,
   html.sidebar-folded .page > #quartz-body footer {
     justify-self: center;
-    width: min(100%, #{$pageWidth});
+    width: min(100%, #{$foldedPageWidth});
     min-width: 0;
-    max-width: #{$pageWidth};
+    max-width: #{$foldedPageWidth};
     margin-left: auto;
     margin-right: auto;
     transition: transform 0.36s cubic-bezier(0.22, 1, 0.36, 1);
@@ -362,7 +362,7 @@ body[data-slug="index"] article > ul > li > a {
 
   html.sidebar-folded .page > #quartz-body .center > article {
     width: 100%;
-    max-width: #{$pageWidth};
+    max-width: #{$foldedPageWidth};
   }
 
   @media all and ($desktop) {

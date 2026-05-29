@@ -1,0 +1,151 @@
+.change-variables-plot {
+  min-height: 21rem;
+}
+
+.change-variables-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.change-variables-density-line {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.35;
+}
+
+.change-variables-mass-area {
+  opacity: 0.38;
+}
+
+.change-variables-ribbon {
+  stroke: color-mix(in srgb, var(--cov-mass) 46%, transparent);
+  stroke-width: 1;
+}
+
+.change-variables-marker-line {
+  stroke: color-mix(in srgb, var(--darkgray) 54%, transparent);
+  stroke-dasharray: 4 3;
+  stroke-width: 1;
+}
+
+.change-variables-source-point,
+.change-variables-target-point {
+  stroke: var(--surface);
+  stroke-width: 1.4;
+}
+
+.change-variables-axis text,
+.change-variables-panel-label,
+.change-variables-ribbon-label,
+.change-variables-stretch-label {
+  font-family: var(--headerFont);
+}
+
+.change-variables-axis text {
+  font-size: 0.58rem;
+}
+
+.change-variables-panel-label {
+  fill: var(--dark);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.change-variables-ribbon-label {
+  fill: var(--dark);
+  font-size: 0.74rem;
+  font-weight: 750;
+  text-anchor: middle;
+}
+
+.change-variables-stretch-label {
+  fill: var(--gray);
+  font-size: 0.62rem;
+  text-anchor: middle;
+}
+
+.change-variables-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+  margin-top: 0.34rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+
+.change-variables-readout span {
+  padding: 0.16rem 0.34rem;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  white-space: nowrap;
+}
+
+.change-variables-controls {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.82fr) repeat(2, minmax(0, 1fr));
+  gap: 0.46rem 0.7rem;
+  margin-top: 0.48rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.change-variables-controls label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.change-variables-controls label:first-child {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.change-variables-controls select,
+.change-variables-controls input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.change-variables-controls select {
+  width: 100%;
+  padding: 0.16rem 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--darkgray);
+  font: inherit;
+}
+
+.change-variables-controls output {
+  min-width: 2.3rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .change-variables-plot {
+    min-height: 24rem;
+  }
+
+  .change-variables-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .change-variables-readout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .change-variables-readout span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

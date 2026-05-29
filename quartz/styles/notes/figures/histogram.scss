@@ -75,6 +75,54 @@
   margin-top: 0.22rem;
 }
 
+.gaussian-histogram-slider {
+  display: block;
+  margin-top: 0.38rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.gaussian-histogram-slider-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gaussian-histogram-slider input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.gaussian-histogram-slider output {
+  min-width: 2.25rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+.gaussian-histogram-ticks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.2rem;
+  margin-top: 0.12rem;
+  padding-left: 1.15rem;
+  color: color-mix(in srgb, var(--gray) 80%, transparent);
+  font-family: var(--codeFont);
+  font-size: 0.5rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.gaussian-histogram-ticks span:first-child {
+  text-align: left;
+}
+
+.gaussian-histogram-ticks span:last-child {
+  text-align: right;
+}
+
 .gaussian-histogram-tooltip {
   position: absolute;
   z-index: 5;

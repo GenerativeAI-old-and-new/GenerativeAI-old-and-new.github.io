@@ -32,7 +32,7 @@ type InteractiveFigureTemplateContext<State extends object> = {
   state: State
 }
 
-type AnyFigureDefinition = InteractiveFigureDefinition<any>
+export type AnyFigureDefinition = InteractiveFigureDefinition<any>
 
 type AnyFigureController = {
   definition: AnyFigureDefinition

@@ -185,7 +185,8 @@ function walkForRefs(parent: ParentNode, skip = false) {
         i += replacements.length - 1
       }
     } else if (child.type === "element") {
-      walkForRefs(child, skip || ignoredRefParents.has(child.tagName))
+      const isFigureRef = getStringProperty(child, "data-figure-ref") !== ""
+      walkForRefs(child, skip || ignoredRefParents.has(child.tagName) || isFigureRef)
     }
   }
 }

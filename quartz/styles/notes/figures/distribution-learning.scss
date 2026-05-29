@@ -1,0 +1,127 @@
+.distribution-learning-plot {
+  min-height: 14rem;
+}
+
+.distribution-learning-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.distribution-learning-panel-bg {
+  fill: color-mix(in srgb, var(--surface) 78%, transparent);
+  stroke: color-mix(in srgb, var(--line) 78%, transparent);
+  stroke-width: 1;
+}
+
+.distribution-learning-panel-title,
+.distribution-learning-panel-subtitle,
+.distribution-learning-arrow-label,
+.distribution-learning-sample-note,
+.distribution-learning-axis text {
+  font-family: var(--headerFont);
+}
+
+.distribution-learning-panel-title {
+  fill: var(--dark);
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
+.distribution-learning-panel-subtitle {
+  fill: var(--gray);
+  font-size: 0.58rem;
+}
+
+.distribution-learning-density-area {
+  opacity: 0.16;
+}
+
+.distribution-learning-density-area.is-source {
+  fill: var(--chart-true);
+}
+
+.distribution-learning-density-area.is-estimate {
+  fill: var(--chart-fit);
+}
+
+.distribution-learning-density-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.25;
+}
+
+.distribution-learning-density-line.is-source {
+  stroke: var(--chart-true);
+}
+
+.distribution-learning-density-line.is-estimate {
+  stroke: var(--chart-fit);
+}
+
+.distribution-learning-density-line.is-ghost {
+  stroke: var(--chart-true);
+  stroke-dasharray: 4 4;
+  stroke-width: 1.35;
+  opacity: 0.34;
+}
+
+.distribution-learning-axis path,
+.distribution-learning-axis line,
+.distribution-learning-sample-axis-line {
+  stroke: var(--chart-axis);
+}
+
+.distribution-learning-axis text {
+  fill: var(--chart-axis);
+  font-size: 0.52rem;
+}
+
+.distribution-learning-sample-bucket {
+  fill: var(--chart-hist-stroke);
+  stroke: color-mix(in srgb, var(--chart-hist-stroke) 78%, var(--surface));
+  stroke-width: 0.8;
+  opacity: 0.7;
+}
+
+.distribution-learning-sample-note {
+  fill: var(--gray);
+  font-size: 0.56rem;
+  text-anchor: middle;
+}
+
+.distribution-learning-arrow {
+  fill: none;
+  stroke: color-mix(in srgb, var(--gray) 80%, transparent);
+  stroke-width: 1.35;
+}
+
+.distribution-learning-arrow-marker {
+  fill: color-mix(in srgb, var(--gray) 80%, transparent);
+}
+
+.distribution-learning-arrow-label {
+  fill: var(--gray);
+  font-size: 0.58rem;
+  text-anchor: middle;
+}
+
+.distribution-learning-readout {
+  margin-top: 0.34rem;
+  color: var(--darkgray);
+  font-family: var(--headerFont);
+  font-size: 0.62rem;
+  line-height: 1.35;
+}
+
+.distribution-learning-slider {
+  margin-top: 0.42rem;
+}
+
+@media (max-width: 720px) {
+  .distribution-learning-plot {
+    min-height: 28rem;
+  }
+}
