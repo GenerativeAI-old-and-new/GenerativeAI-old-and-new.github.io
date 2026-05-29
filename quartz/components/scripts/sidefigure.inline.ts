@@ -1,4 +1,5 @@
 const lightboxId = "side-figure-lightbox"
+let lightboxCleanup: (() => void) | undefined
 
 function closeSideFigureLightbox() {
   const lightbox = document.getElementById(lightboxId)
@@ -7,6 +8,15 @@ function closeSideFigureLightbox() {
   lightbox.classList.remove("is-open")
   lightbox.setAttribute("aria-hidden", "true")
   document.body.classList.remove("side-figure-lightbox-open")
+}
+
+function destroySideFigureLightbox() {
+  const lightbox = document.getElementById(lightboxId)
+
+  closeSideFigureLightbox()
+  lightboxCleanup?.()
+  lightboxCleanup = undefined
+  lightbox?.remove()
 }
 
 function ensureSideFigureLightbox() {
@@ -41,6 +51,12 @@ function ensureSideFigureLightbox() {
   lightbox.addEventListener("click", closeOnBackdrop)
   closeButton?.addEventListener("click", closeOnButton)
   document.addEventListener("keydown", closeOnEscape)
+  lightboxCleanup = () => {
+    lightbox.removeEventListener("click", closeOnBackdrop)
+    closeButton?.removeEventListener("click", closeOnButton)
+    document.removeEventListener("keydown", closeOnEscape)
+  }
+  window.addCleanup(destroySideFigureLightbox)
 
   document.body.append(lightbox)
   return lightbox
@@ -102,3 +118,4 @@ function setupSideFigureLightbox() {
 }
 
 document.addEventListener("nav", setupSideFigureLightbox)
+document.addEventListener("prenav", destroySideFigureLightbox)

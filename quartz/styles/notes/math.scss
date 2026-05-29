@@ -1,0 +1,94 @@
+.katex,
+.katex *,
+mjx-container[jax="SVG"],
+mjx-container[jax="SVG"] * {
+  overflow-wrap: normal;
+  text-wrap: nowrap;
+}
+
+.katex,
+mjx-container[jax="SVG"] {
+  color: var(--dark);
+  white-space: nowrap;
+}
+
+.katex-display,
+article mjx-container[jax="SVG"][display="true"] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0.68rem auto;
+  padding: 0.05rem 0.15rem;
+  contain: inline-size;
+  overflow-x: auto;
+  overflow-y: hidden;
+  border-radius: 6px;
+  background: transparent;
+  text-align: center;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--secondary) 35%, transparent) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.katex-display > .katex,
+article mjx-container[jax="SVG"][display="true"] > svg {
+  display: inline-block;
+  width: auto;
+  max-width: none;
+  text-align: initial;
+}
+
+article mjx-container[jax="SVG"]:not([display="true"]) {
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+  overflow: visible;
+  vertical-align: baseline;
+}
+
+article mjx-container[jax="SVG"] > svg {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+article mjx-container[jax="SVG"] svg a {
+  fill: currentColor;
+  stroke: currentColor;
+}
+
+p > .katex-display,
+li > .katex-display,
+blockquote .katex-display,
+p > mjx-container[jax="SVG"][display="true"],
+li > mjx-container[jax="SVG"][display="true"],
+blockquote mjx-container[jax="SVG"][display="true"] {
+  margin: 0.55rem 0;
+}
+
+article mjx-container[jax="SVG"][display="true"] + mjx-container[jax="SVG"][display="true"] {
+  margin-top: -0.2rem;
+}
+
+.callout-content > .katex-display,
+.callout-content > mjx-container[jax="SVG"][display="true"] {
+  margin: 0.2rem 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  line-height: 1;
+}
+
+.callout-content > p:has(+ .katex-display),
+.callout-content > p:has(+ mjx-container[jax="SVG"][display="true"]) {
+  margin-bottom: 0.35rem;
+}
+
+.callout-content > .katex-display + p,
+.callout-content > mjx-container[jax="SVG"][display="true"] + p {
+  margin-top: 0.35rem;
+}
+
+.callout-content > mjx-container[jax="SVG"][display="true"] > svg {
+  display: block;
+  margin: 0 auto;
+}

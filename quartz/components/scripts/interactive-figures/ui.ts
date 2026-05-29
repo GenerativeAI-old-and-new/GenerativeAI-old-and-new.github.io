@@ -37,5 +37,5 @@ export function sampleTicksHtml(id: string) {
 }
 
 export function tooltipHtml() {
-  return `<div class="gaussian-histogram-tooltip" hidden></div>`
+  return `<div class="gaussian-histogram-tooltip" data-no-expand hidden></div>`
 }

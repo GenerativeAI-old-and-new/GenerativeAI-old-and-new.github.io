@@ -10,22 +10,21 @@ const config: QuartzConfig = {
   configuration: {
     pageTitle: "Generative AI: Old and New",
     pageTitleSuffix: "",
+    baseUrl: "generativeai-old-and-new.github.io",
     enableSPA: true,
     enablePopovers: true,
-    analytics: {
-      provider: "plausible",
-    },
+    analytics: null,
     locale: "en-US",
-    baseUrl: "quartz.jzhao.xyz",
     ignorePatterns: ["private", "templates", ".obsidian"],
     defaultDateType: "modified",
     theme: {
-      fontOrigin: "googleFonts",
-      cdnCaching: true,
+      fontOrigin: "local",
+      cdnCaching: false,
       typography: {
-        header: { name: "IBM Plex Sans", weights: [500, 600, 700], includeItalic: false },
-        body: { name: "STIX Two Text", weights: [400, 500, 600, 700], includeItalic: true },
-        code: { name: "IBM Plex Mono", weights: [400, 600], includeItalic: false },
+        title: { name: "Latin Modern Sans", weights: [400, 700], includeItalic: false },
+        header: { name: "Latin Modern Sans", weights: [400, 700], includeItalic: false },
+        body: { name: "Latin Modern Roman", weights: [400, 700], includeItalic: true },
+        code: { name: "Latin Modern Mono", weights: [400], includeItalic: false },
       },
       colors: {
         lightMode: {
@@ -149,8 +148,8 @@ const config: QuartzConfig = {
       Plugin.Static(),
       Plugin.Favicon(),
       Plugin.NotFoundPage(),
-      // Comment out CustomOgImages to speed up build time
-      Plugin.CustomOgImages(),
+      // Keep generated OG images disabled until local font loading is wired for Satori.
+      // Plugin.CustomOgImages(),
     ],
   },
 }

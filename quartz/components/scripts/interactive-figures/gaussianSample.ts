@@ -72,7 +72,7 @@ function gaussianTemplate({
 }) {
   return `
     ${toolbarHtml("Gaussian samples", canExpand)}
-    <div class="gaussian-histogram-plot"></div>
+    <div class="interactive-figure-plot gaussian-histogram-plot"></div>
     <div class="gaussian-histogram-legend" aria-hidden="true">
       <span><i class="is-true"></i>True</span>
       <span><i class="is-fit"></i>Fit</span>

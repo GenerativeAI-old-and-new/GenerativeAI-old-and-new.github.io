@@ -1,0 +1,142 @@
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-Italic.otf") format("opentype");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  src: url("/static/fonts/LatinModernRoman-BoldItalic.otf") format("opentype");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Sans";
+  src: url("/static/fonts/LatinModernSans-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Sans";
+  src: url("/static/fonts/LatinModernSans-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Mono";
+  src: url("/static/fonts/LatinModernMono-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+html:root {
+  --titleFont: "Latin Modern Sans", Helvetica, Arial, sans-serif;
+  --headerFont: "Latin Modern Sans", Helvetica, Arial, sans-serif;
+  --bodyFont: "Latin Modern Roman", Georgia, "Times New Roman", serif;
+  --codeFont: "Latin Modern Mono", ui-monospace, SFMono-Regular, monospace;
+}
+
+:root {
+  --surface: #fffdf8;
+  --surface-muted: color-mix(in srgb, var(--lightgray) 38%, var(--light));
+  --book-ink: #24201c;
+  --line: color-mix(in srgb, var(--lightgray) 82%, var(--dark) 18%);
+  --line-strong: color-mix(in srgb, var(--gray) 62%, var(--dark) 38%);
+  --shadow-soft: 0 12px 32px rgba(45, 38, 28, 0.06);
+  --math-bg: color-mix(in srgb, var(--surface) 88%, var(--highlight));
+  --image-bg: #fff;
+  --selection-bg: rgba(177, 205, 238, 0.58);
+  --selection-ink: #171d25;
+  --book-green: #228b22;
+  --book-blue: #2d62a0;
+  --book-sienna: #a65f2e;
+  --book-gold: #9a7412;
+  --book-orange: #c06318;
+}
+
+:root[saved-theme="dark"] {
+  --surface: #201f1a;
+  --surface-muted: color-mix(in srgb, var(--lightgray) 58%, var(--light));
+  --book-ink: #eee7dd;
+  --line: color-mix(in srgb, var(--lightgray) 82%, var(--dark) 18%);
+  --line-strong: color-mix(in srgb, var(--gray) 70%, var(--dark) 30%);
+  --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.28);
+  --math-bg: color-mix(in srgb, var(--surface) 84%, var(--highlight));
+  --image-bg: #f7f2e9;
+  --selection-bg: rgba(120, 165, 220, 0.42);
+  --selection-ink: #f4f7fb;
+  --book-green: #7fcf7f;
+  --book-blue: #8ab7f2;
+  --book-sienna: #e1a06f;
+  --book-gold: #d7b95d;
+  --book-orange: #f0a15f;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  width: 100%;
+  overflow-x: clip;
+  scrollbar-gutter: stable;
+}
+
+body {
+  min-height: 100vh;
+  background: var(--light);
+  font-family: var(--bodyFont);
+  font-synthesis-weight: none;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1;
+}
+
+a {
+  text-underline-offset: 0.16em;
+}
+
+a:hover,
+a:focus-visible {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+::selection {
+  background: var(--selection-bg);
+  color: var(--selection-ink);
+}
+
+::-moz-selection {
+  background: var(--selection-bg);
+  color: var(--selection-ink);
+}

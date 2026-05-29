@@ -2,8 +2,10 @@ export type InteractiveFigureDefinition<State extends object> = {
   bindControls?: (context: InteractiveFigureControlContext<State>) => void
   classNames: string[]
   cloneState: (state: State) => State
+  expandIgnoreSelector?: string
   readState: (figure: HTMLElement) => State
   render: (figure: HTMLElement, state: State) => void
+  resizeTargetSelector?: string
   resample?: (state: State) => void
   serializeState: (state: State) => Record<string, number | string>
   syncControls: (figure: HTMLElement, state: State) => void
@@ -43,6 +45,8 @@ type CreateFigureOptions = {
 
 const interactiveFigureSelector = "[data-interactive-figure]"
 const interactiveLightboxId = "interactive-figure-lightbox"
+const defaultExpandIgnoreSelector = "button, input, label, a, [data-no-expand]"
+const defaultResizeTargetSelector = ".interactive-figure-plot"
 const registry = new Map<string, AnyFigureDefinition>()
 const controllers = new WeakMap<HTMLElement, AnyFigureController>()
 const lightboxCleanups = new WeakMap<HTMLElement, () => void>()
@@ -67,6 +71,8 @@ function createInteractiveFigure<State extends object>(
   const id = `${definition.type}-${++interactiveFigureCount}`
   const disposers: (() => void)[] = []
   const state = definition.readState(figure)
+  const expandIgnoreSelector = definition.expandIgnoreSelector ?? defaultExpandIgnoreSelector
+  const resizeTargetSelector = definition.resizeTargetSelector ?? defaultResizeTargetSelector
   let controller: AnyFigureController
   const addCleanup = (cleanup: () => void) => disposers.push(cleanup)
 
@@ -86,7 +92,7 @@ function createInteractiveFigure<State extends object>(
   }
   const resampleButton = figure.querySelector<HTMLButtonElement>(".interactive-figure-resample")
   const expandButton = figure.querySelector<HTMLButtonElement>(".interactive-figure-expand")
-  const plot = figure.querySelector<HTMLElement>(".gaussian-histogram-plot")
+  const resizeTarget = figure.querySelector<HTMLElement>(resizeTargetSelector)
   const resample = () => {
     definition.resample?.(state)
     render()
@@ -95,7 +101,7 @@ function createInteractiveFigure<State extends object>(
   const expandFromFigure = (event: MouseEvent) => {
     const target = event.target
     if (!(target instanceof Element)) return
-    if (target.closest("button, input, label, a, .gaussian-histogram-tooltip")) return
+    if (target.closest(expandIgnoreSelector)) return
 
     expand()
   }
@@ -117,7 +123,7 @@ function createInteractiveFigure<State extends object>(
   })
 
   const observer = new ResizeObserver(render)
-  if (plot) observer.observe(plot)
+  if (resizeTarget) observer.observe(resizeTarget)
   addCleanup(() => observer.disconnect())
 
   controller = {
@@ -258,3 +264,5 @@ export function setupInteractiveFigures() {
     })
   }
 }
+
+document.addEventListener("prenav", () => closeInteractiveLightbox(true))

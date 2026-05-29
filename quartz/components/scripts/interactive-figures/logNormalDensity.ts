@@ -111,7 +111,7 @@ function logNormalTemplate({
 }) {
   return `
     ${toolbarHtml("Log-normal samples", canExpand)}
-    <div class="gaussian-histogram-plot"></div>
+    <div class="interactive-figure-plot gaussian-histogram-plot"></div>
     <div class="gaussian-histogram-legend" aria-hidden="true">
       <span><i class="is-samples"></i>Samples</span>
       <span><i></i>GT density</span>

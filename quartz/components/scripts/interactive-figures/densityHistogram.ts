@@ -53,7 +53,9 @@ export function renderDensityHistogram({
   samples,
   statsText,
 }: DensityHistogramOptions) {
-  const plot = figure.querySelector<HTMLElement>(".gaussian-histogram-plot")
+  const plot = figure.querySelector<HTMLElement>(
+    ".gaussian-histogram-plot, .interactive-figure-plot",
+  )
   const stats = figure.querySelector<HTMLElement>(".gaussian-histogram-stats")
   const tooltip = figure.querySelector<HTMLElement>(".gaussian-histogram-tooltip")
   if (!plot || !stats || !tooltip) return

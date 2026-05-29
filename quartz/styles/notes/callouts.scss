@@ -1,0 +1,370 @@
+.callout {
+  --box-color: var(--color);
+  --box-bg: color-mix(in srgb, var(--box-color) 6%, var(--surface));
+
+  margin: 1.05rem 0 1.25rem;
+  padding: 0.78rem 1rem 0.82rem;
+  border: 0;
+  border-left: 3px solid var(--box-color);
+  border-radius: 0;
+  background: var(--box-bg);
+  box-shadow: none;
+}
+
+.callout[data-callout="note"],
+.callout[data-callout="definition"],
+.callout[data-callout="remark"],
+.callout[data-callout="info"],
+.callout[data-callout="tip"] {
+  --color: var(--book-green);
+  --box-bg: color-mix(in srgb, var(--book-green) 6%, var(--surface));
+}
+
+.callout[data-callout="example"] {
+  --color: var(--book-blue);
+  --box-bg: color-mix(in srgb, var(--book-blue) 7%, var(--surface));
+}
+
+.callout[data-callout="theorem"],
+.callout[data-callout="lemma"],
+.callout[data-callout="proposition"],
+.callout[data-callout="corollary"],
+.callout[data-callout="proof"] {
+  --color: var(--book-sienna);
+  --box-bg: color-mix(in srgb, var(--book-sienna) 5%, var(--surface));
+}
+
+.callout[data-callout="background"],
+.callout[data-callout="notation"],
+.callout[data-callout="question"],
+.callout[data-callout="warning"] {
+  --color: var(--book-orange);
+  --box-bg: color-mix(in srgb, var(--book-orange) 6%, var(--surface));
+}
+
+.callout[data-callout="solution"],
+.callout[data-callout="success"] {
+  --color: var(--book-blue);
+  --box-bg: color-mix(in srgb, var(--book-blue) 5%, var(--surface));
+}
+
+.callout-title {
+  gap: 0;
+  padding: 0 0 0.34rem;
+  font-family: var(--headerFont);
+  font-size: 1em;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.callout-title .callout-icon {
+  display: none;
+}
+
+.callout-title .fold-callout-icon {
+  margin-left: auto;
+}
+
+.callout-title > .callout-title-inner > p {
+  color: var(--box-color);
+  font-weight: 700;
+}
+
+.callout-content {
+  color: var(--book-ink);
+  font-size: 1em;
+}
+
+.callout-content strong:first-child {
+  color: var(--box-color);
+}
+
+.note-red,
+.latex-red,
+.red-comment {
+  color: #af3235;
+}
+
+.note-magenta,
+.latex-magenta,
+.inline-annotation {
+  color: #af3235;
+}
+
+.callout-content p,
+.callout-content li {
+  line-height: 1.55;
+}
+
+.callout-content > :last-child {
+  margin-bottom: 0;
+}
+
+.callout[data-callout="definition"] {
+  counter-increment: definition;
+}
+
+.callout[data-callout="remark"] {
+  counter-increment: remark;
+}
+
+.callout[data-callout="note"] {
+  counter-increment: note;
+}
+
+.callout[data-callout="background"] {
+  counter-increment: background;
+}
+
+.callout[data-callout="notation"] {
+  counter-increment: notation;
+}
+
+.callout[data-callout="example"] {
+  counter-increment: example;
+}
+
+.callout[data-callout="theorem"] {
+  counter-increment: theorem;
+}
+
+.callout[data-callout="lemma"] {
+  counter-increment: lemma;
+}
+
+.callout[data-callout="proposition"] {
+  counter-increment: proposition;
+}
+
+.callout[data-callout="corollary"] {
+  counter-increment: corollary;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+  margin-right: 0.25rem;
+  padding: 0;
+  color: var(--box-color);
+  line-height: 1.55;
+}
+
+.callout[data-callout="definition"] > .callout-title::before {
+  content: "Definition " counter(definition);
+}
+
+.callout[data-callout="remark"] > .callout-title::before {
+  content: "Remark " counter(remark);
+}
+
+.callout[data-callout="note"] > .callout-title::before {
+  content: "Note " counter(note);
+}
+
+.callout[data-callout="background"] > .callout-title::before {
+  content: "Background " counter(background);
+}
+
+.callout[data-callout="notation"] > .callout-title::before {
+  content: "Notation " counter(notation);
+}
+
+.callout[data-callout="example"] > .callout-title::before {
+  content: "Example " counter(example);
+}
+
+.callout[data-callout="theorem"] > .callout-title::before {
+  content: "Theorem " counter(theorem);
+}
+
+.callout[data-callout="lemma"] > .callout-title::before {
+  content: "Lemma " counter(lemma);
+}
+
+.callout[data-callout="proposition"] > .callout-title::before {
+  content: "Proposition " counter(proposition);
+}
+
+.callout[data-callout="corollary"] > .callout-title::before {
+  content: "Corollary " counter(corollary);
+}
+
+.callout[data-callout="proof"] > .callout-title::before {
+  content: "Proof";
+}
+
+.callout[data-callout="solution"] > .callout-title::before {
+  content: "Solution";
+}
+
+.callout[data-callout="question"] > .callout-title::before {
+  content: "Question";
+}
+
+.callout[data-callout="warning"] > .callout-title::before {
+  content: "Warning";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title::before {
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title::after {
+  content: ".";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title[data-callout-metadata]:not([data-callout-metadata=""])::after {
+  margin-left: 0.4em;
+  content: "(" attr(data-callout-metadata) ").";
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-title
+  > .callout-title-inner {
+  display: none;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  ):not(.is-collapsible)
+  > .callout-content {
+  display: contents;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-content
+  > p:first-child {
+  display: inline;
+  margin: 0;
+}
+
+.callout:is(
+    [data-callout="definition"],
+    [data-callout="remark"],
+    [data-callout="note"],
+    [data-callout="background"],
+    [data-callout="notation"],
+    [data-callout="example"],
+    [data-callout="theorem"],
+    [data-callout="lemma"],
+    [data-callout="proposition"],
+    [data-callout="corollary"],
+    [data-callout="proof"],
+    [data-callout="solution"],
+    [data-callout="question"],
+    [data-callout="warning"]
+  )
+  > .callout-content
+  > p:first-child
+  + :is(.katex-display, mjx-container[jax="SVG"][display="true"]) {
+  margin-top: 0.48rem;
+}

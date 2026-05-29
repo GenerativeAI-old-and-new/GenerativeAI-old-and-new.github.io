@@ -1,17 +1,44 @@
-# Quartz v4
+# Math Notes Quartz Template
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+This repository is a Quartz-based template for math-intensive notes, lecture notes, and technical blogs. It keeps the current course notes as example content and publishes at <https://generativeai-old-and-new.github.io/>.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
+## Development
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+```bash
+npm install
+npm run dev
+```
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+Useful checks:
 
-## Sponsors
+```bash
+npm test
+npm run check
+npx quartz build
+```
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+Quartz's upstream documentation is still available in `docs/` and can be previewed with:
+
+```bash
+npm run dev:docs
+```
+
+## Authoring Features
+
+- Obsidian-style callouts are available for theorem-like writing, including `example`, `proof`, `remark`, `theorem`, `definition`, `lemma`, `proposition`, and `corollary`.
+- Math is rendered with MathJax and configured for AMS-style equation tags.
+- D3-style interactive figures can be inserted with `<figure data-interactive-figure="...">`. New figures should use an `.interactive-figure-plot` element for resize observation and `data-no-expand` on controls that should not open the modal view.
+
+## Deployment
+
+The published site URL is:
+
+```text
+https://generativeai-old-and-new.github.io/
+```
+
+Quartz uses this as `configuration.baseUrl: "generativeai-old-and-new.github.io"`, without `https://` and without a trailing slash.
+
+- RSS and sitemap are enabled for this domain.
+- `Plugin.CustomOgImages()` is still disabled until generated OG images can use local fonts.
+- Configure analytics only if the published site should track visits.
