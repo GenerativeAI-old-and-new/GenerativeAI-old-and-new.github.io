@@ -1,0 +1,51 @@
+@use "../../styles/variables.scss" as *;
+
+.sidebar-fold-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--darkgray);
+  cursor: pointer;
+  transition:
+    border-color 0.16s ease,
+    background-color 0.16s ease,
+    color 0.16s ease;
+}
+
+.sidebar-fold-button svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.sidebar-fold-button .sidebar-fold-arrow {
+  transform-origin: center;
+  transition: transform 0.18s ease;
+}
+
+html.sidebar-folded .sidebar-fold-button .sidebar-fold-arrow {
+  transform: rotate(180deg);
+}
+
+.sidebar-fold-button:hover,
+.sidebar-fold-button:focus-visible {
+  border-color: var(--secondary);
+  background: color-mix(in srgb, var(--surface) 82%, var(--highlight));
+  color: var(--secondary);
+}
+
+@media all and ($mobile) {
+  .sidebar-fold-button {
+    display: none;
+  }
+}

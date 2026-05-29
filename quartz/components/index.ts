@@ -16,6 +16,7 @@ import Graph from "./Graph"
 import Backlinks from "./Backlinks"
 import Search from "./Search"
 import HomeButton from "./HomeButton"
+import SidebarFold from "./SidebarFold"
 import Footer from "./Footer"
 import DesktopOnly from "./DesktopOnly"
 import MobileOnly from "./MobileOnly"
@@ -45,6 +46,7 @@ export {
   Backlinks,
   Search,
   HomeButton,
+  SidebarFold,
   Footer,
   DesktopOnly,
   MobileOnly,

@@ -47,6 +47,7 @@ export const defaultContentPageLayout: PageLayout = {
     Component.Flex({
       gap: "0.5rem",
       components: [
+        { Component: Component.SidebarFold(), shrink: false },
         { Component: Component.HomeButton(), shrink: false },
         { Component: Component.Darkmode(), shrink: false },
         { Component: Component.Search(), basis: "10.4rem" },
@@ -79,6 +80,7 @@ export const defaultListPageLayout: PageLayout = {
     Component.Flex({
       gap: "0.5rem",
       components: [
+        { Component: Component.SidebarFold(), shrink: false },
         { Component: Component.HomeButton(), shrink: false },
         { Component: Component.Darkmode(), shrink: false },
         { Component: Component.Search(), basis: "10.4rem" },
