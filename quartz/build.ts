@@ -9,7 +9,7 @@ import { parseMarkdown } from "./processors/parse"
 import { filterContent } from "./processors/filter"
 import { emitContent } from "./processors/emit"
 import cfg from "../quartz.config"
-import { FilePath, joinSegments, slugifyFilePath } from "./util/path"
+import { FilePath, FullSlug, joinSegments, slugifyFilePath } from "./util/path"
 import chokidar from "chokidar"
 import { ProcessedContent } from "./plugins/vfile"
 import { Argv, BuildCtx } from "./util/ctx"
@@ -21,6 +21,7 @@ import { getStaticResourcesFromPlugins } from "./plugins"
 import { randomIdNonSecure } from "./util/random"
 import { ChangeEvent } from "./plugins/types"
 import { minimatch } from "minimatch"
+import { finalizeTheoremReferences } from "./plugins/transformers/theoremReferences"
 
 type ContentMap = Map<
   FilePath,
@@ -83,6 +84,7 @@ async function buildQuartz(argv: Argv, mut: Mutex, clientRefresh: () => void) {
 
   const parsedFiles = await parseMarkdown(ctx, filePaths)
   const filteredContent = filterContent(ctx, parsedFiles)
+  finalizeTheoremReferences(ctx, filteredContent)
 
   await emitContent(ctx, filteredContent)
   console.log(
@@ -261,6 +263,23 @@ async function rebuild(changes: ChangeEvent[], clientRefresh: () => void, buildD
       .filter((file) => file.type === "markdown")
       .map((file) => file.content),
   )
+  const theoremAffectedSlugs = finalizeTheoremReferences(ctx, processedFiles)
+  const changeEventSlugs = new Set(
+    changeEvents
+      .map((event) => event.file?.data.slug)
+      .filter((slug): slug is FullSlug => typeof slug === "string"),
+  )
+  for (const [_tree, file] of processedFiles) {
+    const slug = file.data.slug!
+    if (!theoremAffectedSlugs.has(slug) || changeEventSlugs.has(slug)) continue
+
+    changeEvents.push({
+      type: "change",
+      path: file.data.relativePath!,
+      file,
+    })
+    changeEventSlugs.add(slug)
+  }
 
   let emittedFiles = 0
   for (const emitter of cfg.plugins.emitters) {

@@ -100,46 +100,6 @@
   margin-bottom: 0;
 }
 
-.callout[data-callout="definition"] {
-  counter-increment: definition;
-}
-
-.callout[data-callout="remark"] {
-  counter-increment: remark;
-}
-
-.callout[data-callout="note"] {
-  counter-increment: note;
-}
-
-.callout[data-callout="background"] {
-  counter-increment: background;
-}
-
-.callout[data-callout="notation"] {
-  counter-increment: notation;
-}
-
-.callout[data-callout="example"] {
-  counter-increment: example;
-}
-
-.callout[data-callout="theorem"] {
-  counter-increment: theorem;
-}
-
-.callout[data-callout="lemma"] {
-  counter-increment: lemma;
-}
-
-.callout[data-callout="proposition"] {
-  counter-increment: proposition;
-}
-
-.callout[data-callout="corollary"] {
-  counter-increment: corollary;
-}
-
 .callout:is(
     [data-callout="definition"],
     [data-callout="remark"],
@@ -164,46 +124,6 @@
   padding: 0;
   color: var(--box-color);
   line-height: 1.55;
-}
-
-.callout[data-callout="definition"] > .callout-title::before {
-  content: "Definition " counter(definition);
-}
-
-.callout[data-callout="remark"] > .callout-title::before {
-  content: "Remark " counter(remark);
-}
-
-.callout[data-callout="note"] > .callout-title::before {
-  content: "Note " counter(note);
-}
-
-.callout[data-callout="background"] > .callout-title::before {
-  content: "Background " counter(background);
-}
-
-.callout[data-callout="notation"] > .callout-title::before {
-  content: "Notation " counter(notation);
-}
-
-.callout[data-callout="example"] > .callout-title::before {
-  content: "Example " counter(example);
-}
-
-.callout[data-callout="theorem"] > .callout-title::before {
-  content: "Theorem " counter(theorem);
-}
-
-.callout[data-callout="lemma"] > .callout-title::before {
-  content: "Lemma " counter(lemma);
-}
-
-.callout[data-callout="proposition"] > .callout-title::before {
-  content: "Proposition " counter(proposition);
-}
-
-.callout[data-callout="corollary"] > .callout-title::before {
-  content: "Corollary " counter(corollary);
 }
 
 .callout[data-callout="proof"] > .callout-title::before {
@@ -282,6 +202,35 @@
   > .callout-title[data-callout-metadata]:not([data-callout-metadata=""])::after {
   margin-left: 0.4em;
   content: "(" attr(data-callout-metadata) ").";
+}
+
+.callout[data-theorem-kind] > .callout-title::before,
+.callout[data-theorem-kind] > .callout-title::after {
+  content: none;
+}
+
+.callout-number {
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.callout-title-label,
+.callout-title-punctuation {
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.theorem-ref {
+  color: var(--secondary);
+  font-family: var(--headerFont);
+  font-weight: 700;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+  text-underline-offset: 0.12em;
+}
+
+.theorem-ref.unresolved {
+  color: var(--book-sienna);
+  text-decoration-style: wavy;
 }
 
 .callout:is(
@@ -367,4 +316,33 @@
   > p:first-child
   + :is(.katex-display, mjx-container[jax="SVG"][display="true"]) {
   margin-top: 0.48rem;
+}
+
+.callout[data-theorem-kind] > .callout-title {
+  display: inline;
+  margin: 0 0.25rem 0 0;
+  padding: 0;
+  color: var(--box-color);
+  line-height: 1.55;
+}
+
+.callout[data-theorem-kind] > .callout-title[data-callout-metadata]::after {
+  content: none;
+}
+
+.callout[data-theorem-kind]:not(.is-collapsible) > .callout-content {
+  display: contents;
+}
+
+.callout[data-theorem-kind] > .callout-content > p:first-child {
+  display: inline;
+  margin: 0;
+}
+
+.callout[data-theorem-kind] > .callout-content > :first-child {
+  margin-top: 0;
+}
+
+.callout-number {
+  white-space: nowrap;
 }

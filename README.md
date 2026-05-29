@@ -26,6 +26,8 @@ npm run dev:docs
 ## Authoring Features
 
 - Obsidian-style callouts are available for theorem-like writing, including `example`, `proof`, `remark`, `theorem`, `definition`, `lemma`, `proposition`, and `corollary`.
+- Numbered theorem-like callouts can be labelled with Pandoc-style ids, for example `> [!theorem|Change of Variables] {#thm:change-vars}`. Reference them in prose with `@thm:change-vars`; unresolved references render visibly and print a build warning.
+- Numbered callouts use module-aware numbering when the page slug starts with a number, for example `modules/01-probability-basics` renders `Theorem 1.1` and `Example 1.1`. Pages without a numeric slug use page-local numbering such as `Theorem 1`.
 - Math is rendered with MathJax and configured for AMS-style equation tags.
 - D3-style interactive figures can be inserted with `<figure data-interactive-figure="...">`. New figures should use an `.interactive-figure-plot` element for resize observation and `data-no-expand` on controls that should not open the modal view.
 

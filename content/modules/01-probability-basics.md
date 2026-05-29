@@ -104,7 +104,7 @@ In practice, we often need to construct complex distributions from simpler distr
 
 Given a reference random variable $\omega \sim \mu_0$, we can construct new random variables through deterministic transformations: $$X = T(\omega),$$ where $T: \Omega \to \Omega'$ is a measurable mapping. The resulting random variable $X$ follows a transformed distribution.
 
-> [!theorem|Change of Variables Formula]
+> [!theorem|Change of Variables Formula] {#thm:change-of-variables}
 > If $T$ is continuously differentiable and invertible, and $\omega$ has density $p_\omega$, then $X = T(\omega)$ has density: $$p_X(x) = p_\omega(T^{-1}(x)) \cdot \left|\det(\nabla T^{-1}(x))\right|,$$ where $\nabla T^{-1}(x)$ is the Jacobian matrix of the inverse transformation.
 
 The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transformation changes the volume element.
@@ -141,7 +141,7 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 > Let $x = T(z)$, we have $\nabla T^{-1}(x) = (\nabla T(z))^{-1}$, where the first inverse is function inverse, and second is matrix inverse, and hence $\det(\nabla T^{-1}(x)) = 1/\det(\nabla T(z))$.
 
 > [!example|Log-Normal Distribution]
-> Let $\omega \sim \mathcal{N}(0,1)$ be standard normal, and define $X = \exp(\omega)$. Then: $$p_X(x) = \frac{1}{x\sqrt{2\pi}} \exp\left(-\frac{(\log x)^2}{2}\right), \quad x > 0.$$ This gives the log-normal distribution, useful for modeling positive-valued data like incomes or stock prices.
+> Let $\omega \sim \mathcal{N}(0,1)$ be standard normal, and define $X = \exp(\omega)$. By @thm:change-of-variables, $$p_X(x) = \frac{1}{x\sqrt{2\pi}} \exp\left(-\frac{(\log x)^2}{2}\right), \quad x > 0.$$ This gives the log-normal distribution, useful for modeling positive-valued data like incomes or stock prices.
 
 <figure
   class="side-figure interactive-figure"

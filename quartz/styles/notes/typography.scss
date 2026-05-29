@@ -19,8 +19,6 @@
 
 article {
   min-width: 0;
-  counter-reset: definition remark note background notation example theorem lemma proposition
-    corollary;
   color: var(--book-ink);
   font-family: var(--bodyFont);
   font-size: 1.03rem;
