@@ -1,0 +1,201 @@
+.interactive-figure {
+  --chart-hist: #a9cdec;
+  --chart-hist-stroke: #2c5f9e;
+  --chart-true: #9f3d46;
+  --chart-fit: #2c7d54;
+  --chart-axis: #726a60;
+  --chart-grid: #e7e0d6;
+}
+
+:root[saved-theme="dark"] .interactive-figure {
+  --chart-hist: #5f86ad;
+  --chart-hist-stroke: #8ab7f2;
+  --chart-true: #e48b94;
+  --chart-fit: #8bcfa8;
+  --chart-axis: #c9beb0;
+  --chart-grid: #443d35;
+}
+
+article .interactive-figure[data-figure-layout="inline"] {
+  position: relative;
+  max-width: min(100%, 920px);
+  margin: 1rem auto 1.15rem;
+  padding: 0.58rem 0.68rem 0.7rem;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 72%, transparent);
+  box-shadow: none;
+  cursor: default;
+  overflow: visible;
+}
+
+article .interactive-figure[data-figure-layout="inline"].figure-wide {
+  max-width: min(100%, 1040px);
+}
+
+article .interactive-figure[data-figure-layout="inline"].figure-minimal {
+  width: min(60%, 560px);
+  max-width: 100%;
+  padding: 0.5rem 0.6rem 0.62rem;
+}
+
+article .interactive-figure[data-figure-layout="inline"].figure-plain {
+  padding-inline: 0;
+  border-color: transparent;
+  background: transparent;
+}
+
+article .interactive-figure[data-figure-layout="inline"]:hover,
+article .interactive-figure[data-figure-layout="inline"]:focus-within {
+  border-color: color-mix(in srgb, var(--secondary) 28%, var(--line));
+}
+
+article .interactive-figure[data-figure-layout="side"] {
+  padding: 0.72rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent 54%),
+    color-mix(in srgb, var(--surface) 82%, var(--image-bg));
+  cursor: default;
+  overflow: visible;
+}
+
+article .side-figure.interactive-figure[data-figure-layout="side"]::before,
+article .side-figure.interactive-figure[data-figure-layout="side"]::after {
+  content: none;
+}
+
+article .side-figure.interactive-figure[data-figure-layout="side"]:hover,
+article .side-figure.interactive-figure[data-figure-layout="side"]:focus-within {
+  border-color: color-mix(in srgb, var(--secondary) 42%, var(--line));
+  box-shadow:
+    0 16px 34px rgba(18, 20, 24, 0.12),
+    0 2px 8px rgba(18, 20, 24, 0.05);
+  transform: translateZ(0);
+}
+
+.interactive-figure[data-figure-layout="inline"].can-expand .interactive-figure-plot,
+.interactive-figure[data-figure-layout="modal"].can-expand .interactive-figure-plot,
+.side-figure.interactive-figure[data-figure-layout="side"].can-expand .interactive-figure-plot,
+.side-figure.interactive-figure[data-figure-layout="side"].can-expand .gaussian-histogram-plot {
+  cursor: zoom-in;
+}
+
+.interactive-figure-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.32rem;
+}
+
+.interactive-figure-title {
+  color: var(--dark);
+  font-family: var(--headerFont);
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.interactive-figure-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.28rem;
+}
+
+.interactive-figure-resample,
+.interactive-figure-expand {
+  display: grid;
+  flex: 0 0 auto;
+  width: 1.55rem;
+  height: 1.55rem;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
+  color: var(--darkgray);
+  cursor: pointer;
+  transition:
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.interactive-figure-resample:hover,
+.interactive-figure-resample:focus-visible,
+.interactive-figure-expand:hover,
+.interactive-figure-expand:focus-visible {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  outline: none;
+  transform: scale(1.05);
+}
+
+.interactive-figure-resample svg,
+.interactive-figure-expand svg {
+  width: 0.84rem;
+  height: 0.84rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+
+.interactive-figure-plot {
+  width: 100%;
+}
+
+.gaussian-histogram-slider {
+  display: block;
+  margin-top: 0.38rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.gaussian-histogram-slider-row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.gaussian-histogram-slider input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.gaussian-histogram-slider output {
+  min-width: 2.25rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+.gaussian-histogram-ticks {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.2rem;
+  margin-top: 0.12rem;
+  padding-left: 1.15rem;
+  color: color-mix(in srgb, var(--gray) 80%, transparent);
+  font-family: var(--codeFont);
+  font-size: 0.5rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.gaussian-histogram-ticks span:first-child {
+  text-align: left;
+}
+
+.gaussian-histogram-ticks span:last-child {
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  article .interactive-figure[data-figure-layout="inline"].figure-minimal {
+    width: 100%;
+  }
+}

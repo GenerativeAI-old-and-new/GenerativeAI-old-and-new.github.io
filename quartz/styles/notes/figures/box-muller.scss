@@ -1,0 +1,108 @@
+.box-muller-plot {
+  min-height: 0;
+}
+
+.box-muller-transform-figure .interactive-figure-toolbar {
+  margin-bottom: 0.34rem;
+}
+
+.box-muller-stats {
+  margin-top: 0.28rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.58rem;
+  line-height: 1.28;
+}
+
+.box-muller-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0.22rem 0.9rem;
+  margin-top: 0.28rem;
+}
+
+.box-muller-panel {
+  fill: color-mix(in srgb, var(--surface) 78%, transparent);
+  stroke: color-mix(in srgb, var(--line) 72%, transparent);
+  stroke-width: 1;
+}
+
+.box-muller-panel-label,
+.box-muller-mini-label,
+.box-muller-formula {
+  fill: var(--dark);
+  font-family: var(--headerFont);
+  font-weight: 700;
+}
+
+.box-muller-panel-label {
+  font-size: 0.68rem;
+}
+
+.box-muller-mini-label,
+.box-muller-formula {
+  font-size: 0.62rem;
+}
+
+.box-muller-axis-label,
+.box-muller-axis text {
+  fill: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.55rem;
+}
+
+.box-muller-sample {
+  opacity: 0.34;
+}
+
+.box-muller-focus-point {
+  stroke: var(--surface);
+  stroke-width: 2;
+}
+
+.box-muller-plane-ring,
+.box-muller-plane-axis,
+.box-muller-arrow,
+.box-muller-radius-line,
+.box-muller-angle-arc {
+  fill: none;
+}
+
+.box-muller-plane-ring {
+  stroke-dasharray: 3 4;
+}
+
+.box-muller-arrow {
+  stroke-width: 1.2;
+}
+
+.box-muller-radius-line,
+.box-muller-angle-arc {
+  stroke: var(--chart-true);
+  stroke-linecap: round;
+  stroke-width: 1.6;
+}
+
+.box-muller-angle-arc {
+  stroke-width: 1.3;
+}
+
+.box-muller-hist-bar {
+  stroke-width: 0.5;
+}
+
+.box-muller-density-line {
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.box-muller-axis path,
+.box-muller-axis line {
+  shape-rendering: crispEdges;
+}
+
+@media (max-width: 720px) {
+  .box-muller-controls {
+    grid-template-columns: 1fr;
+  }
+}

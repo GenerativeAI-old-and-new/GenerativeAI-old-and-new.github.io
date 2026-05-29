@@ -1,3 +1,5 @@
+export type InteractiveFigureLayout = "inline" | "side" | "modal"
+
 export type InteractiveFigureDefinition<State extends object> = {
   bindControls?: (context: InteractiveFigureControlContext<State>) => void
   classNames: string[]
@@ -17,12 +19,16 @@ export type InteractiveFigureControlContext<State extends object> = {
   addCleanup: (cleanup: () => void) => void
   figure: HTMLElement
   render: () => void
+  renderNow: () => void
+  scheduleRender: () => void
   state: State
 }
 
 type InteractiveFigureTemplateContext<State extends object> = {
   canExpand: boolean
+  expanded: boolean
   id: string
+  layout: InteractiveFigureLayout
   state: State
 }
 
@@ -32,13 +38,17 @@ type AnyFigureController = {
   definition: AnyFigureDefinition
   destroy: () => void
   figure: HTMLElement
+  layout: InteractiveFigureLayout
   render: () => void
+  renderNow: () => void
+  scheduleRender: () => void
   state: any
   syncFrom: (state: object) => void
 }
 
 type CreateFigureOptions = {
   expanded?: boolean
+  layout?: InteractiveFigureLayout
   onExpand?: (controller: AnyFigureController) => void
   useGlobalCleanup?: boolean
 }
@@ -52,6 +62,20 @@ const controllers = new WeakMap<HTMLElement, AnyFigureController>()
 const lightboxCleanups = new WeakMap<HTMLElement, () => void>()
 const lightboxSources = new WeakMap<HTMLElement, AnyFigureController>()
 let interactiveFigureCount = 0
+
+function isFigureLayout(value: string | undefined): value is InteractiveFigureLayout {
+  return value === "inline" || value === "side" || value === "modal"
+}
+
+function inferFigureLayout(
+  figure: HTMLElement,
+  options: CreateFigureOptions,
+): InteractiveFigureLayout {
+  if (options.layout) return options.layout
+  if (isFigureLayout(figure.dataset.figureLayout)) return figure.dataset.figureLayout
+  if (figure.classList.contains("side-figure")) return "side"
+  return "inline"
+}
 
 function escapeAttribute(value: number | string) {
   return String(value).replace(/&/g, "&amp;").replace(/"/g, "&quot;")
@@ -70,32 +94,56 @@ function createInteractiveFigure<State extends object>(
 ) {
   const id = `${definition.type}-${++interactiveFigureCount}`
   const disposers: (() => void)[] = []
+  const expanded = options.expanded === true
+  const layout = inferFigureLayout(figure, options)
   const state = definition.readState(figure)
   const expandIgnoreSelector = definition.expandIgnoreSelector ?? defaultExpandIgnoreSelector
   const resizeTargetSelector = definition.resizeTargetSelector ?? defaultResizeTargetSelector
   let controller: AnyFigureController
+  let destroyed = false
+  let pendingFrame: number | undefined
   const addCleanup = (cleanup: () => void) => disposers.push(cleanup)
 
   figure.classList.add("interactive-figure", ...definition.classNames)
-  figure.classList.toggle("is-expanded", options.expanded === true)
+  figure.dataset.figureLayout = layout
+  figure.classList.toggle("is-expanded", expanded)
   figure.classList.toggle("can-expand", options.onExpand !== undefined)
   figure.replaceChildren()
   figure.innerHTML = definition.template({
     canExpand: options.onExpand !== undefined,
+    expanded,
     id,
+    layout,
     state,
   })
 
-  const render = () => {
+  const runRender = () => {
+    pendingFrame = undefined
+    if (destroyed) return
+
     definition.syncControls(figure, state)
     definition.render(figure, state)
+  }
+  const renderNow = () => {
+    if (destroyed) return
+
+    if (pendingFrame !== undefined) {
+      cancelAnimationFrame(pendingFrame)
+      pendingFrame = undefined
+    }
+    runRender()
+  }
+  const scheduleRender = () => {
+    if (destroyed || pendingFrame !== undefined) return
+
+    pendingFrame = requestAnimationFrame(runRender)
   }
   const resampleButton = figure.querySelector<HTMLButtonElement>(".interactive-figure-resample")
   const expandButton = figure.querySelector<HTMLButtonElement>(".interactive-figure-expand")
   const resizeTarget = figure.querySelector<HTMLElement>(resizeTargetSelector)
   const resample = () => {
     definition.resample?.(state)
-    render()
+    scheduleRender()
   }
   const expand = () => options.onExpand?.(controller)
   const expandFromFigure = (event: MouseEvent) => {
@@ -118,30 +166,42 @@ function createInteractiveFigure<State extends object>(
   definition.bindControls?.({
     addCleanup,
     figure,
-    render,
+    render: scheduleRender,
+    renderNow,
+    scheduleRender,
     state,
   })
 
-  const observer = new ResizeObserver(render)
+  const observer = new ResizeObserver(scheduleRender)
   if (resizeTarget) observer.observe(resizeTarget)
   addCleanup(() => observer.disconnect())
 
   controller = {
     definition,
     destroy: () => {
+      if (destroyed) return
+
+      destroyed = true
+      if (pendingFrame !== undefined) {
+        cancelAnimationFrame(pendingFrame)
+        pendingFrame = undefined
+      }
       for (const dispose of disposers) dispose()
       controllers.delete(figure)
     },
     figure,
-    render,
+    layout,
+    render: scheduleRender,
+    renderNow,
+    scheduleRender,
     state,
     syncFrom: (nextState: object) => {
       Object.assign(state, definition.cloneState(nextState as State))
-      render()
+      scheduleRender()
     },
   }
   controllers.set(figure, controller)
-  requestAnimationFrame(render)
+  scheduleRender()
 
   if (options.useGlobalCleanup !== false) {
     window.addCleanup(controller.destroy)
@@ -197,8 +257,9 @@ function openInteractiveLightbox(sourceController: AnyFigureController) {
     </button>
     <div class="interactive-figure-lightbox-frame" role="dialog" aria-modal="true">
       <figure
-        class="side-figure interactive-figure"
+        class="interactive-figure"
         data-interactive-figure="${definition.type}"
+        data-figure-layout="modal"
         ${stateAttributes(definition, sourceController.state).join("\n        ")}
       ></figure>
     </div>
@@ -230,6 +291,7 @@ function openInteractiveLightbox(sourceController: AnyFigureController) {
   if (modalFigure) {
     const modalController = createInteractiveFigure(modalFigure, definition, {
       expanded: true,
+      layout: "modal",
       useGlobalCleanup: false,
     })
     modalController.syncFrom(sourceController.state)

@@ -1,0 +1,104 @@
+.gaussian-histogram-plot {
+  width: 100%;
+  min-height: 10.8rem;
+}
+
+.interactive-figure[data-figure-layout="inline"] .gaussian-histogram-plot,
+.interactive-figure[data-figure-layout="modal"] .gaussian-histogram-plot {
+  min-height: 0;
+}
+
+.interactive-figure[data-figure-layout="side"].is-expanded .gaussian-histogram-plot,
+.interactive-figure[data-figure-layout="modal"].is-expanded .gaussian-histogram-plot {
+  min-height: min(50vh, 27rem);
+}
+
+.gaussian-histogram-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.gaussian-histogram-axis text {
+  font-family: var(--headerFont);
+  font-size: 0.58rem;
+}
+
+.interactive-figure[data-figure-layout="modal"] .gaussian-histogram-axis text {
+  font-size: 0.72rem;
+}
+
+.gaussian-histogram-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.68rem;
+  margin-top: 0.02rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+  line-height: 1;
+}
+
+.gaussian-histogram-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.26rem;
+}
+
+.gaussian-histogram-legend i {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0;
+  border-top: 2px solid var(--chart-true);
+}
+
+.gaussian-histogram-legend i.is-samples {
+  border-top-color: var(--chart-hist-stroke);
+}
+
+.gaussian-histogram-legend i.is-fit {
+  border-top-color: var(--chart-fit);
+  border-top-style: dashed;
+}
+
+.gaussian-histogram-stats {
+  margin-top: 0.34rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.6rem;
+  line-height: 1.25;
+  white-space: nowrap;
+}
+
+.lognormal-parameter-slider {
+  margin-top: 0.22rem;
+}
+
+.gaussian-histogram-tooltip {
+  position: absolute;
+  z-index: 5;
+  min-width: 8.4rem;
+  padding: 0.38rem 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--line) 74%, transparent);
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: 0 12px 28px rgba(18, 20, 24, 0.16);
+  color: var(--darkgray);
+  font-family: var(--headerFont);
+  font-size: 0.68rem;
+  line-height: 1.25;
+  pointer-events: none;
+  transform: translate(0.65rem, calc(-100% - 0.45rem));
+  backdrop-filter: blur(12px) saturate(140%);
+}
+
+.gaussian-histogram-tooltip strong,
+.gaussian-histogram-tooltip span {
+  display: block;
+}
+
+.gaussian-histogram-tooltip strong {
+  color: var(--dark);
+  font-weight: 700;
+}
