@@ -20,7 +20,7 @@
 }
 
 .page > #quartz-body .page-header {
-  margin: 4rem 0 2.5rem;
+  margin: 5.25rem 0 2.5rem;
 }
 
 header {
@@ -254,10 +254,21 @@ body[data-slug="index"] article > ul > li > a {
     top: 0;
     z-index: 20;
     width: calc(100vw - 2rem);
+    height: 4.25rem;
+    min-height: 0;
+    padding: 0;
+    align-items: center;
+    justify-content: flex-start;
     border-right: 0;
     border-bottom: 1px solid var(--line);
     background: color-mix(in srgb, var(--light) 88%, transparent);
     backdrop-filter: blur(12px);
+  }
+
+  .page > #quartz-body .sidebar.left > .flex-component:has(.home-button) {
+    align-items: center;
+    height: auto;
+    margin-top: -0.08rem;
   }
 
   .page > #quartz-body .sidebar.left > .spacer.mobile-only {
@@ -269,7 +280,7 @@ body[data-slug="index"] article > ul > li > a {
   }
 
   .page > #quartz-body .page-header {
-    margin: 2rem 0 1.75rem;
+    margin: 2.75rem 0 1.75rem;
   }
 
   header {
