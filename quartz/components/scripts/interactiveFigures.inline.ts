@@ -1,9 +1,9 @@
 import { registerInteractiveFigure, setupInteractiveFigures } from "./interactive-figures/core"
-import { boxMullerTransformFigure } from "./interactive-figures/boxMullerTransform"
+import { changeOfVariablesIntuitionFigure } from "./interactive-figures/changeOfVariablesIntuition"
 import { gaussianSampleFigure } from "./interactive-figures/gaussianSample"
 import { logNormalDensityFigure } from "./interactive-figures/logNormalDensity"
 
-registerInteractiveFigure(boxMullerTransformFigure)
+registerInteractiveFigure(changeOfVariablesIntuitionFigure)
 registerInteractiveFigure(gaussianSampleFigure)
 registerInteractiveFigure(logNormalDensityFigure)
 

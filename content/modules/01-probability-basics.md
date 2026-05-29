@@ -137,6 +137,17 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 >
 > ◻
 
+> [!info]- Intuition
+> Think of the formula as conservation of probability mass. A tiny interval around $\omega_0$ has mass approximately $p_\omega(\omega_0)\,{\rm d}\omega$. After the map $x=T(\omega)$, that same mass occupies an interval of width ${\rm d}x\approx |T'(\omega_0)|\,{\rm d}\omega$. If the map stretches space, the mass is spread over more room and the density drops; if it compresses space, the density rises.
+>
+> <figure
+>   class="interactive-figure figure-wide"
+>   data-interactive-figure="change-of-variables-intuition"
+>   data-transform="exp"
+>   data-omega="0.6"
+>   data-width="0.36"
+> ></figure>
+
 > [!remark] Remark
 > Let $x = T(z)$, we have $\nabla T^{-1}(x) = (\nabla T(z))^{-1}$, where the first inverse is function inverse, and second is matrix inverse, and hence $\det(\nabla T^{-1}(x)) = 1/\det(\nabla T(z))$.
 
@@ -155,14 +166,9 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 > [!example|Box-Muller Transform]
 > To generate samples from $\mathcal{N}(0,1)$, we can use the Box-Muller transform. Let $U_1, U_2 \sim \text{Uniform}(0,1)$ be independent, then: $$Z_1 = \sqrt{-2\log U_1} \cos(2\pi U_2), \quad Z_2 = \sqrt{-2\log U_1} \sin(2\pi U_2)$$ are independent $\mathcal{N}(0,1)$ random variables.
 >
-> The intuition is easiest in polar coordinates: $2\pi U_2$ chooses a uniform angle, giving rotational symmetry, while $R = \sqrt{-2\log U_1}$ chooses the radius with radial CDF $\mathbb{P}(R \le r) = 1 - e^{-r^2/2}$, matching the radius of a two-dimensional standard Gaussian. Converting $(R,\theta)$ back to Cartesian coordinates gives the two normal coordinates above.
-
-<figure
-  class="interactive-figure"
-  data-interactive-figure="box-muller-transform"
-  data-n="800"
-  data-bins="24"
-></figure>
+> > [!info]- Intuition
+> >
+> > In polar coordinates, $2\pi U_2$ gives a uniform angle, so the cloud is rotationally symmetric; the radius $R = \sqrt{-2\log U_1}$ has CDF $\mathbb{P}(R \le r) = 1 - e^{-r^2/2}$, matching the radial distribution of a two-dimensional standard Gaussian; converting $(R,\theta)$ back to Cartesian coordinates gives the two normal coordinates.
 
 ### Density Reweighting
 
