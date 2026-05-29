@@ -154,6 +154,8 @@ The factor $\left|\det(\nabla T^{-1}(x))\right|$ accounts for how the transforma
 
 > [!example|Box-Muller Transform]
 > To generate samples from $\mathcal{N}(0,1)$, we can use the Box-Muller transform. Let $U_1, U_2 \sim \text{Uniform}(0,1)$ be independent, then: $$Z_1 = \sqrt{-2\log U_1} \cos(2\pi U_2), \quad Z_2 = \sqrt{-2\log U_1} \sin(2\pi U_2)$$ are independent $\mathcal{N}(0,1)$ random variables.
+>
+> The intuition is easiest in polar coordinates: $2\pi U_2$ chooses a uniform angle, giving rotational symmetry, while $R = \sqrt{-2\log U_1}$ chooses the radius with radial CDF $\mathbb{P}(R \le r) = 1 - e^{-r^2/2}$, matching the radius of a two-dimensional standard Gaussian. Converting $(R,\theta)$ back to Cartesian coordinates gives the two normal coordinates above.
 
 <figure
   class="interactive-figure"

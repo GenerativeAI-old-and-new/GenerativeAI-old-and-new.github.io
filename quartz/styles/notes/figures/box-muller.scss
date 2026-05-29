@@ -28,19 +28,17 @@
 }
 
 .box-muller-panel-label,
-.box-muller-mini-label,
-.box-muller-formula {
+.box-muller-mini-label {
   fill: var(--dark);
   font-family: var(--headerFont);
   font-weight: 700;
 }
 
 .box-muller-panel-label {
-  font-size: 0.68rem;
+  font-size: 0.64rem;
 }
 
-.box-muller-mini-label,
-.box-muller-formula {
+.box-muller-mini-label {
   font-size: 0.62rem;
 }
 
@@ -63,9 +61,16 @@
 .box-muller-plane-ring,
 .box-muller-plane-axis,
 .box-muller-arrow,
+.box-muller-guide,
 .box-muller-radius-line,
 .box-muller-angle-arc {
   fill: none;
+}
+
+.box-muller-wheel {
+  fill: color-mix(in srgb, var(--chart-hist) 14%, transparent);
+  stroke: color-mix(in srgb, var(--chart-grid) 88%, var(--line));
+  stroke-width: 1.1;
 }
 
 .box-muller-plane-ring {
@@ -73,7 +78,19 @@
 }
 
 .box-muller-arrow {
+  opacity: 0.74;
   stroke-width: 1.2;
+}
+
+.box-muller-radius-curve {
+  stroke-linecap: round;
+  stroke-width: 1.7;
+}
+
+.box-muller-guide {
+  stroke: color-mix(in srgb, var(--chart-true) 70%, transparent);
+  stroke-dasharray: 3 4;
+  stroke-width: 1.1;
 }
 
 .box-muller-radius-line,
