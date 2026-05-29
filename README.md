@@ -1,6 +1,6 @@
-# Math Notes Quartz Template
+# Generative AI: Old and New
 
-This repository is a Quartz-based template for math-intensive notes, lecture notes, and technical blogs. It keeps the current course notes as example content and publishes at <https://generativeai-old-and-new.github.io/>.
+This repository publishes the Generative AI: Old and New notes at <https://generativeai-old-and-new.github.io/>. It is maintained by Runlong Liao <liaorlmn@gmail.com> and uses Quartz as the site generator for math-intensive notes, lecture notes, and technical blogs.
 
 ## Development
 

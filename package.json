@@ -1,15 +1,12 @@
 {
-  "name": "@jackyzha0/quartz",
-  "description": "🌱 publish your digital garden and notes as a website",
+  "name": "generativeai-old-and-new",
+  "description": "Generative AI: Old and New notes and math-intensive technical blog",
   "private": true,
   "version": "4.5.2",
   "type": "module",
-  "author": "jackyzha0 <j.zhao2k19@gmail.com>",
+  "author": "Runlong Liao <liaorlmn@gmail.com>",
   "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jackyzha0/quartz.git"
-  },
+  "homepage": "https://generativeai-old-and-new.github.io/",
   "scripts": {
     "quartz": "./quartz/bootstrap-cli.mjs",
     "dev": "npx quartz build --serve",
