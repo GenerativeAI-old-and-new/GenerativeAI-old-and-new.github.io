@@ -1,0 +1,177 @@
+.inverse-cdf-plot {
+  min-height: 25rem;
+}
+
+.inverse-cdf-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.inverse-cdf-cdf-line,
+.inverse-cdf-density-line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.inverse-cdf-cdf-line {
+  stroke: var(--cov-source);
+  stroke-width: 2.35;
+}
+
+.inverse-cdf-density-line {
+  stroke: var(--cov-target);
+  stroke-width: 2.15;
+}
+
+.inverse-cdf-density-area {
+  stroke: none;
+}
+
+.inverse-cdf-density-area.is-full {
+  fill: color-mix(in srgb, var(--cov-target) 16%, transparent);
+}
+
+.inverse-cdf-density-area.is-selected {
+  fill: color-mix(in srgb, var(--cov-mass) 48%, transparent);
+}
+
+.inverse-cdf-guide {
+  stroke: color-mix(in srgb, var(--cov-mass) 86%, var(--dark));
+  stroke-dasharray: 4 3;
+  stroke-linecap: round;
+  stroke-width: 1.35;
+}
+
+.inverse-cdf-guide.is-arrow {
+  stroke-dasharray: none;
+}
+
+.inverse-cdf-arrow-marker {
+  fill: color-mix(in srgb, var(--cov-mass) 86%, var(--dark));
+}
+
+.inverse-cdf-u-point,
+.inverse-cdf-curve-point {
+  stroke: var(--surface);
+  stroke-width: 1.35;
+}
+
+.inverse-cdf-u-point {
+  fill: var(--cov-mass);
+}
+
+.inverse-cdf-curve-point {
+  fill: var(--cov-source);
+}
+
+.inverse-cdf-grid line {
+  stroke: var(--chart-grid);
+}
+
+.inverse-cdf-grid .domain {
+  display: none;
+}
+
+.inverse-cdf-axis path,
+.inverse-cdf-axis line {
+  stroke: var(--chart-axis);
+}
+
+.inverse-cdf-axis text,
+.inverse-cdf-panel-label,
+.inverse-cdf-step-label {
+  font-family: var(--headerFont);
+}
+
+.inverse-cdf-axis text {
+  fill: var(--chart-axis);
+  font-size: 0.58rem;
+}
+
+.inverse-cdf-panel-label {
+  fill: var(--dark);
+  font-size: 0.72rem;
+  font-weight: 750;
+}
+
+.inverse-cdf-step-label {
+  fill: var(--gray);
+  font-size: 0.6rem;
+}
+
+.inverse-cdf-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+  margin-top: 0.34rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.6rem;
+  line-height: 1.2;
+}
+
+.inverse-cdf-readout span {
+  padding: 0.16rem 0.34rem;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  white-space: nowrap;
+}
+
+.inverse-cdf-controls {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.78fr) minmax(0, 1fr);
+  gap: 0.46rem 0.7rem;
+  margin-top: 0.48rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.inverse-cdf-controls label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.inverse-cdf-controls label:first-child {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.inverse-cdf-controls select,
+.inverse-cdf-controls input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.inverse-cdf-controls select {
+  width: 100%;
+  padding: 0.16rem 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--darkgray);
+  font: inherit;
+}
+
+.inverse-cdf-controls output {
+  min-width: 2.3rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .inverse-cdf-plot {
+    min-height: 22rem;
+  }
+
+  .inverse-cdf-controls {
+    grid-template-columns: 1fr;
+  }
+}

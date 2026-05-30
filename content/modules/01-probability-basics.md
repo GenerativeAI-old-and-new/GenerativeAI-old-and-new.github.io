@@ -336,6 +336,15 @@ where $p_0$ is a simple base distribution (typically a standard normal or unifor
 >
 > When $F$ is invertible, we can generate samples from $P$ using the inverse CDF transform: $$X = F^{-1}(U), \quad U \sim \mathtt{Uniform}(0,1),$$ where $F^{-1}$ is the inverse function of $F$.
 >
+> Intuitively, sample a vertical probability level $U$, move horizontally until it hits the CDF curve, and then drop to the $x$-axis. The shaded density area to the left of the returned $x$ is exactly $U$.
+>
+> <figure
+>   class="interactive-figure figure-wide"
+>   data-interactive-figure="inverse-cdf-transform"
+>   data-distribution="logistic"
+>   data-u="0.72"
+> ></figure>
+>
 > This elegant relationship between density and sampling breaks down in higher dimensions.
 
 ### The Trade-off Between Representations

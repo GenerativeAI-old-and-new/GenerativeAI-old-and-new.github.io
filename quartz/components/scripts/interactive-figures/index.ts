@@ -3,12 +3,14 @@ import type { AnyFigureDefinition } from "./core"
 import { changeOfVariablesIntuitionFigure } from "./changeOfVariablesIntuition"
 import { distributionLearningDiagramFigure } from "./distributionLearningDiagram"
 import { gaussianSampleFigure } from "./gaussianSample"
+import { inverseCdfTransformFigure } from "./inverseCdfTransform"
 import { logNormalDensityFigure } from "./logNormalDensity"
 
 const builtInInteractiveFigures: AnyFigureDefinition[] = [
   changeOfVariablesIntuitionFigure,
   distributionLearningDiagramFigure,
   gaussianSampleFigure,
+  inverseCdfTransformFigure,
   logNormalDensityFigure,
 ]
 
