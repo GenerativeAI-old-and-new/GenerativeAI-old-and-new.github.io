@@ -8,6 +8,10 @@ publish: true
 
 ## Contents
 
+The site content and visualizations are being actively updated. If you have any
+questions or suggestions, please email
+[liaorl@cs.utexas.edu](mailto:liaorl@cs.utexas.edu).
+
 - [Module 1: Probability Basics](/modules/01-probability-basics)
 - [Module 2: Deep Learning Basics](/modules/02-deep-learning-basics)
 - [Module 3: Invertible Models](/modules/03-invertible-models)
