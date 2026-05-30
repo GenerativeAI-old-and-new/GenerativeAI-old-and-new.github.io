@@ -28,7 +28,11 @@ Gradient descent updates the parameters by moving in the direction opposite to t
 
 The learning rate $\epsilon$ controls the step size. If it is too small, convergence is slow; if it is too large, the updates may overshoot or diverge.
 
-![image](/assets/modules/02-deep-learning-basics/gd_sgd.png)
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="optimizer-trajectory"
+  data-case="gd-vs-sgd"
+></figure>
 
 ##### Mini-batch Gradient Descent
 
@@ -56,7 +60,11 @@ Using mini-batches introduces variance and noise in the gradient estimates. Howe
 
 In gradient descent, gradients can vary significantly across iterations; that is, the gradients $g_t$ and $g_{t-1}$ may differ substantially. This variation can result from noise, poor conditioning of the loss landscape, or large step sizes, and may cause the update direction to fluctuate sharply.
 
-![image](/assets/modules/02-deep-learning-basics/gd_momentum.png)
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="optimizer-trajectory"
+  data-case="gd-vs-momentum"
+></figure>
 
 Momentum is a technique used to smooth the gradient across iterations. Instead of directly using the current gradient to update the parameters, momentum computes an exponentially weighted moving average of past gradients:
 
@@ -114,7 +122,11 @@ $$
 
 This is one of the most aggressive normalization approaches, as it forces all coordinates to have equal update magnitude. Consequently, the update depends only on the sign of the gradient or momentum, not its magnitude.
 
-![image](/assets/modules/02-deep-learning-basics/signedGD2.png)
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="optimizer-trajectory"
+  data-case="signed-vs-softsign"
+></figure>
 
 As a trade-off, smoother normalizations can be used, such as a soft variant of the sign function:
 
@@ -153,7 +165,11 @@ Adam can also be interpreted as applying an adaptive scaling factor to softsign 
 
 The adaptive learning rate $\eta_t$ can be interpreted as a measure of gradient agreement across iterations. If the gradients $g_1, \dots, g_t$ are highly inconsistent (e.g., frequently changing sign) along a given coordinate, the magnitude of $m_t$ tends to be small due to cancellation, while $v_t$ remains relatively large. This results in a smaller $\eta_t$, which slows down the update along that coordinate. Therefore, Adam automatically adjusts the step size based on gradient coherence, a key distinction from softsign momentum.
 
-![image](/assets/modules/02-deep-learning-basics/adam.png)
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="optimizer-trajectory"
+  data-case="adam-comparison"
+></figure>
 
 ##### Bias Correction of Adam
 

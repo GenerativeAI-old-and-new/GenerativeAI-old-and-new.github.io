@@ -5,6 +5,7 @@ import { distributionLearningDiagramFigure } from "./distributionLearningDiagram
 import { gaussianSampleFigure } from "./gaussianSample"
 import { inverseCdfTransformFigure } from "./inverseCdfTransform"
 import { logNormalDensityFigure } from "./logNormalDensity"
+import { optimizerTrajectoryFigure } from "./optimizerTrajectory"
 
 const builtInInteractiveFigures: AnyFigureDefinition[] = [
   changeOfVariablesIntuitionFigure,
@@ -12,6 +13,7 @@ const builtInInteractiveFigures: AnyFigureDefinition[] = [
   gaussianSampleFigure,
   inverseCdfTransformFigure,
   logNormalDensityFigure,
+  optimizerTrajectoryFigure,
 ]
 
 export function registerBuiltInInteractiveFigures() {

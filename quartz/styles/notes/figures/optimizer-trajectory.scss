@@ -1,0 +1,305 @@
+.optimizer-trajectory-figure {
+  --optimizer-gd: #202020;
+  --optimizer-sgd: #cf3f3f;
+  --optimizer-momentum: #dd5a2f;
+  --optimizer-sign: #2d63c8;
+  --optimizer-softsign: #0f9c9a;
+  --optimizer-adam: #a33bb4;
+  --optimizer-minimum: #d8b315;
+}
+
+:root[saved-theme="dark"] .optimizer-trajectory-figure {
+  --optimizer-gd: #ece6dc;
+  --optimizer-sgd: #f07b7b;
+  --optimizer-momentum: #f18a5f;
+  --optimizer-sign: #86aaf6;
+  --optimizer-softsign: #62d1cb;
+  --optimizer-adam: #dd8be7;
+  --optimizer-minimum: #f0cf42;
+}
+
+.optimizer-trajectory-plot {
+  min-height: 31rem;
+}
+
+.optimizer-trajectory-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.optimizer-drag-surface {
+  fill: color-mix(in srgb, var(--contour-color) 38%, var(--surface));
+  cursor: crosshair;
+}
+
+.optimizer-contour-fill {
+  fill: color-mix(in srgb, var(--contour-color) 58%, var(--surface));
+  opacity: 1;
+  pointer-events: none;
+  stroke: none;
+}
+
+.optimizer-contour-line {
+  fill: none;
+  stroke: var(--contour-color);
+  stroke-linejoin: round;
+  stroke-width: 0.95;
+  opacity: 0.88;
+  pointer-events: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.optimizer-grid,
+.optimizer-axis,
+.optimizer-loss-axis,
+.optimizer-trajectories,
+.optimizer-minimum,
+.optimizer-start {
+  pointer-events: none;
+}
+
+.optimizer-grid line {
+  stroke: var(--chart-grid);
+  stroke-opacity: 0.46;
+}
+
+.optimizer-grid .domain {
+  display: none;
+}
+
+.optimizer-axis path,
+.optimizer-axis line,
+.optimizer-loss-axis path,
+.optimizer-loss-axis line {
+  stroke: var(--chart-axis);
+}
+
+.optimizer-axis text,
+.optimizer-loss-axis text,
+.optimizer-axis-label,
+.optimizer-panel-label {
+  font-family: var(--headerFont);
+}
+
+.optimizer-axis text,
+.optimizer-loss-axis text {
+  fill: var(--chart-axis);
+  font-size: 0.58rem;
+}
+
+.optimizer-axis-label,
+.optimizer-panel-label {
+  fill: var(--gray);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.optimizer-path,
+.optimizer-loss-line,
+.optimizer-update-arrow {
+  fill: none;
+  stroke: var(--method-color);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.optimizer-path {
+  stroke-width: 2.15;
+}
+
+.optimizer-loss-line {
+  stroke-width: 1.6;
+}
+
+.optimizer-update-arrow {
+  stroke-width: 1.5;
+  opacity: 0.72;
+}
+
+.optimizer-step,
+.optimizer-final {
+  fill: var(--method-color);
+  stroke: var(--surface);
+  stroke-width: 1;
+}
+
+.optimizer-final {
+  stroke-width: 1.4;
+}
+
+.optimizer-arrow-marker {
+  fill: var(--method-color);
+}
+
+.optimizer-minimum {
+  fill: var(--optimizer-minimum);
+  stroke: color-mix(in srgb, var(--optimizer-minimum) 72%, var(--dark));
+  stroke-width: 0.9;
+}
+
+.optimizer-start {
+  fill: var(--surface);
+  stroke: var(--dark);
+  stroke-width: 2;
+}
+
+.optimizer-start-hit {
+  fill: transparent;
+  cursor: grab;
+  pointer-events: all;
+}
+
+.optimizer-start-hit:active {
+  cursor: grabbing;
+}
+
+.optimizer-loss-background {
+  fill: color-mix(in srgb, var(--surface) 72%, transparent);
+  stroke: color-mix(in srgb, var(--line) 54%, transparent);
+}
+
+.optimizer-method-gd {
+  --method-color: var(--optimizer-gd);
+}
+
+.optimizer-method-sgd {
+  --method-color: var(--optimizer-sgd);
+}
+
+.optimizer-method-momentum {
+  --method-color: var(--optimizer-momentum);
+}
+
+.optimizer-method-sign {
+  --method-color: var(--optimizer-sign);
+}
+
+.optimizer-method-softsign {
+  --method-color: var(--optimizer-softsign);
+}
+
+.optimizer-method-adam {
+  --method-color: var(--optimizer-adam);
+}
+
+.optimizer-trajectory-footer {
+  display: grid;
+  gap: 0.42rem;
+  margin-top: 0.38rem;
+}
+
+.optimizer-trajectory-legend,
+.optimizer-trajectory-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem 0.5rem;
+}
+
+.optimizer-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.24rem;
+  color: var(--darkgray);
+  font-family: var(--headerFont);
+  font-size: 0.62rem;
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+.optimizer-legend-item i {
+  display: inline-block;
+  width: 0.62rem;
+  height: 0.18rem;
+  border-radius: 999px;
+  background: var(--method-color);
+}
+
+.optimizer-trajectory-readout {
+  color: var(--gray);
+  font-family: var(--codeFont);
+  font-size: 0.56rem;
+  line-height: 1.25;
+}
+
+.optimizer-start-controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(7rem, 10rem));
+  gap: 0.36rem 0.5rem;
+  align-items: center;
+}
+
+.optimizer-start-controls label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.34rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.62rem;
+}
+
+.optimizer-start-controls input {
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 0.16rem 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--line) 82%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.58rem;
+  line-height: 1.2;
+}
+
+.optimizer-start-controls input:focus-visible {
+  border-color: var(--secondary);
+  outline: none;
+}
+
+.optimizer-trajectory-controls {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.42rem 0.68rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.62rem;
+}
+
+.optimizer-trajectory-controls label {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.38rem;
+  min-width: 0;
+}
+
+.optimizer-trajectory-controls input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.optimizer-trajectory-controls output {
+  min-width: 3.1rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.58rem;
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .optimizer-trajectory-plot {
+    min-height: 25rem;
+  }
+
+  .optimizer-start-controls,
+  .optimizer-trajectory-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .optimizer-trajectory-readout {
+    font-size: 0.53rem;
+  }
+}
