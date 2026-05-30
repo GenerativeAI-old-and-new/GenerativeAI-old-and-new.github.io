@@ -15,16 +15,16 @@ publish: true
 >
 >     $$p(x)=\frac{p_1(x)p_2(x)}{Z},\qquad Z=\int_{\mathbb R} p_1(x)p_2(x)\,\mathrm dx.$$
 >
->     Is $p(x)$ a valid density? If so, which distribution does it correspond to?
+>     Is $p(x)$ a valid density? If so, identify the distribution explicitly, including its parameters.
 >
 > 2.  Let
 >
 >     $$p(x)=\frac12\big(p_1(x)+p_2(x)\big).$$
 >
->     Is $p(x)$ a valid density? If so, which distribution does it correspond to?
+>     Is $p(x)$ a valid density? If so, describe its distributional form. Is it generally a single Gaussian?
 >
-> 3.  Let $X=X_1+X_2$, where $X_1\sim\mathcal N(\mu_1,\sigma_1^2)$ and $X_2\sim\mathcal N(\mu_2,\sigma_2^2)$ are independent. What is the distribution of $X$?
-> 4.  Let $X=Z^2$ where $Z\sim\mathcal N(0,1)$. Derive the density of $X$.
+> 3.  Let $X=X_1+X_2$, where $X_1\sim\mathcal N(\mu_1,\sigma_1^2)$ and $X_2\sim\mathcal N(\mu_2,\sigma_2^2)$ are independent. What is the distribution of $X$? Give its mean and variance.
+> 4.  Let $X=Z^2$ where $Z\sim\mathcal N(0,1)$. Derive the density of $X$ and state its support.
 
 <!--
 > [!solution]- Solution
@@ -130,7 +130,7 @@ publish: true
 >     Q=(1.0,\,0.0,\,0.0).
 >     $$
 >
->     Compute $\operatorname{KL}(P \,\|\, Q)$ and $\operatorname{KL}(Q \,\|\, P)$. (we use the convention that $0\log 0 = 0$, because $\lim_{\epsilon \to 0^+} \epsilon \log \epsilon = 0$).
+>     Compute $\operatorname{KL}(P \,\|\, Q)$ and $\operatorname{KL}(Q \,\|\, P)$. Use the convention that $0\log 0=0$, because $\lim_{\epsilon \to 0^+}\epsilon\log\epsilon=0$, and that $a\log(a/0)=+\infty$ for $a>0$.
 >
 > 3.  For a discrete distribution $R$ on $\Omega$, define $\operatorname{supp}(R):=\{x\in\Omega:\ R(x)>0\}$, which is the set of all elements with positive probability.
 >     1.  Assume $\operatorname{KL}(Q \,\|\, P) < +\infty$, must it be true that $\operatorname{supp}(Q)\subseteq\operatorname{supp}(P)$? Briefly justify.
@@ -267,7 +267,7 @@ publish: true
 >
 > with $\mathrm{NN}_w$ a neural network (e.g. MLP) parameterized by $w$, $\mu\in\mathbb{R}^d$, and $\sigma>0$ a _scalar_ so the Gaussian term is isotropic ($\sigma^2 I_d$). We write $\theta=(w,\mu,\sigma)$; for simplicity, treat $(\mu,\sigma)$ as fixed hyperparameters (e.g. $\mu=\mathbf{0}$, $\sigma=0.1$) unless you wish to tune them manually.
 >
-> You will implement a toy MLE pipeline in $d=2$ and test on the provided dataset (see the starter Colab).
+> You will implement a toy MLE pipeline in $d=2$ and test it on the provided dataset in the starter Colab.
 >
 > <https://colab.research.google.com/drive/1aNetPvIM2LH2PinAKQxVs_Utwpyy4uYn?usp=sharing>
 >
@@ -283,17 +283,21 @@ publish: true
 >
 >     **Task:** Implement Langevin dynamics and qualitatively compare to the grid sampler.
 >
-> 2.  **MLE training.** Define the negative log-likelihood
+> 2.  **MLE training.** Define the average log-likelihood
 >
->     $$-\ell(\theta)=\mathbb{E}_{x\sim \hat P_{\text{data}}}\big[f_\theta(x)\big]-\log Z_\theta,$$
+>     $$\ell(\theta)=\mathbb{E}_{x\sim \hat P_{\text{data}}}\big[f_\theta(x)\big]-\log Z_\theta,$$
 >
->     where $\hat P_{\text{data}}$ is the empirical distribution of the dataset. In the lecture we have shown that
+>     where $\hat P_{\text{data}}$ is the empirical distribution of the dataset. The negative log-likelihood is therefore
+>
+>     $$\mathcal L(\theta)=-\ell(\theta)=-\mathbb{E}_{x\sim \hat P_{\text{data}}}\big[f_\theta(x)\big]+\log Z_\theta.$$
+>
+>     In the lecture we have shown that
 >
 >     $$\nabla_\theta \ell(\theta)=\mathbb{E}_{x\sim \hat P_{\text{data}}}\big[\nabla_\theta f_\theta(x)\big]\;-\;\mathbb{E}_{x\sim p_\theta}\big[\nabla_\theta f_\theta(x)\big].$$
 >
->     **Task:** Implement gradient descent on negative log-likelihood $-\ell(\theta)$:
+>     **Task:** Implement gradient descent on the negative log-likelihood $\mathcal L(\theta)$, equivalently gradient ascent on $\ell(\theta)$:
 >
->     $$\theta_{t+1}\gets \theta_t-\eta\,\widehat{\nabla_\theta -\ell(\theta_t)},$$
+>     $$\theta_{t+1}\gets \theta_t-\eta\,\widehat{\nabla_\theta \mathcal L(\theta_t)},$$
 >
 >     where the model expectation is approximated with samples from your Langevin sampler at current $\theta_t$. Train the model until it fits the toy data well (e.g., samples visually match data).
 
@@ -407,7 +411,7 @@ publish: true
 ## Optional Problem 2
 
 > [!problem|Exponential MLE]
-> Consider a dataset $\{x_i\}_{i=1}^n$ of positive numbers generated from an exponential distribution with density:
+> Consider a dataset $\{x_i\}_{i=1}^n$ of nonnegative numbers generated from an exponential distribution with density:
 >
 > $$p_\theta(x) = \theta \exp(-\theta x), \quad x \geq 0, \theta > 0.$$
 >
