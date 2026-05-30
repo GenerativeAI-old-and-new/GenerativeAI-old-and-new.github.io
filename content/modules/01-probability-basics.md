@@ -532,4 +532,8 @@ This equivalence provides a theoretical foundation for maximum likelihood estima
 >
 > However, the normalization constant $Z_\theta$ is generally intractable to compute exactly, presenting a significant computational challenge that has motivated various approximation methods.
 
+## Homework
+
+[Homework 1: Probability and MLE](/homework/01-probability-basics)
+
 <!-- prettier-ignore-end -->

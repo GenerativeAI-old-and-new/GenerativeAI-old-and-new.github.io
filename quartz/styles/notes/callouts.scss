@@ -20,7 +20,8 @@
   --box-bg: color-mix(in srgb, var(--book-green) 6%, var(--surface));
 }
 
-.callout[data-callout="example"] {
+.callout[data-callout="example"],
+.callout[data-callout="problem"] {
   --color: var(--book-blue);
   --box-bg: color-mix(in srgb, var(--book-blue) 7%, var(--surface));
 }
@@ -42,7 +43,11 @@
   --box-bg: color-mix(in srgb, var(--book-orange) 6%, var(--surface));
 }
 
-.callout[data-callout="solution"],
+.callout[data-callout="solution"] {
+  --color: var(--book-gold);
+  --box-bg: color-mix(in srgb, var(--book-gold) 9%, var(--surface));
+}
+
 .callout[data-callout="success"] {
   --color: var(--book-blue);
   --box-bg: color-mix(in srgb, var(--book-blue) 5%, var(--surface));
@@ -107,6 +112,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -134,6 +140,10 @@
   content: "Solution";
 }
 
+.callout[data-callout="problem"] > .callout-title::before {
+  content: "Problem";
+}
+
 .callout[data-callout="question"] > .callout-title::before {
   content: "Question";
 }
@@ -149,6 +159,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -170,6 +181,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -190,6 +202,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -212,6 +225,26 @@
 .callout-number {
   font-family: var(--headerFont);
   font-weight: 700;
+}
+
+.callout:is([data-callout="example"], [data-callout="problem"])
+  :is(.callout-number, .callout-title-label, .callout-title-punctuation),
+.callout:is([data-callout="example"], [data-callout="problem"]) :is(ol, ul) > li::marker {
+  color: var(--book-blue);
+}
+
+.callout[data-callout="solution"]
+  :is(.callout-number, .callout-title-label, .callout-title-punctuation),
+.callout[data-callout="solution"] :is(ol, ul) > li::marker {
+  color: var(--book-gold);
+}
+
+article .callout:is([data-callout="example"], [data-callout="problem"]) :is(ol, ul) > li::marker {
+  color: var(--book-blue) !important;
+}
+
+article .callout[data-callout="solution"] :is(ol, ul) > li::marker {
+  color: var(--book-gold) !important;
 }
 
 .callout-title-label,
@@ -240,6 +273,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -261,6 +295,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -281,6 +316,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],
@@ -303,6 +339,7 @@
     [data-callout="background"],
     [data-callout="notation"],
     [data-callout="example"],
+    [data-callout="problem"],
     [data-callout="theorem"],
     [data-callout="lemma"],
     [data-callout="proposition"],

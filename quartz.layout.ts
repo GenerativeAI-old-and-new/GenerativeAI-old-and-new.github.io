@@ -1,15 +1,6 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 
-const ExplorerPane = Component.Explorer({
-  title: "Contents",
-  folderClickBehavior: "link",
-  folderDefaultState: "open",
-  useSavedState: false,
-  // filterFn: (n) => !["tags","assets"].includes(n.name),
-  // sortFn: (a,b) => (a.order ?? 1e9) - (b.order ?? 1e9) || a.displayName.localeCompare(b.displayName),
-})
-
 // === 全站共享：页面级脚本和 footer ===
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
@@ -58,11 +49,6 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ConditionalRender({
       component: Component.DesktopOnly(Component.TableOfContents()),
       condition: (page) => page.fileData.slug !== "index",
-    }),
-    // 首页：显示站点“Contents”树（Explorer）
-    Component.ConditionalRender({
-      component: Component.DesktopOnly(ExplorerPane),
-      condition: (page) => page.fileData.slug === "index",
     }),
   ],
   right: [
