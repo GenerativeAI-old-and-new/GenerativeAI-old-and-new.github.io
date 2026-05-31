@@ -22,6 +22,11 @@
   min-height: 31rem;
 }
 
+.interactive-figure[data-figure-layout="modal"].optimizer-trajectory-figure
+  .optimizer-trajectory-plot {
+  min-height: 0;
+}
+
 .optimizer-trajectory-plot svg {
   display: block;
   width: 100%;

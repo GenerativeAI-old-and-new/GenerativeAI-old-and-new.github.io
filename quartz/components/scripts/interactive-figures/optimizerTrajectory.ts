@@ -491,9 +491,14 @@ function renderOptimizer(figure: HTMLElement, state: OptimizerState) {
     right: isCompact ? 18 : 30,
     top: isCompact ? 22 : 28,
   }
-  const mainHeight = isExpanded ? 470 : isCompact ? 278 : 366
-  const lossGap = isCompact ? 38 : 46
-  const lossHeight = isExpanded ? 112 : isCompact ? 70 : 86
+  const lossGap = isExpanded ? 36 : isCompact ? 38 : 46
+  const lossHeight = isExpanded ? 88 : isCompact ? 70 : 86
+  const modalHeightBudget = isExpanded ? clamp(window.innerHeight - 320, 440, 660) : undefined
+  const mainHeight = isExpanded
+    ? Math.max(280, (modalHeightBudget ?? 660) - margin.top - margin.bottom - lossGap - lossHeight)
+    : isCompact
+      ? 278
+      : 366
   const height = margin.top + mainHeight + lossGap + lossHeight + margin.bottom
   const innerWidth = width - margin.left - margin.right
   const lossTop = margin.top + mainHeight + lossGap

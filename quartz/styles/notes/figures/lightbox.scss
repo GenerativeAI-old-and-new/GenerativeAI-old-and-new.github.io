@@ -20,8 +20,11 @@
 }
 
 .interactive-figure-lightbox-frame {
+  box-sizing: border-box;
   width: min(92vw, 1080px);
   max-height: 88vh;
+  overflow: auto;
+  overscroll-behavior: contain;
   padding: clamp(0.55rem, 1.2vw, 0.9rem);
   border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 20px;
@@ -38,6 +41,7 @@
 }
 
 .interactive-figure[data-figure-layout="modal"] {
+  box-sizing: border-box;
   width: 100%;
   max-width: none;
   margin: 0;
