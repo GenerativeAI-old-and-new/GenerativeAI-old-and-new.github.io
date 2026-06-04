@@ -145,7 +145,7 @@ with $\epsilon \geq 0$. When $\epsilon = 0$, this reduces to the standard $\text
 
 ##### Adam Optimizer
 
-The Adam (short for adaptive moment estimation) optimizer combines momentum with adaptive scaling. A simplified version of Adam's update rule is:
+The [Adam optimizer](https://arxiv.org/abs/1412.6980) (short for adaptive moment estimation) combines momentum with adaptive scaling. A simplified version of Adam's update rule is:
 
 $$
 \begin{aligned}
@@ -210,9 +210,31 @@ However, if we initialize $m_0 = g_0$ (using an initial gradient estimate), then
 >
 > In practice, the bias correction becomes less important as $t$ increases, since $1 - \beta_i^t \to 1$ as $t \to \infty$.
 
+## Regularization and Weight Decay
+
+##### The Overfitting Problem
+
+Large neural networks can memorize training data instead of learning generalizable patterns. This leads to excellent training performance but poor validation performance. Regularization is a standard technique to mitigate overfitting by discouraging overly complex models.
+
+##### L2 Regularization and Weight Decay
+
+L2 regularization is one of the most commonly used techniques. It is also known as ridge regression in the context of least squares. It adds a penalty term to the loss function: $$L_{\text{reg}}(\theta) = L(\theta) + \frac{\lambda}{2}\|\theta\|^2.$$
+
+Applying gradient descent to this objective yields: $$\theta_{t+1} = \theta_t - \eta \left(\nabla L(\theta_t) + \lambda \theta_t\right).$$ The term $\lambda\theta_t$ is known as a weight decay. Rewriting this highlights the explicit weight decay effect: $$\theta_{t+1} = (1 - \eta \lambda) \theta_t - \eta \nabla L(\theta_t).$$ It shrinks the parameters toward zero, encouraging smoother models that tend to generalize better.
+
+##### AdamW
+
+For adaptive optimizers like Adam, weight decay should be applied separately from the gradient update. This is implemented in the [AdamW](https://arxiv.org/abs/1711.05101) variant: $$\begin{aligned}
+\theta_{t+1} &= \theta_t - \eta \left(\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \theta_t\right),
+\end{aligned}$$ where $\hat{m}_t$ and $\hat{v}_t$ are the bias-corrected first and second moment estimates, as defined previously.
+
+Note, however, that this is no longer equivalent to minimizing an L2-regularized objective.
+
+This decoupled approach ensures consistent regularization across parameters and often leads to improved generalization performance.
+
 ##### Muon Optimizer
 
-Adam normalizes updates coordinate by coordinate. Muon takes a different view: many important neural network parameters are matrices, such as the weight matrix of a hidden linear layer. Instead of only balancing individual coordinates, Muon tries to balance the update as a matrix.
+Adam normalizes updates coordinate by coordinate. [Muon](https://arxiv.org/abs/2502.16982) takes a different view: many important neural network parameters are matrices, such as the weight matrix of a hidden linear layer. Instead of only balancing individual coordinates, Muon tries to balance the update as a matrix.
 
 The name Muon stands for **MomentUm Orthogonalized by Newton-Schulz**. A simplified version of the update is:
 
@@ -239,28 +261,6 @@ The practical benefit is efficiency. In recent language model training experimen
 The figure is a toy two-dimensional illustration. It treats the two plotted directions as a proxy for singular directions: momentum smooths the update, Adam rescales coordinates, and Muon-like orthogonalization flattens the update scale before applying the step.
 
 In practice, Muon is mainly used for hidden two-dimensional weight matrices. Other parameters, such as embeddings, output heads, biases, gains, and scalar or vector parameters, are usually optimized with AdamW.
-
-## Regularization and Weight Decay
-
-##### The Overfitting Problem
-
-Large neural networks can memorize training data instead of learning generalizable patterns. This leads to excellent training performance but poor validation performance. Regularization is a standard technique to mitigate overfitting by discouraging overly complex models.
-
-##### L2 Regularization and Weight Decay
-
-L2 regularization is one of the most commonly used techniques. It is also known as ridge regression in the context of least squares. It adds a penalty term to the loss function: $$L_{\text{reg}}(\theta) = L(\theta) + \frac{\lambda}{2}\|\theta\|^2.$$
-
-Applying gradient descent to this objective yields: $$\theta_{t+1} = \theta_t - \eta \left(\nabla L(\theta_t) + \lambda \theta_t\right).$$ The term $\lambda\theta_t$ is known as a weight decay. Rewriting this highlights the explicit weight decay effect: $$\theta_{t+1} = (1 - \eta \lambda) \theta_t - \eta \nabla L(\theta_t).$$ It shrinks the parameters toward zero, encouraging smoother models that tend to generalize better.
-
-##### AdamW
-
-For adaptive optimizers like Adam, weight decay should be applied separately from the gradient update. This is implemented in the AdamW variant: $$\begin{aligned}
-\theta_{t+1} &= \theta_t - \eta \left(\frac{\hat{m}_t}{\sqrt{\hat{v}_t} + \epsilon} + \lambda \theta_t\right),
-\end{aligned}$$ where $\hat{m}_t$ and $\hat{v}_t$ are the bias-corrected first and second moment estimates, as defined previously.
-
-Note, however, that this is no longer equivalent to minimizing an L2-regularized objective.
-
-This decoupled approach ensures consistent regularization across parameters and often leads to improved generalization performance.
 
 ---
 
