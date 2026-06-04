@@ -210,6 +210,36 @@ However, if we initialize $m_0 = g_0$ (using an initial gradient estimate), then
 >
 > In practice, the bias correction becomes less important as $t$ increases, since $1 - \beta_i^t \to 1$ as $t \to \infty$.
 
+##### Muon Optimizer
+
+Adam normalizes updates coordinate by coordinate. Muon takes a different view: many important neural network parameters are matrices, such as the weight matrix of a hidden linear layer. Instead of only balancing individual coordinates, Muon tries to balance the update as a matrix.
+
+The name Muon stands for **MomentUm Orthogonalized by Newton-Schulz**. A simplified version of the update is:
+
+$$
+\begin{aligned}
+M_t &= \beta M_{t-1} + (1-\beta)G_t \\
+U_t &\approx \mathrm{Ortho}(M_t) \\
+W_{t+1} &= W_t - \eta U_t,
+\end{aligned}
+$$
+
+where $G_t$ is the gradient of a matrix parameter $W_t$. The first line is momentum, as before. The second line approximately orthogonalizes the momentum matrix. Intuitively, this flattens the singular values of the update, so the update does not over-emphasize a few dominant matrix directions.
+
+If $M_t = P \Sigma Q^\top$ is the singular value decomposition of the momentum matrix, exact orthogonalization would replace $M_t$ by $P Q^\top$. Computing this exactly with SVD is usually too expensive inside every optimizer step. Muon instead uses a few Newton-Schulz iterations, which are based on matrix multiplications and are much more suitable for GPUs.
+
+The practical benefit is efficiency. In recent language model training experiments, Muon often reaches the same validation loss with fewer tokens or fewer training steps than AdamW. Its per-step update can be slightly more expensive than AdamW, but the improved sample efficiency can still reduce the overall training cost. This is why Muon has become interesting for modern LLM pretraining, where optimizer efficiency directly translates into saved GPU time.
+
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="optimizer-trajectory"
+  data-case="muon-comparison"
+></figure>
+
+The figure is a toy two-dimensional illustration. It treats the two plotted directions as a proxy for singular directions: momentum smooths the update, Adam rescales coordinates, and Muon-like orthogonalization flattens the update scale before applying the step.
+
+In practice, Muon is mainly used for hidden two-dimensional weight matrices. Other parameters, such as embeddings, output heads, biases, gains, and scalar or vector parameters, are usually optimized with AdamW.
+
 ## Regularization and Weight Decay
 
 ##### The Overfitting Problem

@@ -16,8 +16,13 @@ import { InteractiveFigureDefinition } from "./core"
 import { readNumber, seededRandom } from "./math"
 import { expandButtonHtml } from "./ui"
 
-type OptimizerCase = "gd-vs-sgd" | "gd-vs-momentum" | "signed-vs-softsign" | "adam-comparison"
-type MethodKey = "gd" | "sgd" | "momentum" | "sign" | "softsign" | "adam"
+type OptimizerCase =
+  | "gd-vs-sgd"
+  | "gd-vs-momentum"
+  | "signed-vs-softsign"
+  | "adam-comparison"
+  | "muon-comparison"
+type MethodKey = "gd" | "sgd" | "momentum" | "sign" | "softsign" | "adam" | "muon"
 
 type Point = {
   x: number
@@ -129,6 +134,22 @@ const optimizerCases: Record<OptimizerCase, OptimizerCaseConfig> = {
     steps: 42,
     title: "Adam in context",
   },
+  "muon-comparison": {
+    betaDefault: 0.9,
+    domainX: [-2.8, 2.75],
+    domainY: [-2.25, 2.25],
+    etaDefault: 0.1,
+    etaRange: [0.04, 0.16],
+    epsilonDefault: 0.12,
+    kx: 0.16,
+    ky: 1.65,
+    methods: ["momentum", "adam", "muon"],
+    minimum: { x: 0, y: 0 },
+    noiseDefault: 0,
+    start: { x: 2, y: 1 },
+    steps: 42,
+    title: "Adam vs Muon",
+  },
 }
 
 const caseKeys = Object.keys(optimizerCases) as OptimizerCase[]
@@ -136,6 +157,7 @@ const methodLabels: Record<MethodKey, string> = {
   adam: "Adam",
   gd: "GD",
   momentum: "Momentum",
+  muon: "Muon",
   sgd: "SGD",
   sign: "Sign",
   softsign: "SoftSign",
@@ -144,6 +166,7 @@ const methodOffsets: Record<MethodKey, number> = {
   adam: 941,
   gd: 17,
   momentum: 313,
+  muon: 1187,
   sgd: 109,
   sign: 577,
   softsign: 733,
@@ -195,6 +218,28 @@ function gradient(point: Point, config: OptimizerCaseConfig): Point {
 function sign(value: number) {
   if (Math.abs(value) < 1e-9) return 0
   return value < 0 ? -1 : 1
+}
+
+function newtonSchulzFlatten(value: number, steps: number) {
+  const magnitude = Math.abs(value)
+  if (magnitude < 1e-9) return 0
+
+  const coefficients = {
+    a: 3.4445,
+    b: -4.775,
+    c: 2.0315,
+  }
+  let singularValue = clamp(magnitude, 0, 1)
+
+  for (let index = 0; index < steps; index++) {
+    const squared = singularValue * singularValue
+    singularValue =
+      coefficients.a * singularValue +
+      coefficients.b * squared * singularValue +
+      coefficients.c * squared * squared * singularValue
+  }
+
+  return sign(value) * singularValue
 }
 
 function gaussianRandom(random: () => number) {
@@ -293,6 +338,26 @@ function simulateMethod(
       update = {
         x: m.x / (Math.sqrt(v.x) + 0.04),
         y: m.y / (Math.sqrt(v.y) + 0.04),
+      }
+    } else if (method === "muon") {
+      m = {
+        x: state.beta * m.x + (1 - state.beta) * g.x,
+        y: state.beta * m.y + (1 - state.beta) * g.y,
+      }
+      const scale = Math.max(Math.abs(m.x), Math.abs(m.y), 1e-7)
+      const nsSteps = Math.max(1, Math.round(1 + 4 * state.adaptivity))
+      const flattened = {
+        x: newtonSchulzFlatten(m.x / scale, nsSteps),
+        y: newtonSchulzFlatten(m.y / scale, nsSteps),
+      }
+      const momentumUpdate = {
+        x: m.x / Math.max(1 - state.beta, 0.04),
+        y: m.y / Math.max(1 - state.beta, 0.04),
+      }
+      const orthogonalization = 0.25 + 0.45 * state.adaptivity
+      update = {
+        x: (1 - orthogonalization) * momentumUpdate.x + orthogonalization * flattened.x,
+        y: (1 - orthogonalization) * momentumUpdate.y + orthogonalization * flattened.y,
       }
     }
 

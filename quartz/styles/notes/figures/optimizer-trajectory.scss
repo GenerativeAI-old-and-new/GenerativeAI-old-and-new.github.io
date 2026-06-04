@@ -5,6 +5,7 @@
   --optimizer-sign: #2d63c8;
   --optimizer-softsign: #0f9c9a;
   --optimizer-adam: #a33bb4;
+  --optimizer-muon: #2f8a3d;
   --optimizer-minimum: #d8b315;
 }
 
@@ -15,6 +16,7 @@
   --optimizer-sign: #86aaf6;
   --optimizer-softsign: #62d1cb;
   --optimizer-adam: #dd8be7;
+  --optimizer-muon: #74cf83;
   --optimizer-minimum: #f0cf42;
 }
 
@@ -187,6 +189,10 @@
 
 .optimizer-method-adam {
   --method-color: var(--optimizer-adam);
+}
+
+.optimizer-method-muon {
+  --method-color: var(--optimizer-muon);
 }
 
 .optimizer-trajectory-footer {
