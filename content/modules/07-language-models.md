@@ -94,6 +94,12 @@ $$
 
 - Key: All logits in a sentence can be calculated in parallel during training.
 
-_TikZ diagram omitted; see source notes for the original figure._
+```mermaid
+flowchart LR
+    Tokens["tokens w1 ... wn"] --> Embed["token + position embeddings"]
+    Embed --> Blocks["causal GPT blocks"]
+    Blocks --> Head["linear head"]
+    Head --> Logits["logits for all positions"]
+```
 
 <!-- prettier-ignore-end -->

@@ -276,7 +276,27 @@ The learning problem is then formulated as an optimization task: find the parame
 
 This formulation highlights the interplay between three key elements: the choice of function class (the architecture of the neural network), the loss function that reflects the task objective, and the optimization procedure used to adjust $\theta$. Together, they form the foundation of modern neural network training.
 
-_TikZ diagram omitted; see source notes for the original figure._
+<figure class="compact-concept-figure" aria-label="A target function is approximated by the best candidate inside a hypothesis class.">
+  <svg viewBox="0 0 520 150" role="img">
+    <defs>
+      <marker id="function-approx-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path class="compact-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+      </marker>
+    </defs>
+    <rect class="compact-node compact-target" x="18" y="54" width="108" height="48" rx="6"></rect>
+    <text x="72" y="73" text-anchor="middle">target</text>
+    <text x="72" y="92" text-anchor="middle">f*</text>
+    <rect class="compact-region" x="275" y="18" width="228" height="114" rx="8"></rect>
+    <text class="compact-muted" x="389" y="38" text-anchor="middle">hypothesis class { f_theta }</text>
+    <rect class="compact-node compact-best" x="306" y="58" width="84" height="38" rx="6"></rect>
+    <text x="348" y="78" text-anchor="middle">f_hat</text>
+    <circle class="compact-dot" cx="430" cy="62" r="5"></circle>
+    <circle class="compact-dot" cx="452" cy="100" r="5"></circle>
+    <circle class="compact-dot" cx="322" cy="112" r="5"></circle>
+    <line class="compact-dash" x1="126" y1="78" x2="306" y2="78" marker-end="url(#function-approx-arrow)"></line>
+    <text class="compact-muted" x="216" y="65" text-anchor="middle">approximation error</text>
+  </svg>
+</figure>
 
 ## From Linear to Nonlinear: Building Neural Networks
 
@@ -284,7 +304,24 @@ The simplest parametric model is the **linear function**: $$f_\theta(x) = w^\top
 
 However, despite these advantages, linear models have limited expressivity. They can only capture relationships that are linear in the input space, meaning they are fundamentally incapable of representing curved decision boundaries or complex nonlinear structures. This limitation makes them insufficient for most modern machine learning tasks, such as image recognition or natural language processing, where data exhibits intricate nonlinear dependencies.
 
-_TikZ diagram omitted; see source notes for the original figure._
+<figure class="compact-concept-figure compact-concept-figure-narrow" aria-label="A linear model maps input x to output y through an affine function.">
+  <svg viewBox="0 0 420 105" role="img">
+    <defs>
+      <marker id="linear-model-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+        <path class="compact-arrowhead" d="M 0 0 L 10 5 L 0 10 z"></path>
+      </marker>
+    </defs>
+    <rect class="compact-node compact-target" x="20" y="34" width="72" height="36" rx="6"></rect>
+    <text x="56" y="54" text-anchor="middle">input x</text>
+    <rect class="compact-node compact-best" x="153" y="25" width="116" height="54" rx="6"></rect>
+    <text x="211" y="45" text-anchor="middle">linear map</text>
+    <text x="211" y="63" text-anchor="middle">w^T x + b</text>
+    <rect class="compact-node compact-target" x="328" y="34" width="72" height="36" rx="6"></rect>
+    <text x="364" y="54" text-anchor="middle">output y</text>
+    <line class="compact-flow" x1="92" y1="52" x2="153" y2="52" marker-end="url(#linear-model-arrow)"></line>
+    <line class="compact-flow" x1="269" y1="52" x2="328" y2="52" marker-end="url(#linear-model-arrow)"></line>
+  </svg>
+</figure>
 
 To overcome this limitation, we introduce **neural networks**, which generalize linear models by combining linear transformations with nonlinear activation functions. A single-layer neural network, also known as a shallow network, can be expressed as $$f_\theta(x) = \sum_{i=1}^N a_i \, \sigma(w_i^\top x + b_i),$$ where $\sigma$ denotes a nonlinear activation function such as the rectified linear unit (ReLU), the sigmoid, or the hyperbolic tangent ($\tanh$). Each term in the summation corresponds to a neuron: a linear projection of the input followed by a nonlinear transformation, scaled by an output weight $a_i$.
 

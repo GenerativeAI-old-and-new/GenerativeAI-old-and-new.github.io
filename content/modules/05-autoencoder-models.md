@@ -14,7 +14,13 @@ We start with introducing the idea of autoencoders, which is general idea of usi
 
 ### Autoencoders: Non-Generative
 
-_TikZ diagram omitted; see source notes for the original figure._
+```mermaid
+flowchart LR
+    X["input X"] --> Encoder["encoder E_phi"]
+    Encoder --> Z["latent code Z"]
+    Z --> Decoder["decoder D_theta"]
+    Decoder --> Xhat["reconstruction X_hat"]
+```
 
 _Structure of an autoencoder. The encoder (left) compresses input data $X$ into a latent code $Z$, and the decoder (right) reconstructs $\hat X$ from it._
 
