@@ -434,27 +434,6 @@ In self-attention, every element serves simultaneously as a query and as a refer
 
 - **Rich information exchange.** Attention weights form data-driven routing of information across elements, allowing the model to emphasize salient interactions while suppressing irrelevant ones.
 
-## Language Models
-
-Language models apply self-attention to sequences of tokens. Consider the sentence $$\text{``The cat sat on the mat.''}$$ We index tokens as $(1,\text{``The''}), (2,\text{``cat''}), (3,\text{``sat''}), \ldots$ and map both words and positions into vectors in $\mathbb{R}^d$. Inputs are typically formed by a sum of embeddings: $$x_i \;=\; \text{embedding}(\text{position}_i) \;+\; \text{embedding}(\text{word}_i).$$ The resulting sequence $\{x_i\}_{i=1}^L$ is processed by alternating layers of self-attention and position-wise MLPs: $$y \;=\; \text{MLP}\!\big(\text{SelfAttention}(\cdots \text{MLP}(\text{SelfAttention}(\{x_i\})))\big).$$ Position embeddings supply order information that self-attention alone does not encode. In autoregressive models, a causal mask guarantees that token $i$ only attends to positions $\le i$, aligning the computation with left-to-right generation.
-
-## More Details on Transformer-Based LMs
-
-- **Token-wise MLPs.** The MLP layers act independently on each token's hidden state (shared parameters across positions), providing nonlinear mixing of channel dimensions complementary to the cross-token mixing of attention.
-
-- **Residual connections.** Additive shortcuts are used throughout the stack to preserve gradient flow and allow layers to learn residual refinements of the representation.
-
-- **Layer normalization.** Normalization stabilizes optimization by reducing covariate shift within layers: $$\text{LayerNorm}(x) = a \cdot \frac{x - \text{mean}(x)}{\text{std}(x)} + b,$$ with trainable scale $a$ and bias $b$. It is applied at fixed points of the block (before/after sublayers) to keep activations in a favorable range.
-
-- **Positional encodings.** A common choice is sinusoidal position embeddings, $$\text{embedding}(pos)
-          \;=\; \big[(\cos(\omega_k\, pos),\, \sin(\omega_k\, pos))\big]_{k=1}^{d_{\text{embd}}},$$ which provide a deterministic, smooth encoding of order and relative offsets. (Other encodings are possible; here we focus on the sinusoidal case for clarity.)
-
-- **Input composition.** Inputs are typically the sum of word and position embeddings rather than their concatenation, keeping the model width fixed while allowing both content and order information to coexist in each token vector.
-
-- **Causal masking.** In autoregressive LMs (e.g., GPT-style), a strictly triangular attention mask enforces that token $i$ cannot attend to positions $> i$, ensuring the factorization needed for left-to-right likelihood and generation.
-
-Overall, the attention mechanism provides content-adaptive aggregation; multi-head attention diversifies this aggregation across subspaces; self-attention enables all-to-all interaction within a layer; and positional information plus masking specialize the same machinery to the sequential constraints of language modeling. Together with residual connections, layer normalization, and token-wise MLPs, these components form the core computational pattern of Transformer-based LMs. "'
-
 ## Homework
 
 [Homework 2: Optimization and Neural Networks](/homework/02-optimization)
