@@ -1,0 +1,279 @@
+.universal-approximation-figure {
+  --ua-target: #9f3d46;
+  --ua-linear: #786f65;
+  --ua-network: #247a58;
+  --ua-error: rgba(36, 122, 88, 0.18);
+  --ua-hidden: #2c5f9e;
+  --ua-probe: #d09a27;
+}
+
+:root[saved-theme="dark"] .universal-approximation-figure {
+  --ua-target: #e48b94;
+  --ua-linear: #c9beb0;
+  --ua-network: #8bcfa8;
+  --ua-error: rgba(139, 207, 168, 0.2);
+  --ua-hidden: #8ab7f2;
+  --ua-probe: #e0b766;
+}
+
+.universal-approximation-plot {
+  min-height: 27rem;
+}
+
+.interactive-figure[data-figure-layout="modal"].universal-approximation-figure
+  .universal-approximation-plot {
+  min-height: 0;
+}
+
+.universal-approximation-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.universal-approximation-panel-bg,
+.universal-approximation-lens-bg {
+  fill: color-mix(in srgb, var(--surface) 72%, transparent);
+  stroke: color-mix(in srgb, var(--line) 58%, transparent);
+}
+
+.universal-approximation-grid line {
+  stroke: var(--chart-grid);
+  stroke-opacity: 0.5;
+}
+
+.universal-approximation-grid .domain {
+  display: none;
+}
+
+.universal-approximation-axis path,
+.universal-approximation-axis line,
+.universal-approximation-lens-axis path,
+.universal-approximation-lens-axis line {
+  stroke: var(--chart-axis);
+}
+
+.universal-approximation-axis text,
+.universal-approximation-lens-axis text,
+.universal-approximation-panel-label,
+.universal-approximation-lens-label {
+  font-family: var(--headerFont);
+}
+
+.universal-approximation-axis text,
+.universal-approximation-lens-axis text {
+  fill: var(--chart-axis);
+  font-size: 0.58rem;
+}
+
+.universal-approximation-panel-label,
+.universal-approximation-lens-label {
+  fill: var(--gray);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.universal-approximation-error-area {
+  fill: var(--ua-error);
+  pointer-events: none;
+}
+
+.universal-approximation-target-line,
+.universal-approximation-linear-line,
+.universal-approximation-network-line,
+.universal-approximation-hidden-unit {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+}
+
+.universal-approximation-target-line {
+  stroke: var(--ua-target);
+  stroke-width: 2.35;
+}
+
+.universal-approximation-linear-line {
+  stroke: var(--ua-linear);
+  stroke-dasharray: 6 5;
+  stroke-width: 1.85;
+}
+
+.universal-approximation-network-line {
+  stroke: var(--ua-network);
+  stroke-width: 2.45;
+}
+
+.universal-approximation-probe-line {
+  stroke: color-mix(in srgb, var(--ua-probe) 72%, transparent);
+  stroke-dasharray: 4 4;
+  stroke-width: 1.2;
+  pointer-events: none;
+}
+
+.universal-approximation-probe-error {
+  stroke: var(--ua-probe);
+  stroke-width: 2;
+  pointer-events: none;
+}
+
+.universal-approximation-probe-target,
+.universal-approximation-probe-network {
+  stroke: var(--surface);
+  stroke-width: 1.35;
+  pointer-events: none;
+}
+
+.universal-approximation-probe-target {
+  fill: var(--ua-target);
+}
+
+.universal-approximation-probe-network {
+  fill: var(--ua-network);
+}
+
+.universal-approximation-probe-surface {
+  fill: transparent;
+  cursor: crosshair;
+  pointer-events: all;
+}
+
+.universal-approximation-lens-zero {
+  stroke: color-mix(in srgb, var(--chart-axis) 46%, transparent);
+  stroke-dasharray: 4 4;
+  stroke-width: 1;
+}
+
+.universal-approximation-hidden-unit {
+  stroke: var(--ua-hidden);
+  stroke-width: 1.15;
+}
+
+.universal-approximation-footer {
+  display: grid;
+  gap: 0.42rem;
+  margin-top: 0.38rem;
+}
+
+.universal-approximation-legend,
+.universal-approximation-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem 0.5rem;
+}
+
+.universal-approximation-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.24rem;
+  color: var(--darkgray);
+  font-family: var(--headerFont);
+  font-size: 0.62rem;
+  font-weight: 650;
+  line-height: 1.1;
+}
+
+.universal-approximation-legend-item i {
+  display: inline-block;
+  width: 0.92rem;
+  height: 0.16rem;
+  border-radius: 999px;
+  background: var(--legend-color);
+}
+
+.universal-approximation-legend-linear i {
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ua-linear) 0 0.22rem,
+    transparent 0.22rem 0.36rem
+  );
+}
+
+.universal-approximation-legend-target {
+  --legend-color: var(--ua-target);
+}
+
+.universal-approximation-legend-network {
+  --legend-color: var(--ua-network);
+}
+
+.universal-approximation-readout span {
+  padding: 0.17rem 0.38rem;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.6rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.universal-approximation-controls {
+  display: grid;
+  grid-template-columns: minmax(9.5rem, 0.8fr) minmax(8rem, 0.7fr) minmax(12rem, 1fr);
+  gap: 0.46rem 0.7rem;
+  margin-top: 0.06rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.universal-approximation-controls label {
+  display: grid;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.universal-approximation-select-control {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.universal-approximation-width-control {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.universal-approximation-controls select,
+.universal-approximation-controls input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.universal-approximation-controls select {
+  width: 100%;
+  padding: 0.16rem 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--darkgray);
+  font: inherit;
+}
+
+.universal-approximation-controls output {
+  min-width: 2.2rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .universal-approximation-plot {
+    min-height: 25rem;
+  }
+
+  .universal-approximation-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .universal-approximation-readout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .universal-approximation-readout span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

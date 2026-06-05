@@ -331,6 +331,16 @@ The introduction of nonlinearity is the key to increasing expressivity. Without 
 
 In this way, neural networks can be seen as building blocks: each layer transforms the input into a new representation, with nonlinearities ensuring that successive layers capture progressively richer patterns. This simple extension beyond linear models forms the foundation of deep learning.
 
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="universal-approximation"
+  data-target="wave"
+  data-width="8"
+  data-activation="relu"
+></figure>
+
+The figure shows a one-dimensional target function $f^*$, the best linear fit, and a shallow neural-network fit $f_\theta$. The lower strip shows the hidden units: each curve is one activated feature, and the output layer combines these features with learned weights to sculpt the final approximation. Here the output weights are fitted directly to highlight representational capacity, so the figure is not simulating gradient descent.
+
 ## Universal Approximation Theorem
 
 > [!theorem] Theorem
