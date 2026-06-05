@@ -384,27 +384,38 @@ The key distinction between shallow and deep models lies not in their theoretica
 
 ### Pros of Depth
 
-- **Hierarchical feature learning.** Deep networks naturally learn representations at multiple levels of abstraction: for example, in vision, from edges and textures to shapes and objects. This compositionality mirrors the structure of many real-world signals.
+- **Composition matches the data.** Real signals are built in layers: pixels become edges, edges become parts, parts become objects; tokens become phrases, phrases become meaning. Depth gives the model the same kind of compositional workspace.
 
-- **Efficient parameter usage.** Certain functions that would require exponentially many neurons in a shallow network can be represented with polynomially many parameters in a deep network. Depth thus provides a powerful mechanism for compact representation.
+- **More expression per parameter.** A shallow network can approximate many functions, but it may need enormous width. A deep network can reuse intermediate features, so small transformations can combine into a very rich function.
 
-- **Better generalization.** Empirically, deeper architectures often generalize well despite their size. This is partly because hierarchical representations capture underlying structures in data, which improve transferability and robustness.
+- **Better inductive bias.** Depth encourages progressively more abstract features. When the task has structure, this often helps the model generalize instead of memorizing every pattern separately.
 
 ### Cons of Depth
 
-- **Vanishing and exploding gradients.** During backpropagation, repeated multiplication through many layers can cause gradients to shrink towards zero or blow up, making optimization unstable.
+- **Harder optimization.** Every extra layer is another transformation that gradients must cross. Without good initialization, normalization, and residual paths, signals can vanish, explode, or become noisy.
 
-- **Degradation problem.** Beyond a certain depth, simply adding more layers does not always improve performance. In fact, deeper models can exhibit higher training error if not carefully designed.
+- **Depth is not automatically useful.** Adding layers only helps if they learn useful refinements. A poorly designed deeper model can train worse than a shallower one.
 
-- **Optimization challenges.** Deep networks are highly non-convex, and training requires sophisticated initialization, normalization, and optimization strategies to converge reliably.
+- **More compute and fragility.** Deeper models usually cost more memory, more latency, and more tuning. Architecture details start to matter a lot.
 
 Colab [Python Notebook](https://colab.research.google.com/drive/1J_UYVNjcfttadYn6Re0KhRvrNbB9sJNM?usp=sharing)
 
 ### Residual Connections (ResNet)
 
-One of the most influential techniques to address these optimization difficulties is the introduction of **residual connections**, popularized by ResNet architectures. A residual block takes the form $$f_i(x) = x + nn_i(x),$$ where $nn_i(x)$ is a small neural sub-network (e.g., a few convolutional layers). The identity shortcut $x \mapsto x$ provides a direct path for information and gradients to flow, reducing the risk of vanishing signals. When $nn_i(x)\approx 0$, the block approximates the identity mapping, ensuring that stacking many such blocks does not harm performance.
+The key idea of [ResNet](https://arxiv.org/abs/1512.03385) is to make each block learn a **correction** to a pass-through signal, rather than learning the whole transformation from scratch. If the desired mapping is $H(x)$, write it as $$H(x) = x + F(x),$$ so the block computes $$y = x + F(x; W).$$ If the input and output dimensions do not match, the shortcut is projected instead: $$y = W_s x + F(x; W).$$
 
-Residual connections thus stabilize training, enable networks with hundreds of layers to be optimized effectively, and have become a cornerstone of modern deep learning architectures across vision, language, and speech.
+<figure class="image-figure">
+  <img src="/assets/modules/02-deep-learning-basics/resnet-block.svg" alt="Residual block diagram showing a main path and an additive shortcut path." />
+  <figcaption>
+    Residual block: the main branch learns F(x), the shortcut carries x, and the block outputs x + F(x). Source: <a href="https://commons.wikimedia.org/wiki/File:ResNet_block.svg">Wikimedia Commons / D2L</a>, CC BY-SA 4.0.
+  </figcaption>
+</figure>
+
+This changes the optimization problem. If an extra block is not useful, it can make $F(x) \approx 0$ and behave like the identity. That is much easier than forcing a stack of nonlinear layers to learn the identity mapping exactly. This is why residual connections address the **degradation problem**: deeper plain networks can have worse training error, while residual networks give depth a safe fallback.
+
+In classic ResNets, $F$ is a small convolutional subnetwork. ResNet-18 and ResNet-34 use a **basic block**: roughly $3\times3$ convolution $\rightarrow$ normalization/ReLU $\rightarrow$ $3\times3$ convolution, then add the shortcut. Deeper versions such as ResNet-50, ResNet-101, and ResNet-152 use a **bottleneck block**: $1\times1$ convolution to reduce channels, $3\times3$ convolution to process spatial structure, then $1\times1$ convolution to restore channels. The shortcut is identity when shapes match, and a learned $1\times1$ projection when resolution or channel count changes.
+
+The practical lesson is that depth works best when each layer only needs to make a useful refinement. Residual blocks preserve an easy path for information and gradients, let layers start near identity, and make very deep networks trainable without asking every block to reinvent the representation.
 
 ## Attention Mechanism
 
