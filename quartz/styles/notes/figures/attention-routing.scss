@@ -1,0 +1,260 @@
+.attention-routing-figure {
+  --ar-query: #2c5f9e;
+  --ar-key: #247a58;
+  --ar-heat: #2c5f9e;
+  --ar-heat-text: #233245;
+  --ar-arc: #d09a27;
+  --ar-output: #9f3d46;
+}
+
+:root[saved-theme="dark"] .attention-routing-figure {
+  --ar-query: #8ab7f2;
+  --ar-key: #8bcfa8;
+  --ar-heat: #8ab7f2;
+  --ar-heat-text: #ecf3fb;
+  --ar-arc: #e0b766;
+  --ar-output: #e48b94;
+}
+
+.attention-routing-plot {
+  min-height: 32rem;
+}
+
+.interactive-figure[data-figure-layout="modal"].attention-routing-figure .attention-routing-plot {
+  min-height: 0;
+}
+
+.attention-routing-plot svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.attention-routing-panel-bg {
+  fill: color-mix(in srgb, var(--surface) 74%, transparent);
+  stroke: color-mix(in srgb, var(--line) 62%, transparent);
+}
+
+.attention-routing-panel-label,
+.attention-routing-row-label,
+.attention-routing-column-label,
+.attention-routing-cell-value,
+.attention-routing-token text,
+.attention-routing-weight-row text,
+.attention-routing-output text {
+  font-family: var(--headerFont);
+}
+
+.attention-routing-panel-label {
+  fill: var(--gray);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.attention-routing-token rect {
+  fill: var(--ar-key);
+  stroke: color-mix(in srgb, var(--ar-key) 64%, var(--line));
+  stroke-width: 1;
+}
+
+.attention-routing-token.is-query rect {
+  fill: var(--ar-query);
+  stroke: var(--ar-query);
+  stroke-width: 1.6;
+}
+
+.attention-routing-token.is-attended:not(.is-query) rect {
+  stroke: color-mix(in srgb, var(--ar-key) 80%, var(--line));
+  stroke-width: 1.45;
+}
+
+.attention-routing-token text {
+  fill: var(--ar-heat-text);
+  font-size: 0.62rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.attention-routing-arc {
+  fill: none;
+  stroke: var(--ar-arc);
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.attention-routing-cell {
+  fill: var(--ar-heat);
+  stroke: color-mix(in srgb, var(--surface) 88%, transparent);
+  stroke-width: 1;
+  cursor: pointer;
+}
+
+.attention-routing-cell.is-masked {
+  fill: var(--gray);
+  stroke-dasharray: 2 2;
+}
+
+.attention-routing-cell.is-selected-row {
+  stroke: color-mix(in srgb, var(--ar-query) 44%, var(--surface));
+}
+
+.attention-routing-cell-value {
+  fill: var(--ar-heat-text);
+  font-size: 0.54rem;
+  font-weight: 700;
+  pointer-events: none;
+}
+
+.attention-routing-row-label,
+.attention-routing-column-label {
+  fill: var(--gray);
+  font-size: 0.56rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.attention-routing-row-label.is-selected {
+  fill: var(--ar-query);
+  font-weight: 800;
+}
+
+.attention-routing-selected-row-frame {
+  fill: none;
+  stroke: var(--ar-query);
+  stroke-width: 1.45;
+  pointer-events: none;
+}
+
+.attention-routing-weight-row text,
+.attention-routing-output text {
+  fill: var(--darkgray);
+  font-size: 0.58rem;
+  font-weight: 650;
+}
+
+.attention-routing-weight-row.is-strongest text {
+  fill: var(--ar-key);
+  font-weight: 800;
+}
+
+.attention-routing-weight-track,
+.attention-routing-output-track {
+  fill: color-mix(in srgb, var(--line) 42%, transparent);
+}
+
+.attention-routing-weight-fill {
+  fill: var(--ar-key);
+}
+
+.attention-routing-weight-value {
+  font-family: var(--codeFont);
+  font-size: 0.52rem;
+}
+
+.attention-routing-output-label {
+  fill: var(--gray);
+  font-weight: 800;
+}
+
+.attention-routing-output-fill {
+  fill: var(--ar-output);
+}
+
+.attention-routing-footer {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 0.38rem;
+}
+
+.attention-routing-readout {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem 0.5rem;
+}
+
+.attention-routing-readout span {
+  padding: 0.17rem 0.38rem;
+  border: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  font-size: 0.6rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.attention-routing-controls {
+  display: grid;
+  grid-template-columns:
+    minmax(10.5rem, 0.9fr) minmax(7rem, 0.62fr)
+    minmax(13rem, 1fr) minmax(7rem, 0.48fr);
+  gap: 0.46rem 0.7rem;
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.64rem;
+}
+
+.attention-routing-controls label {
+  display: grid;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.attention-routing-select-control {
+  grid-template-columns: auto minmax(0, 1fr);
+}
+
+.attention-routing-temperature-control {
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.attention-routing-mask-control {
+  grid-template-columns: auto minmax(0, 1fr);
+  justify-content: start;
+}
+
+.attention-routing-controls select,
+.attention-routing-controls input {
+  min-width: 0;
+  accent-color: var(--secondary);
+}
+
+.attention-routing-controls select {
+  width: 100%;
+  padding: 0.16rem 0.32rem;
+  border: 1px solid color-mix(in srgb, var(--line) 84%, transparent);
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  color: var(--darkgray);
+  font: inherit;
+}
+
+.attention-routing-controls output {
+  min-width: 2.2rem;
+  color: var(--darkgray);
+  font-family: var(--codeFont);
+  text-align: right;
+}
+
+@media (max-width: 720px) {
+  .attention-routing-plot {
+    min-height: 44rem;
+  }
+
+  .attention-routing-controls {
+    grid-template-columns: 1fr;
+  }
+
+  .attention-routing-readout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .attention-routing-readout span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

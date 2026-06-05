@@ -426,6 +426,18 @@ Modern architectures introduce the **attention mechanism**. Given a query vector
 
 From a matrix viewpoint, if we stack queries into $Q\in\mathbb{R}^{m\times d}$ and keys/values into $K,V\in\mathbb{R}^{n\times d}$, attention forms an $m\times n$ weight matrix by row-wise softmax of $QK^\top$, then multiplies by $V$. The operation is differentiable end-to-end and adapts the receptive field based on content rather than fixed geometry.
 
+<figure
+  class="interactive-figure figure-wide"
+  data-interactive-figure="attention-routing"
+  data-example="pronoun"
+  data-query="it"
+  data-head="semantic"
+  data-temperature="1"
+  data-mask="full"
+></figure>
+
+In the figure, click a token to make it the query. The token row shows where attention flows, the heatmap shows the softmax weights formed from $QK^\top$, and the value mixer shows how those weights average the $V$ vectors into one output. The numbers are hand-designed for intuition, not taken from a trained Transformer.
+
 ## Self-Attention and Multi-Head Attention
 
 ### Multi-Head Attention
