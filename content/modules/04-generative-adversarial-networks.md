@@ -380,3 +380,7 @@ $$
 $$
 
 <!-- prettier-ignore-end -->
+
+## Homework
+
+[Homework 4: Generative Adversarial Networks](/homework/04-generative-adversarial-networks)

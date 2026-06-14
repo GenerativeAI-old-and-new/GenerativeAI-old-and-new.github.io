@@ -58,13 +58,13 @@ Consequently, the empirical log-likelihood becomes $$\begin{aligned}
 \Bigl[
 \log \pi_0\bigl(T_\theta^{-1}(x_i)\bigr)
 
-- \log \bigl|\det\bigl(\nabla_x T_\theta^{-1}(x_i)\bigr)\bigr|
++ \log \bigl|\det\bigl(\nabla_x T_\theta^{-1}(x_i)\bigr)\bigr|
   \Bigr].
   \end{aligned}$$
 
 To make this MLE computationally feasible in practice, we aim to design the model architecture of $T_\theta$ (which is typically modeled as a neural network in modern generative modeling) such that:
 
-1.  $T_\theta$ is invertible for all $\theta$, and both $T_\theta(x)$ and its inverse $(T_\theta)^{-1}(x)$ can be computed efficiently.
+1.  $T_\theta$ is invertible for all $\theta$, and both $T_\theta(\xi)$ and its inverse $(T_\theta)^{-1}(x)$ can be computed efficiently.
 
 2.  The determinant of the Jacobian matrix, as well as its derivative, can be evaluated efficiently and stably.
 
@@ -77,8 +77,8 @@ The Jacobian of the composition can be written explicitly as a matrix product: $
 
 Correspondingly, the determinant is a product of individual determinants: $$\det\left(\nabla_\xi T_\theta(\xi)\right) = \prod_{k=1}^K \det\left(\nabla T_{k,\theta}(z_{k-1})\right).$$
 
-Hence, the log-likelihood is given by $$\log p_\theta(x)
-= \log \pi_0(z_0) - \sum_{k=1}^K \log \left|\det\left(\nabla T_{k,\theta}(z_{k-1})\right)\right|,$$ where $z_0 =\xi = (T_\theta)^{-1}(x), z_k = T_{k,\theta}(z_{k-1})$. Therefore, maximum likelihood estimation reduces to evaluating the base density at $z_K$ and summing the log-determinants of the Jacobians across layers.
+Hence, for a data point $x=z_K$, the log-likelihood is given by $$\log p_\theta(x)
+= \log \pi_0(z_0) - \sum_{k=1}^K \log \left|\det\left(\nabla T_{k,\theta}(z_{k-1})\right)\right|,$$ where $z_0 =\xi = (T_\theta)^{-1}(x)$ and $z_k = T_{k,\theta}(z_{k-1})$. Therefore, maximum likelihood estimation reduces to evaluating the base density at $z_0$ and summing the per-layer log-determinants across the forward map.
 
 Each $T_{k,\theta}$ can be viewed as a building block. Different methods vary in how these blocks are designed. To ensure flexibility, we require a sufficient number of expressive blocks such that their composition can model complex distributions.
 
@@ -131,7 +131,7 @@ This design is also known as a reversible residual layer. Its key advantage is t
 ### Coupling Layers (NICE/RealNVP/Glow)
 
 Partition the input $x=(x_A,x_B)$ (by channels, checkerboard, or masks), and define an affine coupling transform $$y_A = x_A,\qquad
-y_B = x_B \odot \exp\!\big(s_\theta(x_A)\big) + t_\theta(x_A),$$ with flexible subnetworks $s_\theta,t_\theta$. The Jacobian is block lower-triangular: $$\log\Bigl|\det J_{f_\theta}(x)\Bigr|=\sum_j s_\theta(x_A)_j,$$ and inversion is closed-form: $$x_A=y_A,\qquad
+y_B = x_B \odot \exp\!\big(s_\theta(x_A)\big) + t_\theta(x_A),$$ with flexible subnetworks $s_\theta,t_\theta$. The Jacobian is block lower-triangular: $$\log\Bigl|\det \nabla_x T_\theta(x)\Bigr|=\sum_j s_\theta(x_A)_j,$$ and inversion is closed-form: $$x_A=y_A,\qquad
 x_B=\bigl(y_B-t_\theta(y_A)\bigr)\odot \exp\!\bigl(-s_\theta(y_A)\bigr).$$ Stacking multiple layers with alternating masks (and permutations) yields full-dimensional mixing. The additive special case $y_B=x_B+t_\theta(x_A)$ (NICE) is volume-preserving ($\log|\det|=0$) and extremely stable but less expressive per layer.
 
 ##### Invertible $1\times1$ Convolution (Glow)
@@ -151,9 +151,9 @@ Replacing the affine coordinate-wise map by a monotone, invertible spline (e.g.,
 
 ##### Exact Likelihood and Gradients
 
-By Eq. `eq:cov`, gradients decompose into a base-density term and a log-det term: $$\nabla_\theta \log p_\theta(x)=
-\nabla_\theta \log p_Z\!\big(f_\theta(x)\big)
-+\nabla_\theta \log\Bigl|\det J_{f_\theta}(x)\Bigr|.$$ Because coupling/autoregressive layers keep $\log|\det|$ analytic, flows train with standard first-order optimizers and are generally well-behaved.
+Gradients decompose into a base-density term and an inverse log-det term: $$\nabla_\theta \log p_\theta(x)=
+\nabla_\theta \log \pi_0\!\big(T_\theta^{-1}(x)\big)
++\nabla_\theta \log\Bigl|\det \nabla_x T_\theta^{-1}(x)\Bigr|.$$ Because coupling/autoregressive layers keep $\log|\det|$ analytic, flows train with standard first-order optimizers and are generally well-behaved.
 
 ##### Dequantization for Discrete Pixels
 
@@ -217,7 +217,7 @@ Choose MAF when likelihood evaluation dominates (density modeling, anomaly detec
 
 ##### Change-of-Variables
 
-For a $C^1$ diffeomorphism $f_\theta$, any integrable $\phi$ satisfies $$\int \phi(x)\,p_\theta(x)\,dx=\int \phi\!\bigl(f_\theta^{-1}(z)\bigr)\,p_Z(z)\,dz,$$ yielding Eq. `eq:cov` by taking $\phi\equiv 1$ and then logs.
+For a $C^1$ diffeomorphism $T_\theta$ that maps base samples to data, any integrable $\phi$ satisfies $$\int \phi(x)\,p_\theta(x)\,dx=\int \phi\!\bigl(T_\theta(\xi)\bigr)\,\pi_0(\xi)\,d\xi.$$ Applying the change of variables $\xi=T_\theta^{-1}(x)$ yields the density formula above.
 
 ##### Instantaneous Formula
 
@@ -246,3 +246,7 @@ Treating each spatial location independently, $J$ is block-diagonal with $H\!W$ 
 NICE/RealNVP (coupling; tractable log-det), Glow (invertible $1\times1$ conv; multi-scale), MAF/IAF (autoregressive duality), Neural Spline Flows (monotone splines), FFJORD/CNF (continuous-time with trace estimators). Each navigates the triangle of invertibility--expressivity--efficiency differently, and the right choice depends on whether likelihood accuracy, sampling speed, or representational power is the primary design goal.
 
 <!-- prettier-ignore-end -->
+
+## Homework
+
+[Homework 3: Invertible Models and Normalizing Flows](/homework/03-invertible-models)

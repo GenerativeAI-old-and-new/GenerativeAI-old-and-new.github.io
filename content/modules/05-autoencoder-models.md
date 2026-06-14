@@ -347,3 +347,7 @@ $$
 This variational reformulation converts the intractable integral in $\log p^\theta(x)$ into an optimization problem over the encoder distribution $q^\phi(z|x)$---the core idea behind the Variational Autoencoder.
 
 <!-- prettier-ignore-end -->
+
+## Homework
+
+[Homework 5: Autoencoders and Variational Autoencoders](/homework/05-autoencoder-models)
