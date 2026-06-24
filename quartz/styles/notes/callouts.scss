@@ -101,6 +101,24 @@
   line-height: 1.55;
 }
 
+.callout-content :is(ol, ul) {
+  padding-left: 1.55rem;
+  margin-left: 0;
+  list-style-position: outside;
+}
+
+.callout-content ol {
+  list-style-type: decimal;
+}
+
+.callout-content ul {
+  list-style-type: disc;
+}
+
+.callout-content :is(ol, ul) > li {
+  padding-left: 0.18rem;
+}
+
 .callout-content > :last-child {
   margin-bottom: 0;
 }
