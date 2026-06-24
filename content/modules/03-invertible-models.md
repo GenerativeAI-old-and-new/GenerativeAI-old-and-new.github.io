@@ -43,10 +43,10 @@ Here, $\nabla_x (T_\theta)^{-1}(x) = [\partial_{x_j} (T_\theta)^{-1}(x)_i]$ is t
 
 > [!example]
 > Assume $\xi \sim \mathcal{N}(0, I_d)$ and define the affine transformation $$X = T(\xi) = W\xi + \mu,$$ where $\theta = \{\mu, W\}$, with $\mu \in \mathbb{R}^d$ and $W \in \mathbb{R}^{d \times d}$ an invertible matrix. Then $T^{-1}(x) = W^{-1}(x - \mu)$, and $\nabla T^{-1}(x) = W^{-1}$. By the change of variables formula, $$\begin{aligned}
-> p_W(x)
+> p_{\mu,W}(x)
 > &= \pi_0\!\left(W^{-1}(x - \mu)\right)\, \bigl|\det W^{-1}\bigr| \\
 > &= \frac{1}{(2\pi)^{d/2}} \exp\Bigl(-\frac{1}{2} \bigl\|W^{-1}(x - \mu)\bigr\|^2\Bigr)\, \frac{1}{|\det W|}.
-> \end{aligned}$$ Hence, $$\log p_W(x)
+> \end{aligned}$$ Hence, $$\log p_{\mu,W}(x)
 > = -\frac{1}{2} \bigl\|W^{-1}(x - \mu)\bigr\|^2 - \frac{d}{2} \log(2\pi) - \log|\det W|.$$ This is exactly the density function of a Gaussian random variable $X \sim \mathcal{N}(\mu, \Sigma)$ with covariance $\Sigma = WW^\top$.
 
 ##### MLE for Invertible Models
@@ -156,7 +156,7 @@ The gradient of the log-likelihood decomposes into a base-density term and a log
 
 ##### Dequantization for Discrete Pixels
 
-Images live on a discrete grid, while ordinary flows define continuous densities. The standard fix is dequantization: replace an integer pixel vector $x$ by $x+u$, with $u\sim\mathrm{Unif}[0,1)^d$. Jensen's inequality gives $$\log p_{\mathrm{disc}}(x) \ge \mathbb{E}_{u}\bigl[\log p_\theta(x+u)\bigr],$$ so the continuous model optimizes a lower bound on the discrete likelihood. Variational dequantization improves this by learning $q_\phi(u\mid x)$ instead of using uniform noise.
+Images live on a discrete grid, while ordinary flows define continuous densities. The standard fix is dequantization: replace an integer pixel vector $x$ by $x+u$, with $u\sim\mathrm{Unif}[0,1)^d$. Jensen's inequality gives $$\log p_{\mathrm{disc}}(x) \ge \mathbb{E}_{u}\bigl[\log p_\theta(x+u)\bigr],$$ so the continuous model optimizes a lower bound on the discrete log-likelihood. Variational dequantization improves this by learning $q_\phi(u\mid x)$ instead of using uniform noise.
 
 ##### Bits-Per-Dimension (bpd)
 
@@ -170,7 +170,7 @@ For $p_\theta(x\mid c)$, inject condition $c$ into $s_\theta,t_\theta$ (or autor
 
 ##### CNF / Neural ODE
 
-A continuous-time flow replaces a stack of discrete layers with an ODE: $$\frac{\mathrm{d}x_t}{\mathrm{d}t}=v_\theta(x_t,t),\qquad x_0\sim p_0,\quad x_1\stackrel{d}{=}x.$$ Along a trajectory, the instantaneous change-of-variables formula is $$\frac{\mathrm{d}}{\mathrm{d}t}\log p_t(x_t)= -\,\mathrm{div}_x\, v_\theta(x_t,t),$$ so if the trajectory ending at $x_1=x$ starts at $x_0=z$, then $$\log p_1(x)=\log p_0(z)-\int_0^1 \mathrm{div}\, v_\theta(x_t,t)\,\mathrm{d}t.$$ The divergence can be estimated with Hutchinson's trace estimator, avoiding explicit Jacobian matrices. The price is numerical integration: accuracy and runtime both depend on the ODE solver and its tolerances.
+A continuous-time flow replaces a stack of discrete layers with an ODE: $$\frac{\mathrm{d}x_t}{\mathrm{d}t}=v_\theta(x_t,t),\qquad x_0\sim p_0,\quad x_1\sim p_1.$$ Along a trajectory, the instantaneous change-of-variables formula is $$\frac{\mathrm{d}}{\mathrm{d}t}\log p_t(x_t)= -\,\mathrm{div}_x\, v_\theta(x_t,t),$$ so if the trajectory ending at $x_1=x$ starts at $x_0=z$, then $$\log p_1(x)=\log p_0(z)-\int_0^1 \mathrm{div}\, v_\theta(x_t,t)\,\mathrm{d}t.$$ The divergence can be estimated with Hutchinson's trace estimator, avoiding explicit Jacobian matrices. The price is numerical integration: accuracy and runtime both depend on the ODE solver and its tolerances.
 
 ##### Positioning vs. Diffusion/Score Models
 
@@ -213,13 +213,13 @@ Use MAF when density evaluation is the main workload, such as anomaly detection 
 
 ##### Change-of-Variables in Log Form
 
-Let $x=T_\theta(z)$, where $z\sim p_0$ and $T_\theta$ is invertible. The most useful form of the change-of-variables formula is the log-density form $$\log p_\theta(x)
-= \log p_0(z) - \log\left|\det \nabla_z T_\theta(z)\right|,\qquad z=T_\theta^{-1}(x).$$
+Let $x=T_\theta(z)$, where $z\sim \pi_0$ and $T_\theta$ is invertible. The most useful form of the change-of-variables formula is the log-density form $$\log p_\theta(x)
+= \log \pi_0(z) - \log\left|\det \nabla_z T_\theta(z)\right|,\qquad z=T_\theta^{-1}(x).$$
 
 This equation is the accounting rule for every flow model. The first term asks whether the inverse image $z$ is plausible under the base distribution. The second term corrects for local volume change: if $T_\theta$ expands a small region around $z$, the same probability mass is spread over more volume in $x$-space, so the density goes down.
 
 For a composition $T=T_K\circ\cdots\circ T_1$, with $z_k=T_k(z_{k-1})$ and $z_K=x$, the determinant becomes a product, so the log-determinant becomes a sum: $$\log p_\theta(x)
-= \log p_0(z_0)-\sum_{k=1}^K \log\left|\det \nabla T_k(z_{k-1})\right|.$$ This is why flows are built from layers with cheap log-determinants.
+= \log \pi_0(z_0)-\sum_{k=1}^K \log\left|\det \nabla T_k(z_{k-1})\right|.$$ This is why flows are built from layers with cheap log-determinants.
 
 ##### Continuous-Time Limit
 
