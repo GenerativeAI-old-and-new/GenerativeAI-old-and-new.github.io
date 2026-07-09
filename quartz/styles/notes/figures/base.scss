@@ -57,6 +57,15 @@ article .flow-figure > img {
   margin: 0 auto;
 }
 
+article .flow-figure figcaption,
+article .flow-figure-grid figcaption {
+  color: var(--gray);
+  font-family: var(--headerFont);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  text-align: center;
+}
+
 article .flow-figure-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
@@ -70,6 +79,11 @@ article .flow-figure-grid > img {
   width: 100%;
   max-height: min(36vh, 320px);
   margin: 0;
+}
+
+article .flow-figure-grid figcaption {
+  grid-column: 1 / -1;
+  margin-top: -0.2rem;
 }
 
 article .flow-figure-grid-three {

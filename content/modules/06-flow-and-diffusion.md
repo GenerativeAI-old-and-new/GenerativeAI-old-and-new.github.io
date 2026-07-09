@@ -6,7 +6,7 @@ publish: true
 
 <!-- prettier-ignore-start -->
 
-Optional: For a deeper introduction to rectified flow, see the [ICML 25 Tutorial](https://rectifiedflow.github.io/), [Qiang Liu's blog](https://www.cs.utexas.edu/~lqiang/rectflow/html/intro.html), and the [original paper](https://arxiv.org/abs/2209.03003).
+**Optional reading.** For a more detailed treatment of rectified flow, see the [ICML 2025 tutorial](https://rectifiedflow.github.io/), [Qiang Liu's notes](https://www.cs.utexas.edu/~lqiang/rectflow/html/intro.html), and the [original paper](https://arxiv.org/abs/2209.03003).
 
 # Rectified Flow
 
@@ -18,9 +18,7 @@ Z_1:=T(Z_0)\sim \pi_1,
 Z_0\sim \pi_0.
 $$
 
-For generative modeling, $\pi_0$ is an elementary distribution such as a standard Gaussian, and $\pi_1$ is the data distribution. Rectified flow learns this transport map implicitly by learning an ODE whose paths travel as straight as possible.
-
-An ODE flow turns generation into local motion by learning a velocity field:
+For generative modeling, $\pi_0$ is an elementary distribution such as a standard Gaussian, and $\pi_1$ is the data distribution. In many of the models from the previous modules, the transport map $T$ was represented directly by a neural network. Here, $T$ is defined implicitly as the time-one map of an ordinary differential equation (ODE):
 
 $$
 \mathrm dZ_t=v^\theta(Z_t,t)\,\mathrm dt,
@@ -30,7 +28,9 @@ t\in[0,1],
 Z_0\sim \pi_0.
 $$
 
-The drift $v^\theta:\mathbb R^d\times[0,1]\to\mathbb R^d$ is represented by a neural network. Following the ODE from $Z_0\sim\pi_0$ gives an endpoint $Z_1$; the goal is to construct $v^\theta$ so that $Z_1\sim\pi_1$. Instead of predicting the whole transport map in one shot, the model predicts local directions along a path.
+The velocity field $v^\theta:\mathbb R^d\times[0,1]\to\mathbb R^d$ is represented by a neural network. Starting from $Z_0\sim\pi_0$ and integrating to $t=1$ produces $Z_1=T^\theta(Z_0)$; we want $Z_1\sim\pi_1$. Thus, the network specifies the local velocity at each state and time rather than the complete map from noise to data.
+
+The ODE keeps the state in $\mathbb R^d$, so the base and data distributions must have the same dimension. Under the usual conditions that guarantee a unique solution, the flow map is invertible: a sample at $t=1$ can be mapped back to $t=0$ by integrating the same ODE backward in time.
 
 Sampling requires numerical integration. With forward Euler and step size $\epsilon=1/N$,
 
@@ -42,25 +42,25 @@ Z_t+\epsilon\,v^\theta(Z_t,t),
 t\in\{0,\epsilon,2\epsilon,\ldots,1\}.
 $$
 
-Straight flows have small time-discretization error. In the perfectly straight case, one Euler step from $t=0$ to $t=1$ recovers the endpoint exactly.
+The number of Euler steps needed for accurate sampling depends on the geometry of the trajectories. Curved trajectories require small steps to track their changing direction. A perfectly straight trajectory has constant velocity and is recovered exactly by one Euler step from $t=0$ to $t=1$.
 
 ## Learning the ODE Drift
 
-One natural way to learn $v$ is to minimize a discrepancy between the terminal distribution of the ODE and $\pi_1$. If $\rho_1^v$ denotes the law of $Z_1$ after solving the ODE with drift $v$, this would take the form
+As discussed for continuous normalizing flows in Module 3, an ODE can be trained by maximum likelihood. More generally, if $\rho_1^v$ denotes the distribution of the endpoint under velocity field $v$, one could minimize
 
 $$
 \min_v D(\rho_1^v,\pi_1).
 $$
 
-Evaluating $\rho_1^v$, either by sampling or by likelihood computation, requires repeated ODE simulation. The unknown intermediate trajectory is the expensive part.
+Every evaluation of this objective requires solving the ODE, because $\rho_1^v$ depends on the full trajectory from $t=0$ to $t=1$. Repeating that solve inside each training update is expensive.
 
-Rectified flow avoids this inference loop by choosing the intermediate trajectories first. Since only the starting and terminal distributions are prescribed, the intermediate path can be selected as a prior. The simplest choice is a straight path between paired samples from $\pi_0$ and $\pi_1$.
+Rectified flow begins instead with a reference interpolation whose intermediate states and velocities are available in closed form. Only its endpoint distributions are fixed, so we are free to choose this interpolation. The simplest choice connects paired samples from $\pi_0$ and $\pi_1$ by straight lines.
 
-The training problem then becomes local: at a sampled time $t$, show the model a point on the chosen path and ask it to predict the velocity of that path.
+Training then reduces to regression: sample a time $t$, evaluate the reference path at that time, and fit the velocity of the path.
 
 ## Straight Interpolation
 
-Take a coupling $(X_0,X_1)$ of $\pi_0$ and $\pi_1$. In minibatch training this is often the independent coupling, obtained by drawing $X_0\sim\pi_0$ and $X_1\sim\pi_1$ independently. The linear interpolation is
+Take a coupling $(X_0,X_1)$ of $\pi_0$ and $\pi_1$, meaning a joint distribution with marginals $X_0\sim\pi_0$ and $X_1\sim\pi_1$. In minibatch training we usually use the independent coupling and draw the two endpoints independently. Their linear interpolation is
 
 $$
 X_t=tX_1+(1-t)X_0,
@@ -68,19 +68,17 @@ X_t=tX_1+(1-t)X_0,
 t\in[0,1].
 $$
 
-It follows the simple dynamics
+Along each sampled pair, the path has constant velocity:
 
 $$
-\mathrm dX_t=(X_1-X_0)\,\mathrm dt,
+\mathrm dX_t=(X_1-X_0)\,\mathrm dt.
 $$
 
-so the point moves in the line direction $X_1-X_0$ with constant speed. For a single fixed endpoint $X_1=x^{\mathrm{data}}$,
+To see the resulting velocity field explicitly, first consider a single fixed endpoint $X_1=x^{\mathrm{data}}$:
 
 $$
 X_t=t\,x^{\mathrm{data}}+(1-t)X_0.
 $$
-
-The interpolation is a training device. It is allowed to use both endpoints, while the final sampler must move forward from $Z_0$ without knowing the endpoint in advance.
 
 Differentiating gives
 
@@ -94,23 +92,24 @@ $$
 X_0=\frac{X_t-tx^{\mathrm{data}}}{1-t}.
 $$
 
-Substituting this into the derivative gives
+Substituting this expression into the derivative gives, for $t<1$,
 
 $$
 v^*(x,t)=\frac{x^{\mathrm{data}}-x}{1-t}.
 $$
 
-The factor $1/(1-t)$ is the remaining displacement divided by the remaining time.
+The numerator is the remaining displacement to the data point, and $1-t$ is the remaining time. Although this formula contains $1/(1-t)$, its value along the interpolation is the finite, constant vector $x^{\mathrm{data}}-X_0$.
 
 <figure class="flow-figure flow-figure-narrow">
   <img src="/assets/modules/06-flow-and-diffusion/lines_one_point.png" alt="Straight paths from noise samples to one data point." />
+  <figcaption>Straight interpolations from several noise samples to one fixed data point.</figcaption>
 </figure>
 
 ## Causalizing the Interpolation
 
-The interpolation $X_t$ already transfers $\pi_0$ to $\pi_1$, but it is not a causal ODE. At time $t<1$, its update direction still depends on the final state $X_1$. In the path picture, this non-causality appears at crossings: when several interpolation paths meet at the same $(x,t)$, their line directions need not agree.
+The interpolation $X_t$ has the desired endpoint distributions, but it cannot be simulated from $X_0$ alone: its velocity $X_1-X_0$ uses the unknown endpoint $X_1$. The problem is visible when interpolation paths cross. At the same state $x$ and time $t$, different pairs may prescribe different velocities, whereas an ODE must assign one velocity to each $(x,t)$.
 
-A causal ODE must assign a single drift vector to each state-time pair. Rectified flow obtains such a drift by projecting the interpolation velocity onto functions of $(X_t,t)$:
+Rectified flow resolves the ambiguity by projecting the interpolation velocity onto functions of the available state and time. With an $L^2$ projection, the velocity field solves
 
 $$
 \min_v
@@ -126,6 +125,7 @@ $$
 <figure class="flow-figure-grid flow-figure-grid-two" aria-label="Linear interpolation paths and rectified flow paths.">
   <img src="/assets/modules/06-flow-and-diffusion/line_two_points.png" alt="Straight interpolation paths that cross." />
   <img src="/assets/modules/06-flow-and-diffusion/rf_two_points.png" alt="Rectified flow paths after rewiring crossings." />
+  <figcaption>Left: straight interpolations may cross. Right: the rectified ODE assigns a unique average direction at each crossing.</figcaption>
 </figure>
 
 The minimizer is the conditional expectation
@@ -136,9 +136,9 @@ v^*(x,t)
 \mathbb E[X_1-X_0\mid X_t=x].
 $$
 
-Equivalently, this is ordinary least-squares regression: among all drift fields that can only see $(x,t)$, choose the one closest to the straight-line velocities on average.
+This is the standard conditional-mean solution to least-squares regression. At $(x,t)$, it averages the velocities of all interpolation paths that pass through $x$ at time $t$.
 
-Thus $v^*(x,t)$ is the average of the line directions of all interpolation paths passing through $x$ at time $t$. The rectified ODE is
+The resulting rectified ODE is
 
 $$
 \mathrm dZ_t=v^*(Z_t,t)\,\mathrm dt,
@@ -146,11 +146,11 @@ $$
 Z_0\sim \pi_0.
 $$
 
-Its trajectories trace the same density map as the interpolation trajectories, but are rewired at the crossing points so that the dynamics can be simulated causally.
+The ODE trajectories are therefore a rewiring of the reference paths: they use the averaged direction at crossings and can be simulated without access to $X_1$. As shown below, this rewiring changes individual paths but preserves the distribution at every time.
 
 ## Training Objective
 
-Parameterize $v$ by a neural network $v^\theta(x,t)$ and estimate the least-squares objective with empirical draws of $(X_0,X_1,t)$:
+Parameterize the velocity by a neural network $v^\theta(x,t)$ and estimate the projection objective with samples of $(X_0,X_1,t)$:
 
 $$
 L(\theta)
@@ -166,7 +166,7 @@ L(\theta)
 X_t=tX_1+(1-t)X_0.
 $$
 
-A minibatch implementation is direct:
+One minibatch is constructed by sampling
 
 $$
 X_1\sim \pi_1,
@@ -176,11 +176,9 @@ X_0\sim \pi_0,
 t\sim\mathrm{Uniform}([0,1]),
 $$
 
-then form $X_t=tX_1+(1-t)X_0$ and regress $v^\theta(X_t,t)$ onto $X_1-X_0$.
+For each batch, form $X_t=tX_1+(1-t)X_0$ and regress $v^\theta(X_t,t)$ onto the target velocity $X_1-X_0$.
 
-Training is supervised regression on synthetic intermediate points and their target velocities. No ODE solve is needed during training. Sampling later solves the ODE from fresh noise.
-
-After training, generation uses the learned ODE:
+No ODE solve is needed to construct this loss. ODE integration is used only after training, when a new sample is generated from fresh noise:
 
 $$
 \mathrm dZ_t=v^\theta(Z_t,t)\,\mathrm dt,
@@ -190,7 +188,7 @@ $$
 
 ## Marginal Preservation
 
-The interpolation process $X_t$ and the rectified ODE process $Z_t$ usually follow different sample paths, but they have the same marginal distributions:
+The interpolation process $X_t$ and the rectified ODE process $Z_t$ generally follow different sample paths. Nevertheless, at every fixed time they have the same distribution:
 
 $$
 Z_t\overset{d}{=}X_t,
@@ -198,14 +196,11 @@ Z_t\overset{d}{=}X_t,
 \forall t\in[0,1].
 $$
 
-Hence $(Z_0,Z_1)$ is a coupling of $\pi_0$ and $\pi_1$.
-
-This is the marginal preserving property. The rectified velocity creates the same local probability flux as the interpolation velocity, because it averages the line directions conditional on the current location.
-
-The ODE may change individual trajectories, but this flux identity preserves the distribution at each time.
+This is the **marginal-preserving property**. Since $v^*(x,t)$ is the conditional average of the interpolation velocities at $(x,t)$, it produces the same probability flux as the reference process. In particular, $Z_0\sim\pi_0$ and $Z_1\sim\pi_1$, so $(Z_0,Z_1)$ defines a new coupling of the endpoint distributions.
 
 <figure class="flow-figure flow-figure-wide">
   <img src="/assets/modules/06-flow-and-diffusion/rf_x.png" alt="Rectified flow marginal distributions matching the interpolation marginals." />
+  <figcaption>The reference interpolation and rectified ODE have different trajectories but the same distribution at each time.</figcaption>
 </figure>
 
 > [!theorem|Marginal Preservation]
@@ -285,7 +280,9 @@ The ODE may change individual trajectories, but this flux identity preserves the
 
 ## Straightness and Reflow
 
-Denote the rectified flow induced from $(X_0,X_1)$ by $\boldsymbol Z=\mathsf{Rectflow}((X_0,X_1))$. Reflow applies the same operator recursively:
+The reference paths are straight, but the first rectified flow need not be. Near a crossing, averaging several line directions can bend the ODE trajectory. **Reflow** trains another rectified flow using endpoint pairs produced by the current model.
+
+Denote the rectified flow induced by $(X_0,X_1)$ as $\boldsymbol Z=\mathsf{Rectflow}((X_0,X_1))$. Repeating the construction gives
 
 $$
 \boldsymbol Z^{k+1}
@@ -295,7 +292,9 @@ $$
 (Z_0^0,Z_1^0)=(X_0,X_1).
 $$
 
-In practice, one samples pairs $(Z_0^k,Z_1^k)$ from the $k$-th rectified flow and trains a new flow on those pairs. This procedure straightens the paths of rectified flows as $k$ increases. Flows with nearly straight paths have small time-discretization error; in the perfectly straight case,
+To train iteration $k+1$, sample $Z_0^k\sim\pi_0$, integrate the current ODE to obtain the paired endpoint $Z_1^k$, and train on straight interpolations between these paired samples. This endpoint coupling records which output the current ODE assigns to each initial sample; its linear interpolations have fewer conflicting directions than those of the original independent coupling. Repeating the procedure makes the learned trajectories progressively straighter.
+
+Straighter trajectories incur less Euler discretization error. In the perfectly straight case,
 
 $$
 Z_t=Z_0+t\,v(Z_0,0),
@@ -303,17 +302,15 @@ $$
 
 so the ODE can be solved exactly with a single Euler step.
 
-The learned flow also provides a better coupling between noise and data than the initial independent coupling. Re-training on this coupling removes many unnecessary crossings.
-
 ## Diffusion Models
 
-The rectified-flow sampler is an ODE:
+Rectified flow generates samples with the deterministic ODE
 
 $$
 \mathrm d Z_t=v_{\mathrm{RF}}(Z_t,t)\,\mathrm dt.
 $$
 
-Diffusion models use an SDE of the form
+A diffusion model instead uses a stochastic differential equation (SDE):
 
 $$
 \mathrm d Z_t
@@ -323,9 +320,9 @@ v(Z_t,t)\,\mathrm dt
 \sigma(Z_t,t)\,\mathrm d W_t,
 $$
 
-where $\sigma$ is a diffusion coefficient and $W_t$ is Brownian motion. ODEs correspond to the special case $\sigma=0$. Conversely, an ODE learned by rectified flow can be converted into a stochastic sampler without changing the time marginals.
+where $W_t$ is Brownian motion and $\sigma$ controls the amount of injected noise. Setting $\sigma=0$ recovers an ODE. In the other direction, stochastic dynamics can be added to a rectified-flow ODE while preserving its marginal distributions.
 
-Let $\rho_t$ be the density of the interpolation $X_t$. A Langevin correction at time $t$ uses the score $\nabla\log\rho_t$ and gives the combined SDE
+Let $\rho_t$ be the density of $X_t$ (and hence of the exact rectified flow $Z_t$). For a time-dependent noise level $\sigma_t$, add a Langevin term based on the score $\nabla\log\rho_t$:
 
 $$
 \mathrm d Z_t
@@ -341,11 +338,18 @@ $$
   <img src="/assets/modules/06-flow-and-diffusion/euler_sample_result.png" alt="Euler sampling result with visible trajectory error." />
   <img src="/assets/modules/06-flow-and-diffusion/sde_velocity.png" alt="Rectified flow velocity field." />
   <img src="/assets/modules/06-flow-and-diffusion/sde_score.png" alt="Score field used by Langevin correction." />
+  <figcaption>Euler discretization may move samples away from the intended density; the score field supplies the Langevin correction.</figcaption>
 </figure>
 
-The first drift term is the rectified-flow velocity. The remaining two terms are Langevin dynamics for the time-$t$ density $\rho_t$. In practice this correction is used to reduce drift caused by model approximation or numerical discretization.
+The two parts have different roles. The rectified-flow velocity drives the evolution of the time-dependent marginals $\{\rho_t\}$. At each fixed $t$, the score drift and Brownian noise form Langevin dynamics that preserve $\rho_t$. Their contributions to the Fokker--Planck equation cancel because
 
-The RF drift moves samples forward in time; the score term corrects their position relative to the current density $\rho_t$.
+$$
+-\nabla\cdot\left(\sigma_t^2\rho_t\nabla\log\rho_t\right)
++\sigma_t^2\Delta\rho_t
+=0.
+$$
+
+Thus the exact ODE and this family of SDEs have the same time marginals. With an approximate velocity field and a finite-step solver, the stochastic correction can also move samples back toward regions favored by the current density.
 
 > [!theorem|Tweedie's Formula]
 > Assume $X_0\sim\mathcal N(0,I)$ and $X_1\sim\pi_1$, with
@@ -386,7 +390,7 @@ The RF drift moves samples forward in time; the score term corrects their positi
 > \right].
 > $$
 >
-> This is Tweedie's formula for the straight interpolation. The RF velocity also gives
+> This is Tweedie's formula for the Gaussian straight interpolation. The RF velocity also gives
 >
 > $$
 > v_{\mathrm{RF}}(x,t)
@@ -414,7 +418,7 @@ The RF drift moves samples forward in time; the score term corrects their positi
 > \frac{t\,v_{\mathrm{RF}}(x,t)-x}{1-t}.
 > $$
 >
-> The RF velocity therefore provides the score term needed for diffusion-like stochastic samplers, without training a separate score network.
+> Thus, for this interpolation, the RF velocity determines the score required by the stochastic sampler; a separate score network is not needed.
 
 ## Homework
 
