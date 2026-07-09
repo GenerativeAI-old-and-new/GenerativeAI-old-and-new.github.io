@@ -66,7 +66,7 @@ where $\mu_\phi(x)=(\mu_1,\ldots,\mu_k)\in\mathbb R^k$ and $\sigma_\phi(x)=(\sig
 > In a standard VAE, the KL penalty pushes each encoded distribution $q^\phi(z\mid x)$ toward $p(z)$. If we encode many training examples and pool all sampled latent codes together, does that pooled code distribution
 >
 > $$
-> q^\phi(z)=\int q^\phi(z\mid x)p_{\text{data}}(x)\,\mathrm dx
+> q^\phi(z)=\int q^\phi(z\mid x)p_{\text{data}}(x)\,\mathrm d x
 > $$
 >
 > have to equal $p(z)$ exactly? Explain why or why not, using either a simple example or an intuitive argument. A formal proof is not required.
@@ -80,7 +80,7 @@ where $\mu_\phi(x)=(\mu_1,\ldots,\mu_k)\in\mathbb R^k$ and $\sigma_\phi(x)=(\sig
 > $$
 > \log p^\theta(x)
 > =
-> \log\int p^\theta(x,z)\,\mathrm dz,
+> \log\int p^\theta(x,z)\,\mathrm d z,
 > $$
 >
 > use $q^\phi(z\mid x)$ and Jensen's inequality to obtain the ELBO used for VAE training. In your final expression, label the reconstruction term and the KL penalty to the prior. Also state the extra KL term, $\mathrm{KL}(q^\phi(z\mid x)\,\|\,p^\theta(z\mid x))$, that explains when the ELBO is tight.

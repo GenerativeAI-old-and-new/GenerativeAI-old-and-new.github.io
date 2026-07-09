@@ -13,7 +13,7 @@ publish: true
 >
 > 1.  Let
 >
->     $$p(x)=\frac{p_1(x)p_2(x)}{Z},\qquad Z=\int_{\mathbb R} p_1(x)p_2(x)\,\mathrm dx.$$
+>     $$p(x)=\frac{p_1(x)p_2(x)}{Z},\qquad Z=\int_{\mathbb R} p_1(x)p_2(x)\,\mathrm d x.$$
 >
 >     Is $p(x)$ a valid density? If so, identify the distribution explicitly, including its parameters.
 >
@@ -28,7 +28,7 @@ publish: true
 
 > [!solution]- Solution
 >
-> 1.  Yes. Since $p_1(x)p_2(x)\ge0$ and $Z=\int p_1(x)p_2(x)\,dx$, the normalized function integrates to one.
+> 1.  Yes. Since $p_1(x)p_2(x)\ge0$ and $Z=\int p_1(x)p_2(x)\,\mathrm d x$, the normalized function integrates to one.
 >
 >     Expanding the exponent,
 >
@@ -74,7 +74,7 @@ publish: true
 > 2.  Yes. It is nonnegative and integrates to
 >
 >     $$
->     \frac12\int p_1(x)\,dx+\frac12\int p_2(x)\,dx=1.
+>     \frac12\int p_1(x)\,\mathrm d x+\frac12\int p_2(x)\,\mathrm d x=1.
 >     $$
 >
 >     This is a two-component Gaussian mixture:
@@ -143,7 +143,7 @@ publish: true
 >     \int \big(\alpha\,p(x)+(1-\alpha)\,q(x)\big)\,
 >     \Big[
 >     \frac{p(x)}{q(x)} - \log\!\Big(\frac{p(x)}{q(x)}\Big) - 1
->     \Big]\; \mathrm dx.
+>     \Big]\; \mathrm d x.
 >     $$
 >
 >     Here $\alpha \in [0,1]$, and $p(x)$ and $q(x)$ are the densities of $P$ and $Q$ respectively. Answer the following questions:
@@ -239,15 +239,15 @@ publish: true
 >     \begin{aligned}
 >     \mathrm D(P,Q)
 >     &=
->     (1-\alpha)\int q(t-\log t-1)\,dx
->     +\alpha\int p(t-\log t-1)\,dx\\
+>     (1-\alpha)\int q(t-\log t-1)\,\mathrm d x
+>     +\alpha\int p(t-\log t-1)\,\mathrm d x\\
 >     &=
 >     (1-\alpha)\operatorname{KL}(Q\|P)
 >     +\alpha\left(\chi^2(P\|Q)-\operatorname{KL}(P\|Q)\right),
 >     \end{aligned}
 >     $$
 >
->     where $\chi^2(P\|Q)=\int p(x)^2/q(x)\,dx-1$. Therefore:
+>     where $\chi^2(P\|Q)=\int p(x)^2/q(x)\,\mathrm d x-1$. Therefore:
 >
 >     - If $\alpha=0$, then $\mathrm D(P,Q)=\operatorname{KL}(Q\|P)$.
 >     - For $\alpha>0$, it is generally not equal to either direction of KL, except in the trivial case $P=Q$ where all divergences are zero.
@@ -364,7 +364,7 @@ publish: true
 > $$
 > p_{\theta}(x)=\frac{\exp\big(f_\theta(x)\big)}{Z_\theta},
 > \qquad
-> Z_\theta=\int_{\mathbb{R}^d}\exp\big(f_\theta(x)\big)\,dx.
+> Z_\theta=\int_{\mathbb{R}^d}\exp\big(f_\theta(x)\big)\,\mathrm d x.
 > $$
 >
 > Here $f_\theta(x)$ is the (unnormalized) log-density (i.e., negative energy), and $Z_\theta$ is the partition function. To ensure integrability, we use

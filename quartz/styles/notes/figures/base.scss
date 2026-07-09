@@ -38,6 +38,49 @@ article .image-figure .figure-number {
   font-weight: 700;
 }
 
+article .flow-figure {
+  max-width: min(100%, 620px);
+  margin: 1.15rem auto 1.35rem;
+}
+
+article .flow-figure-narrow {
+  max-width: min(100%, 460px);
+}
+
+article .flow-figure-wide {
+  max-width: min(100%, 680px);
+}
+
+article .flow-figure > img {
+  width: 100%;
+  max-height: min(46vh, 420px);
+  margin: 0 auto;
+}
+
+article .flow-figure-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  gap: 0.85rem;
+  max-width: min(100%, 780px);
+  margin: 1.2rem auto 1.35rem;
+  align-items: start;
+}
+
+article .flow-figure-grid > img {
+  width: 100%;
+  max-height: min(36vh, 320px);
+  margin: 0;
+}
+
+article .flow-figure-grid-three {
+  grid-template-columns: repeat(auto-fit, minmax(min(190px, 100%), 1fr));
+  max-width: min(100%, 820px);
+}
+
+article .flow-figure-grid-three > img {
+  max-height: min(32vh, 270px);
+}
+
 article .compact-concept-figure {
   box-sizing: border-box;
   width: min(100%, 560px);

@@ -59,7 +59,7 @@ For coupling layers, split a vector as $x=(x_a,x_b)$ with dimensions $d_a+d_b=d$
 > \log \pi_0\!\left(\frac{x_i}{\theta}\right),
 > $$
 >
-> omitting the Jacobian term. For data with $\sum_i x_i^2>0$, show that this objective has no finite maximizer when $\theta>0$. Then compute $\int_{\mathbb R}\pi_0(x/\theta)\,\mathrm dx$ and explain, in plain language, why omitting the Jacobian breaks probability conservation.
+> omitting the Jacobian term. For data with $\sum_i x_i^2>0$, show that this objective has no finite maximizer when $\theta>0$. Then compute $\int_{\mathbb R}\pi_0(x/\theta)\,\mathrm d x$ and explain, in plain language, why omitting the Jacobian breaks probability conservation.
 
 > [!problem|Optional Numerical Check of the Jacobian Term]
 > Simulate $n=1000$ samples from $X\sim\mathcal N(0,2^2)$. Compute the closed-form MLE from the correct likelihood. Then run gradient ascent on the incorrect objective from the previous problem with $\theta>0$ and describe what happens to $\theta$ during training.
