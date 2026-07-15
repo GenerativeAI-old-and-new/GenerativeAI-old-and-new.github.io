@@ -123,4 +123,8 @@ Language models apply self-attention to sequences of tokens. Consider the senten
 
 Overall, the attention mechanism provides content-adaptive aggregation; multi-head attention diversifies this aggregation across subspaces; self-attention enables all-to-all interaction within a layer; and positional information plus masking specialize the same machinery to the sequential constraints of language modeling. Together with residual connections, layer normalization, and token-wise MLPs, these components form the core computational pattern of Transformer-based LMs.
 
+## Homework
+
+[Homework 7: Autoregressive Language Models](/homework/07-language-models)
+
 <!-- prettier-ignore-end -->
