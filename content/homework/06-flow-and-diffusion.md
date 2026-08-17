@@ -109,7 +109,7 @@ publish: true
 
 ## Theory
 
-Unless stated otherwise, let $X_0\sim P_0$ be a noise sample, let $X_1\sim P_{\mathrm{data}}$ be a data sample, and assume $X_0$ and $X_1$ are independent. The straight interpolation is
+Unless stated otherwise, let $X_0\sim P_0$ and $X_1\sim P_{\mathrm{data}}$ be independent random vectors in $\mathbb R^d$. The straight interpolation is
 
 $$
 X_t=tX_1+(1-t)X_0,\qquad t\in[0,1].
@@ -238,7 +238,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >     State what the two terms represent.
 >
 > 2.  Conclude that the best predictor is $f^*(u)=\mathbb E[V\mid U=u]$.
-> 3.  Apply this result with $U=(X_t,t)$ and $V=X_1-X_0$ to justify the rectified-flow training target.
+> 3.  For a fixed time $t$, apply this result with $U=X_t$ and $V=X_1-X_0$ to justify the rectified-flow training target.
 
 > [!solution]- Solution
 >
@@ -273,10 +273,10 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > The first term is uncertainty in $V$ that cannot be removed after observing $U$. The second is the prediction error of $f$. Only the second depends on $f$, so the minimizer is $f^*(U)=m(U)$ almost surely.
 >
-> Taking $U=(X_t,t)$ and $V=X_1-X_0$ gives
+> For each fixed $t$, taking $U=X_t$ and $V=X_1-X_0$ gives
 >
 > $$
-> f^*(x,t)=\mathbb E[X_1-X_0\mid X_t=x,t]=v_t^*(x),
+> \mathbb E[X_1-X_0\mid X_t=x]=v_t^*(x),
 > $$
 >
 > which is the target learned by rectified-flow regression.
@@ -332,7 +332,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > x
 > =t\,\mathbb E[X_1\mid X_t=x]
 > +(1-t)\,\mathbb E[X_0\mid X_t=x]
-> =t\hat x_{\mathrm{data}}+(1-t)\hat x_{\mathrm{noise}}.
+> =t\,\hat x_{\mathrm{data}}+(1-t)\,\hat x_{\mathrm{noise}}.
 > $$
 >
 > The velocity is
@@ -391,10 +391,10 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Derive
 >
 >     $$
->     v^*(x,t)=\mathbb E[X_1-X_0\mid X_t=x],
+>     v_t^*(x)=\mathbb E[X_1-X_0\mid X_t=x],
 >     $$
 >
->     and write it in affine form $v^*(x,t)=a(t)x+b(t)$.
+>     and write it in affine form $v_t^*(x)=a(t)x+b(t)$.
 >
 > 3.  Check that this velocity gives the correct distributions at the two ends of the path: $\mathcal N(0,1)$ at $t=0$ and $\mathcal N(\mu,1)$ at $t=1$.
 
@@ -437,7 +437,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Subtracting the two expressions,
 >
 > $$
-> v^*(x,t)
+> v_t^*(x)
 > =\frac{2t-1}{D(t)}x+\frac{1-t}{D(t)}\mu.
 > $$
 >
@@ -485,7 +485,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Let $\omega_u(x,t)=\mathbb P(X_1=u\mid X_t=x)$ for $u\in\{x^\star,y^\star\}$. Show that
 >
 >     $$
->     v^*(x,t)
+>     v_t^*(x)
 >     =
 >     \sum_{u\in\{x^\star,y^\star\}}
 >     \omega_u(x,t)\frac{u-x}{1-t}.
@@ -526,7 +526,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Taking the conditional expectation therefore yields
 >
 > $$
-> v^*(x,t)
+> v_t^*(x)
 > =
 > \sum_{u\in\{x^\star,y^\star\}}
 > \omega_u(x,t)\frac{u-x}{1-t}.
@@ -535,7 +535,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Each candidate data value contributes a velocity pointing from $x$ toward that value. Its posterior probability $\omega_u(x,t)$ determines the weight.
 
 > [!problem|Tweedie's Identity from Rectified Flow]
-> Assume $X_0\sim\mathcal N(0,I)$ and $X_1\sim P_{\mathrm{data}}$. Let $\rho_t$ be the density of $X_t=tX_1+(1-t)X_0$.
+> Assume $X_0\sim\mathcal N(0,I_d)$ and $X_1\sim P_{\mathrm{data}}$. Let $\rho_t$ be the density of $X_t=tX_1+(1-t)X_0$.
 >
 > 1.  Show that, up to a normalizing constant,
 >
@@ -552,7 +552,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Differentiate $\log\rho_t(x)$ to obtain Tweedie's identity:
 >
 >     $$
->     \nabla\log\rho_t(x)
+>     \nabla \log\rho_t(x)
 >     =
 >     \mathbb E\!\left[
 >       \frac{tX_1-x}{(1-t)^2}
@@ -561,19 +561,19 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >     \right].
 >     $$
 >
-> 3.  Use $\mathbb E[X_1\mid X_t=x]=x+(1-t)v^*(x,t)$ to show
+> 3.  Use $\mathbb E[X_1\mid X_t=x]=x+(1-t)v_t^*(x)$ to show
 >
 >     $$
->     \nabla\log\rho_t(x)
+>     \nabla \log\rho_t(x)
 >     =
->     \frac{t\,v^*(x,t)-x}{1-t}.
+>     \frac{t\,v_t^*(x)-x}{1-t}.
 >     $$
 >
 >     Use this relation to express the score needed for Langevin correction in terms of the rectified-flow velocity.
 
 > [!solution]- Solution
 >
-> Given $X_1=x_1$, the variable $X_t$ is Gaussian with mean $tx_1$ and covariance $(1-t)^2I$. Marginalizing over $X_1$ gives
+> Given $X_1=x_1$, the variable $X_t$ is Gaussian with mean $tx_1$ and covariance $(1-t)^2I_d$. Marginalizing over $X_1$ gives
 >
 > $$
 > \rho_t(x)
@@ -586,7 +586,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > where $C_t$ does not depend on $x$. Differentiating under the integral and dividing by $\rho_t(x)$ gives
 >
 > $$
-> \nabla\log\rho_t(x)
+> \nabla \log\rho_t(x)
 > =
 > \mathbb E\!\left[
 > \frac{tX_1-x}{(1-t)^2}
@@ -598,26 +598,26 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > $$
 > \mathbb E[X_1\mid X_t=x]
-> =x+(1-t)v^*(x,t).
+> =x+(1-t)v_t^*(x).
 > $$
 >
 > Substituting this identity gives
 >
 > $$
 > \begin{aligned}
-> \nabla\log\rho_t(x)
-> &=\frac{t[x+(1-t)v^*(x,t)]-x}{(1-t)^2}\\
-> &=\frac{t\,v^*(x,t)-x}{1-t}.
+> \nabla \log\rho_t(x)
+> &=\frac{t[x+(1-t)v_t^*(x)]-x}{(1-t)^2}\\
+> &=\frac{t\,v_t^*(x)-x}{1-t}.
 > \end{aligned}
 > $$
 >
 > Thus the Langevin score can be computed directly from the rectified-flow velocity; a separate score network is not required.
 
 > [!problem|Noise Schedule Near t=1]
-> In RF plus Langevin dynamics, the Langevin drift uses the score $\nabla\log\rho_t(x)$. From the previous problem,
+> In RF plus Langevin dynamics, the Langevin drift uses the score $\nabla \log\rho_t(x)$. From the previous problem,
 >
 > $$
-> \nabla\log\rho_t(x)=\frac{t\,v^*(x,t)-x}{1-t},
+> \nabla \log\rho_t(x)=\frac{t\,v_t^*(x)-x}{1-t},
 > $$
 >
 > so the Langevin drift magnitude can scale like $\sigma_t^2/(1-t)$ near $t=1$.
@@ -654,21 +654,21 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > x
 > +
 > \left[
->   v^*(x,t)+\sigma_t^2\nabla\log\rho_t(x)
+>   v_t^*(x)+\sigma_t^2\nabla \log\rho_t(x)
 > \right]\Delta t
 > +
 > \sqrt{2}\,\sigma_t\sqrt{\Delta t}\,\xi,
 > \qquad
-> \xi\sim\mathcal N(0,I).
+> \xi\sim\mathcal N(0,I_d).
 > $$
 >
 > Substitute
 >
 > $$
-> \nabla\log\rho_t(x)=\frac{t\,v^*(x,t)-x}{1-t}
+> \nabla \log\rho_t(x)=\frac{t\,v_t^*(x)-x}{1-t}
 > $$
 >
-> to write the same update using only $v^*(x,t)$, $x$, $t$, $\sigma_t$, and $\Delta t$. Then write the conditional mean and covariance of $Z_{t+\Delta t}$ given $Z_t=x$.
+> to write the same update using only $v_t^*(x)$, $x$, $t$, $\sigma_t$, and $\Delta t$. Then write the conditional mean and covariance of $Z_{t+\Delta t}$ given $Z_t=x$.
 
 > [!solution]- Solution
 >
@@ -678,8 +678,8 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Z_{t+\Delta t}
 > =x+
 > \left[
-> v^*(x,t)
-> +\sigma_t^2\frac{t\,v^*(x,t)-x}{1-t}
+> v_t^*(x)
+> +\sigma_t^2\frac{t\,v_t^*(x)-x}{1-t}
 > \right]\Delta t
 > +\sqrt{2}\,\sigma_t\sqrt{\Delta t}\,\xi.
 > $$
@@ -690,8 +690,8 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > \mathbb E[Z_{t+\Delta t}\mid Z_t=x]
 > =x+
 > \left[
-> v^*(x,t)
-> +\sigma_t^2\frac{t\,v^*(x,t)-x}{1-t}
+> v_t^*(x)
+> +\sigma_t^2\frac{t\,v_t^*(x)-x}{1-t}
 > \right]\Delta t,
 > $$
 >
@@ -699,18 +699,18 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > $$
 > \operatorname{Cov}(Z_{t+\Delta t}\mid Z_t=x)
-> =2\sigma_t^2\Delta t\,I.
+> =2\sigma_t^2\Delta t\,I_d.
 > $$
 
 > [!problem|Single-Point Data with Langevin Correction]
-> Let $P_{\mathrm{data}}=\delta_{x^\star}$ and $X_0\sim\mathcal N(0,I)$. Then $X_t=t x^\star+(1-t)X_0$.
+> Let $P_{\mathrm{data}}=\delta_{x^\star}$ and $X_0\sim\mathcal N(0,I_d)$. Then $X_t=t x^\star+(1-t)X_0$.
 >
 > 1.  Show that
 >
 >     $$
->     v^*(x,t)=\frac{x^\star-x}{1-t},
+>     v_t^*(x)=\frac{x^\star-x}{1-t},
 >     \qquad
->     \nabla\log\rho_t(x)=\frac{t x^\star-x}{(1-t)^2}.
+>     \nabla \log\rho_t(x)=\frac{t x^\star-x}{(1-t)^2}.
 >     $$
 >
 > 2.  The hybrid drift is
@@ -732,19 +732,19 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Since $X_1=x^\star$,
 >
 > $$
-> v^*(x,t)=\frac{x^\star-x}{1-t}.
+> v_t^*(x)=\frac{x^\star-x}{1-t}.
 > $$
 >
 > Also,
 >
 > $$
-> X_t\sim\mathcal N\!\left(tx^\star,(1-t)^2I\right),
+> X_t\sim\mathcal N\!\left(tx^\star,(1-t)^2I_d\right),
 > $$
 >
 > so its score is
 >
 > $$
-> \nabla\log\rho_t(x)
+> \nabla \log\rho_t(x)
 > =-\frac{x-tx^\star}{(1-t)^2}
 > =\frac{tx^\star-x}{(1-t)^2}.
 > $$
@@ -765,9 +765,9 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 > x_{k+1}
 > =
-> x_k+\epsilon\nabla\log p(x_k)+\sqrt{2\epsilon}\,\xi_k,
+> x_k+\epsilon\nabla \log p(x_k)+\sqrt{2\epsilon}\,\xi_k,
 > \qquad
-> \xi_k\sim\mathcal N(0,I),
+> \xi_k\sim\mathcal N(0,I_d),
 > $$
 >
 > where
@@ -775,7 +775,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 > p(x)\propto \exp\!\left(-\frac12\|x-\mu\|^2\right),
 > \qquad
-> \nabla\log p(x)=\mu-x.
+> \nabla \log p(x)=\mu-x.
 > $$
 >
 > 1.  Show that the update can be written as
@@ -788,7 +788,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 3.  Compute the stationary variance in one dimension:
 >
 >     $$
->     \mathrm{Var}_\infty
+>     \operatorname{Var}_\infty
 >     =
 >     \frac{2\epsilon}{1-(1-\epsilon)^2}
 >     =
@@ -799,7 +799,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 
 > [!solution]- Solution
 >
-> Substituting $\nabla\log p(x_k)=\mu-x_k$ gives
+> Substituting $\nabla \log p(x_k)=\mu-x_k$ gives
 >
 > $$
 > x_{k+1}
@@ -855,7 +855,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 1.  Show that
 >
 >     $$
->     \frac{d}{dt}\mathbb E[h(X_t)]
+>     \frac{\mathrm d}{\mathrm d t}\mathbb E[h(X_t)]
 >     =
 >     \int h(x)\,\partial_t p_t(x)\,\mathrm d x.
 >     $$
@@ -863,7 +863,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Use the chain rule and conditional expectation to show that
 >
 >     $$
->     \frac{d}{dt}\mathbb E[h(X_t)]
+>     \frac{\mathrm d}{\mathrm d t}\mathbb E[h(X_t)]
 >     =
 >     \int \nabla h(x)^\top v_t^*(x)p_t(x)\,\mathrm d x.
 >     $$
@@ -957,7 +957,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > Differentiating the ODE with respect to $z_0$ gives
 >
 > $$
-> \dot J_t=\nabla_xv^\theta(z_t,t)J_t.
+> \dot J_t=\nabla_x v^\theta(z_t,t)J_t.
 > $$
 >
 > Jacobi's formula then gives
@@ -965,7 +965,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 > \frac{\mathrm d}{\mathrm d t}\log|\det J_t|
 > =\operatorname{tr}\!\left(J_t^{-1}\dot J_t\right)
-> =\operatorname{tr}\!\left(\nabla_xv^\theta(z_t,t)\right).
+> =\operatorname{tr}\!\left(\nabla_x v^\theta(z_t,t)\right).
 > $$
 >
 > Integrating along the path ending at $z_t=x$ gives
@@ -974,11 +974,11 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > \log p_t^\theta(x)
 > =\log p_0(z_0)
 > -\int_0^t
-> \operatorname{tr}\!\left(\nabla_xv^\theta(z_\tau,\tau)\right)
-> \,\mathrm d\tau.
+> \operatorname{tr}\!\left(\nabla_x v^\theta(z_\tau,\tau)\right)
+> \,\mathrm d \tau.
 > $$
 >
-> In one dimension, let $A(t)=\int_0^t a(\tau)\,\mathrm d\tau$. The ODE $\dot z_t=a(t)z_t$ has solution
+> In one dimension, let $A(t)=\int_0^t a(\tau)\,\mathrm d \tau$. The ODE $\dot z_t=a(t)z_t$ has solution
 >
 > $$
 > z_t=e^{A(t)}z_0,
