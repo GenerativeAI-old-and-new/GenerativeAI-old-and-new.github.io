@@ -29,14 +29,20 @@ export default (() => {
 
     // Url of current page
     const socialUrl =
-      fileData.slug === "404" ? url.toString() : joinSegments(url.toString(), fileData.slug!)
+      fileData.slug === "404" || fileData.slug === "index"
+        ? url.toString()
+        : joinSegments(url.toString(), fileData.slug!)
 
     const usesCustomOgImage = ctx.cfg.plugins.emitters.some(
       (e) => e.name === CustomOgImagesEmitterName,
     )
     const ogImageDefaultPath = cfg.baseUrl
-      ? `https://${cfg.baseUrl}/static/og-image.png`
+      ? `https://${cfg.baseUrl}/static/course-preview.png`
       : undefined
+    const ogImageExtension = ogImageDefaultPath
+      ? (getFileExtension(ogImageDefaultPath)?.replace(/^\./, "") ?? "png")
+      : "png"
+    const ogImageAlt = "ADV IN DEEP GEN MODELS course cover, Professor Qiang Liu."
 
     return (
       <head>
@@ -62,17 +68,17 @@ export default (() => {
         <meta name="twitter:title" content={title} />
         <meta name="twitter:description" content={description} />
         <meta property="og:description" content={description} />
-        <meta property="og:image:alt" content={description} />
+        <meta property="og:image:alt" content={ogImageAlt} />
 
         {!usesCustomOgImage && ogImageDefaultPath && (
           <>
             <meta property="og:image" content={ogImageDefaultPath} />
             <meta property="og:image:url" content={ogImageDefaultPath} />
+            <meta property="og:image:secure_url" content={ogImageDefaultPath} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
             <meta name="twitter:image" content={ogImageDefaultPath} />
-            <meta
-              property="og:image:type"
-              content={`image/${getFileExtension(ogImageDefaultPath) ?? "png"}`}
-            />
+            <meta property="og:image:type" content={`image/${ogImageExtension}`} />
           </>
         )}
 

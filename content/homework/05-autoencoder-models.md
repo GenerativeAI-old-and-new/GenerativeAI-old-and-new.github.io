@@ -1,6 +1,6 @@
 ---
 title: "Homework 5: Autoencoders and Variational Autoencoders"
-description: "Homework problems covering autoencoders, VAE training, and beta-VAE experiments."
+description: "Autoencoders, VAE objectives, reparameterization, Gaussian KL, and beta-VAE experiments."
 publish: true
 ---
 

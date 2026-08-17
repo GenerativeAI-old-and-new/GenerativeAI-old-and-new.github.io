@@ -1,6 +1,6 @@
 ---
 title: "Homework 1: Probability and MLE"
-description: "Homework problems for Module 1 covering Gaussian identities, KL divergence, categorical MLE, and energy-based models."
+description: "Gaussian density operations, KL divergence, categorical MLE, and Langevin sampling for energy-based models."
 publish: true
 ---
 

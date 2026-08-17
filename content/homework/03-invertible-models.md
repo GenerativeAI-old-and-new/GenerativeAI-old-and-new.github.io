@@ -1,6 +1,6 @@
 ---
 title: "Homework 3: Invertible Models and Normalizing Flows"
-description: "Homework problems for Module 3 covering change of variables, log-determinants, coupling layers, and RealNVP-style flows."
+description: "RealNVP implementation, change of variables, Jacobian log-determinants, and affine coupling layers."
 publish: true
 ---
 

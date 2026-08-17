@@ -1,6 +1,6 @@
 ---
 title: "Homework 2: Optimization and Neural Networks"
-description: "Homework problems for Module 2 covering gradient descent, optimizer behavior, nonconvex landscapes, and MLP training."
+description: "Gradient descent regimes, adaptive optimizers, nonconvex landscapes, and MLP training."
 publish: true
 ---
 

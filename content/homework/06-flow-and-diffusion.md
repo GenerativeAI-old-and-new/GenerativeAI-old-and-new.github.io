@@ -1,6 +1,6 @@
 ---
 title: "Homework 6: Flow and Diffusion"
-description: "Homework problems covering rectified flow, ODE/SDE sampling, Langevin correction, and diffusion-style score identities."
+description: "Rectified-flow regression, ODE/SDE sampling, Langevin correction, and score identities."
 publish: true
 ---
 

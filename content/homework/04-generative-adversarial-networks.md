@@ -1,6 +1,6 @@
 ---
 title: "Homework 4: Generative Adversarial Networks"
-description: "Homework problems for Module 4 covering GAN training signals, critics, gradient penalties, and WGAN-GP experiments."
+description: "Classical GANs, Wasserstein critics, gradient penalties, and WGAN-GP experiments."
 publish: true
 ---
 

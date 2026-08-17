@@ -1,6 +1,6 @@
 ---
 title: "Homework"
-description: "Homework for ADV IN DEEP GEN MODELS."
+description: "Assignments and reviewed solutions for ADV IN DEEP GEN MODELS."
 publish: true
 ---
 

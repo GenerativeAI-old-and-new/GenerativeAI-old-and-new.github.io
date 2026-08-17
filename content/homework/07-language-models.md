@@ -1,6 +1,6 @@
 ---
 title: "Homework 7: Autoregressive Language Models"
-description: "Homework problems covering next-token prediction, causal self-attention, small GPT training, and text generation."
+description: "Next-token batches, causal multi-head attention, small GPT training, and autoregressive sampling."
 publish: true
 ---
 

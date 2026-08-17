@@ -1,6 +1,6 @@
 ---
 title: "ADV IN DEEP GEN MODELS"
-description: "Course notes for Advances in Deep Generative Models."
+description: "Course notes and interactive visualizations for deep generative models."
 publish: true
 ---
 
