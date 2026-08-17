@@ -1,6 +1,6 @@
 ---
 title: "Homework"
-description: "Homework pages for Generative AI: Old and New."
+description: "Homework for ADV IN DEEP GEN MODELS."
 publish: true
 ---
 

@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "Generative AI: Old and New",
+    pageTitle: "ADV IN DEEP GEN MODELS",
     pageTitleSuffix: "",
     baseUrl: "generativeai-old-and-new.github.io",
     enableSPA: true,

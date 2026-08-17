@@ -13,6 +13,7 @@ interface FooterCredit {
 interface Options {
   links?: Record<string, string>
   credits?: FooterCredit[]
+  notice?: FooterCredit
   showQuartz?: boolean
 }
 
@@ -25,12 +26,6 @@ export default ((opts?: Options) => {
     const credits: FooterCredit[] = opts?.credits ?? legacyLinks
     return (
       <footer class={`${displayClass ?? ""}`}>
-        {opts?.showQuartz !== false && (
-          <p>
-            {i18n(cfg.locale).components.footer.createdWith}{" "}
-            <a href="https://quartz.jzhao.xyz/">Quartz v{version}</a> © {year}
-          </p>
-        )}
         <ul class="footer-credits">
           {credits.map(({ text, href, prefix, suffix }) => (
             <li>
@@ -40,6 +35,23 @@ export default ((opts?: Options) => {
             </li>
           ))}
         </ul>
+        {opts?.notice && (
+          <p class="footer-notice">
+            {opts.notice.prefix}
+            {opts.notice.href ? (
+              <a href={opts.notice.href}>{opts.notice.text}</a>
+            ) : (
+              opts.notice.text
+            )}
+            {opts.notice.suffix}
+          </p>
+        )}
+        {opts?.showQuartz !== false && (
+          <p>
+            {i18n(cfg.locale).components.footer.createdWith}{" "}
+            <a href="https://quartz.jzhao.xyz/">Quartz v{version}</a> © {year}
+          </p>
+        )}
       </footer>
     )
   }

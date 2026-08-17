@@ -8,16 +8,23 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [Component.SideFigureLightbox(), Component.InteractiveFigures()],
   footer: Component.Footer({
     showQuartz: false,
+    notice: {
+      prefix:
+        "The site content and visualizations are being actively updated. If you have any questions or suggestions, please email ",
+      text: "liaorl@cs.utexas.edu",
+      href: "mailto:liaorl@cs.utexas.edu",
+      suffix: ".",
+    },
     credits: [
-      {
-        prefix: "Made by ",
-        text: "Runlong Liao",
-        href: "https://github.com/CyberDragon93",
-      },
       {
         prefix: "Lecture notes by ",
         text: "Qiang Liu",
         href: "https://www.cs.utexas.edu/~lqiang/",
+      },
+      {
+        prefix: "Made by ",
+        text: "Runlong Liao",
+        href: "https://github.com/CyberDragon93",
       },
     ],
   }),
