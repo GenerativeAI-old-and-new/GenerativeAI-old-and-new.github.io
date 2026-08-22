@@ -30,6 +30,7 @@ publish: true
 >
 > 4.  Try changing training choices such as learning rate, batch size, number of epochs, or model width. Describe the visible effect on trajectories, mode coverage, and sample quality.
 
+<!--
 > [!solution]- Solution
 >
 > For the default straight interpolation, `get_loss` can be written as follows:
@@ -51,6 +52,7 @@ publish: true
 > To compare the two implementations, use the same seed, data, model, and number of updates. Their loss curves and generated samples should be similar, apart from randomness in the sampled batches and times.
 >
 > In the first experiment, the final samples should cover both components of the target Gaussian mixture. After replacing the target with `rings` or `2spirals`, check whether the generated samples cover the full shape rather than only part of it. For the hyperparameter study, change one setting at a time. A learning rate that is too large often gives an unstable loss; a very small one learns slowly. More training or a wider MLP can improve the fit when the model is undertrained or too small.
+-->
 
 > [!problem|Rectified Flow on MNIST]
 > Use the [MNIST rectified-flow Colab notebook](https://colab.research.google.com/drive/1ygE5l4uKXSISISwhmJfUgR2-EDNn3LyT?usp=sharing) to train an image generator from noise to handwritten digits.
@@ -70,6 +72,7 @@ publish: true
 >
 >     where $s$ is the CFG scale. Try a few values of $s$ and compare how the generated digits change in label accuracy, visual quality, and diversity.
 
+<!--
 > [!solution]- Solution
 >
 > The loss curve and image grids come from the training run. Compare an early and a later checkpoint using the same sampling settings. A lower training loss is useful only when the generated digits also improve.
@@ -90,6 +93,7 @@ publish: true
 > $$
 >
 > Thus $s=0$ gives unconditional generation, $s=1$ gives the ordinary conditional velocity, and $s>1$ extrapolates in the class-conditioned direction. Larger values can improve label agreement, but excessive guidance can reduce diversity or introduce artifacts. Use the same labels and initial noise when comparing scales.
+-->
 
 > [!problem|Advanced: FLUX Inference and Editing]
 > This optional exploration uses a large pretrained rectified-flow text-to-image model. It requires an A100 GPU with high VRAM in Colab.
@@ -101,11 +105,13 @@ publish: true
 >
 > For image editing, start from the provided example, then try your own input image or editing prompt. You may also vary parameters such as noise level, `start_t`, `end_t`, `eta_base`, or schedule type. Show representative editing results and briefly describe what changed.
 
+<!--
 > [!solution]- Solution
 >
 > There is no single image for this problem. For generation, keep the prompt and seed fixed while changing either the sampler or the number of steps. Report the runtime with each image. More steps require more model evaluations; their benefit should be read from the resulting images.
 >
 > For editing, keep the input image fixed and change one setting at a time. Compare how much of the original composition remains, whether the requested edit appears, and whether unrelated regions change. The noise level and the interval set by `start_t` and `end_t` control how strongly the editing field is applied. A complete answer shows the original image beside the edited images and states which parameter changed.
+-->
 
 ## Theory
 
@@ -145,6 +151,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 >     Show that the update lands exactly on the straight interpolation at every grid point, $X_{t_k}=t_kx^\star+(1-t_k)X_0$. Explain why this special case has no Euler discretization error.
 
+<!--
 > [!solution]- Solution
 >
 > Since $X_1=x^\star$,
@@ -180,6 +187,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > The claim follows by induction from $X_{t_0}=X_0$. Euler is exact here because the velocity along each path is constant.
+-->
 
 > [!problem|Intersections and Averaged Velocity]
 > With multiple data points, different straight interpolations can pass through the same location at the same time. At that state-time pair, the ODE still needs one velocity value.
@@ -194,6 +202,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 >     assigns a single velocity by averaging the directions of the paths that pass through $x$ at time $t$.
 
+<!--
 > [!solution]- Solution
 >
 > In $\mathbb R^2$, consider the two pairs
@@ -215,6 +224,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > It therefore averages the possible velocities using their conditional probabilities. If the two paths above have equal conditional probability, the assigned velocity is $(1,-1)$.
+-->
 
 > [!problem|Bias-Variance Decomposition for Regression]
 > A basic regression fact underlies rectified-flow training. Let $(U,V)$ be any pair of random variables and consider
@@ -240,6 +250,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Conclude that the best predictor is $f^*(u)=\mathbb E[V\mid U=u]$.
 > 3.  For a fixed time $t$, apply this result with $U=X_t$ and $V=X_1-X_0$ to justify the rectified-flow training target.
 
+<!--
 > [!solution]- Solution
 >
 > Let $m(U)=\mathbb E[V\mid U]$. Write
@@ -280,6 +291,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > which is the target learned by rectified-flow regression.
+-->
 
 > [!problem|Data Prediction, Noise Prediction, and Velocity]
 > For $X_t=tX_1+(1-t)X_0$ and $t\in(0,1)$, define the two prediction targets
@@ -324,6 +336,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > 3.  Suppose a neural network predicts either $\hat x_{\mathrm{data}}(x,t)$ or $\hat x_{\mathrm{noise}}(x,t)$. Explain how to convert its output into a velocity prediction.
 
+<!--
 > [!solution]- Solution
 >
 > Conditioning the interpolation on $X_t=x$ gives
@@ -351,6 +364,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > Therefore a data-prediction network is converted by subtracting $x$ and dividing by $1-t$. A noise-prediction network is converted by subtracting its output from $x$ and dividing by $t$. These formulas apply for $0<t<1$.
+-->
 
 > [!problem|Time Weighting in the Training Loss]
 > Consider the weighted objective
@@ -374,6 +388,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > 2.  Now suppose one neural network $v^\theta(x,t)$ is shared across all times. Explain why the choice of $w_t$ can affect the learned model in this finite-capacity setting.
 
+<!--
 > [!solution]- Solution
 >
 > Fix a time $t$. Since $w_t>0$ is a constant with respect to $v_t$, multiplying that time's regression loss by $w_t$ does not change its minimizer. The bias-variance decomposition therefore gives
@@ -383,6 +398,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > With a shared network, the same parameters must fit all times. The weight $w_t$ changes how strongly errors at time $t$ contribute to the objective and to each gradient update. A finite network may not fit every time equally well, so changing $w_t$ changes the compromise selected during training.
+-->
 
 > [!problem|Closed-Form Gaussian-to-Gaussian Case]
 > Let $X_0\sim\mathcal N(0,1)$ and $X_1\sim\mathcal N(\mu,1)$ be independent, and let $X_t=tX_1+(1-t)X_0$.
@@ -398,6 +414,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > 3.  Check that this velocity gives the correct distributions at the two ends of the path: $\mathcal N(0,1)$ at $t=0$ and $\mathcal N(\mu,1)$ at $t=1$.
 
+<!--
 > [!solution]- Solution
 >
 > Define
@@ -464,6 +481,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > At $t=0$ this is $\mathcal N(0,1)$, and at $t=1$ it is $\mathcal N(\mu,1)$.
+-->
 
 > [!problem|Two-Point Data Mixture]
 > Let $X_0\sim\mathcal N(0,I_d)$, and suppose $X_1$ is either $x^\star$ or $y^\star$ with probability $1/2$ each. For $t\in[0,1)$, let $X_t=tX_1+(1-t)X_0$.
@@ -493,6 +511,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > 3.  Interpret the formula as a weighted average of two velocities, one pointing toward each possible data value.
 
+<!--
 > [!solution]- Solution
 >
 > Conditional on $X_1=u$,
@@ -533,6 +552,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > Each candidate data value contributes a velocity pointing from $x$ toward that value. Its posterior probability $\omega_u(x,t)$ determines the weight.
+-->
 
 > [!problem|Tweedie's Identity from Rectified Flow]
 > Assume $X_0\sim\mathcal N(0,I_d)$ and $X_1\sim P_{\mathrm{data}}$. Let $\rho_t$ be the density of $X_t=tX_1+(1-t)X_0$.
@@ -571,6 +591,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 >     Use this relation to express the score needed for Langevin correction in terms of the rectified-flow velocity.
 
+<!--
 > [!solution]- Solution
 >
 > Given $X_1=x_1$, the variable $X_t$ is Gaussian with mean $tx_1$ and covariance $(1-t)^2I_d$. Marginalizing over $X_1$ gives
@@ -612,6 +633,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > Thus the Langevin score can be computed directly from the rectified-flow velocity; a separate score network is not required.
+-->
 
 > [!problem|Noise Schedule Near t=1]
 > In RF plus Langevin dynamics, the Langevin drift uses the score $\nabla \log\rho_t(x)$. From the previous problem,
@@ -626,6 +648,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Explain what happens when $\alpha<1/2$, $\alpha=1/2$, and $\alpha>1/2$.
 > 3.  Explain why choosing $\sigma_t\to 0$ as $t\to 1$ helps avoid noisy final samples.
 
+<!--
 > [!solution]- Solution
 >
 > With $\sigma_t=c(1-t)^\alpha$,
@@ -644,6 +667,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > If $\alpha<1/2$, the factor diverges. If $\alpha=1/2$, it approaches $c^2$. If $\alpha>1/2$, it approaches zero.
 >
 > The random increment has size $\sqrt{2}\,\sigma_t\sqrt{\Delta t}$. Choosing a schedule with $\sigma_t\to0$ suppresses this added noise near the final sample. The condition $\alpha\geq1/2$ also keeps the score correction from becoming unbounded under the scaling above.
+-->
 
 > [!problem|Euler-Maruyama Step for RF plus Langevin]
 > Consider one time step of size $\Delta t$ at state $x$ and time $t$. The hybrid RF plus Langevin update is
@@ -670,6 +694,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > to write the same update using only $v_t^*(x)$, $x$, $t$, $\sigma_t$, and $\Delta t$. Then write the conditional mean and covariance of $Z_{t+\Delta t}$ given $Z_t=x$.
 
+<!--
 > [!solution]- Solution
 >
 > Substituting the score identity gives
@@ -701,6 +726,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > \operatorname{Cov}(Z_{t+\Delta t}\mid Z_t=x)
 > =2\sigma_t^2\Delta t\,I_d.
 > $$
+-->
 
 > [!problem|Single-Point Data with Langevin Correction]
 > Let $P_{\mathrm{data}}=\delta_{x^\star}$ and $X_0\sim\mathcal N(0,I_d)$. Then $X_t=t x^\star+(1-t)X_0$.
@@ -727,6 +753,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 > 3.  Verify that when $\sigma_t\equiv0$, the dynamics reduce to the exact straight-line ODE from the first theory problem.
 
+<!--
 > [!solution]- Solution
 >
 > Since $X_1=x^\star$,
@@ -758,6 +785,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > whose solution from $Z_0$ is $Z_t=tx^\star+(1-t)Z_0$.
+-->
 
 > [!problem|Discrete Langevin Stability]
 > Consider the unadjusted Langevin update
@@ -797,6 +825,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >
 >     Explain why this approaches the correct variance as $\epsilon\to0$, but is larger than $1$ for any fixed stable step size $\epsilon>0$. State the coordinate-wise extension to $\mathbb R^d$.
 
+<!--
 > [!solution]- Solution
 >
 > Substituting $\nabla \log p(x_k)=\mu-x_k$ gives
@@ -842,6 +871,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > This tends to the target variance $1$ as $\epsilon\to0$, but is larger than $1$ for every fixed $\epsilon\in(0,2)$. In $\mathbb R^d$, each coordinate obeys the same recursion, so the stationary covariance is $(1-\epsilon/2)^{-1}I_d$.
+-->
 
 > [!problem|Continuity Equation]
 > Let $p_t$ be the density of a smooth process $X_t$, and define
@@ -876,6 +906,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 >     -\nabla\cdot\big(v_t^*(x)p_t(x)\big).
 >     $$
 
+<!--
 > [!solution]- Solution
 >
 > Writing the expectation as an integral and differentiating in time,
@@ -911,6 +942,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > \partial_t p_t(x)
 > =-\nabla\cdot\big(v_t^*(x)p_t(x)\big).
 > $$
+-->
 
 > [!problem|Neural ODE Likelihood]
 > Let $Z_t$ follow the ODE
@@ -940,6 +972,7 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > 2.  Specialize to $d=1$ and $v^\theta(z,t)=a(t)z$. Write $\log p_t^\theta(x)$ in terms of $\log p_0(z_0)$ and $\int_0^t a(\tau)\,\mathrm d \tau$.
 > 3.  Explain why likelihood training for a Neural ODE is usually more expensive than rectified-flow regression training.
 
+<!--
 > [!solution]- Solution
 >
 > Let $\phi_t$ be the ODE flow map and let
@@ -994,3 +1027,4 @@ A learned rectified-flow model uses a neural velocity field $v^\theta(x,t)$ to a
 > $$
 >
 > Likelihood evaluation requires solving an ODE and accumulating a divergence term for each sample. Rectified-flow training instead uses a direct regression loss at sampled states and times, without integrating a full path during each update.
+-->

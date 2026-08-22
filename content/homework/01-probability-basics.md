@@ -26,6 +26,7 @@ publish: true
 > 3.  Let $X=X_1+X_2$, where $X_1\sim\mathcal N(\mu_1,\sigma_1^2)$ and $X_2\sim\mathcal N(\mu_2,\sigma_2^2)$ are independent. What is the distribution of $X$? Give its mean and variance.
 > 4.  Let $X=Z^2$ where $Z\sim\mathcal N(0,1)$. Derive the density of $X$ and state its support.
 
+<!--
 > [!solution]- Solution
 >
 > 1.  Yes. Since $p_1(x)p_2(x)\ge0$ and $Z=\int p_1(x)p_2(x)\,\mathrm d x$, the normalized function integrates to one.
@@ -109,6 +110,7 @@ publish: true
 >     $$
 >
 >     Thus $X\sim\chi^2(1)$, with density $f_X(x)=0$ for $x<0$.
+-->
 
 ## Problem 2
 
@@ -150,6 +152,7 @@ publish: true
 >     1.  Is this divergence a valid notion of discrepancy? Explain your reasoning.
 >     2.  Under what conditions does this divergence reduce to the KL divergence (either $\operatorname{KL}(P \,\|\, Q)$ or $\operatorname{KL}(Q \,\|\, P)$)?
 
+<!--
 > [!solution]- Solution
 >
 > 1.  Using
@@ -251,6 +254,7 @@ publish: true
 >
 >     - If $\alpha=0$, then $\mathrm D(P,Q)=\operatorname{KL}(Q\|P)$.
 >     - For $\alpha>0$, it is generally not equal to either direction of KL, except in the trivial case $P=Q$ where all divergences are zero.
+-->
 
 ## Problem 3
 
@@ -278,6 +282,7 @@ publish: true
 >
 > 4.  Describe a numerically stable way to compute the softmax for a general vector $(\theta_1,\ldots,\theta_K)$, and give a stable formula for the log-likelihood.
 
+<!--
 > [!solution]- Solution
 >
 > Let
@@ -355,6 +360,7 @@ publish: true
 > -
 > n\left(m+\log\sum_{j=1}^K e^{\theta_j-m}\right).
 > $$
+-->
 
 ## Problem 4
 
@@ -407,6 +413,7 @@ publish: true
 >
 >     where the model expectation is approximated with samples from your Langevin sampler at current $\theta_t$. Train the model until it fits the toy data well (e.g., samples visually match data).
 
+<!--
 > [!solution]- Solution
 >
 > The key identity is
@@ -486,6 +493,7 @@ publish: true
 > $$\mathcal L(\theta)\approx -\frac1B\sum_{i=1}^B f_\theta(x_i)+\log Z_\theta^{\text{grid}}.$$
 >
 > This finite-grid objective can be compared with the Langevin-based objective in the $2$D experiment.
+-->
 
 ## Optional Problems
 
@@ -504,6 +512,7 @@ publish: true
 > 2.  Find the maximum likelihood estimator $\hat{\theta}_{\text{MLE}}$ by maximizing $\ell(\theta)$.
 > 3.  Show that $\hat{\theta}_{\text{MLE}}$ can be written as a simple function of $\frac{1}{n}\sum_{i=1}^n |x_i|$.
 
+<!--
 > [!solution]- Solution
 >
 > The log-likelihood is
@@ -535,6 +544,7 @@ publish: true
 > $$
 >
 > The second derivative is $-n/\theta^2<0$, so this critical point is a maximum.
+-->
 
 ## Optional Problem 2
 
@@ -549,6 +559,7 @@ publish: true
 > 2.  Find the maximum likelihood estimator $\hat{\theta}_{\text{MLE}}$ by maximizing $\ell(\theta)$.
 > 3.  Show that $\hat{\theta}_{\text{MLE}} = \frac{1}{\bar{x}}$, where $\bar{x}$ is the sample mean.
 
+<!--
 > [!solution]- Solution
 >
 > The log-likelihood is
@@ -580,6 +591,7 @@ publish: true
 > $$
 >
 > Again, $d^2\ell/d\theta^2=-n/\theta^2<0$, so this is the maximum.
+-->
 
 ## Optional Problem 3
 
@@ -594,6 +606,7 @@ publish: true
 > 2.  Find the maximum likelihood estimator $\hat{\lambda}_{\text{MLE}}$.
 > 3.  Prove that $\hat{\lambda}_{\text{MLE}}$ equals the sample mean of the observations.
 
+<!--
 > [!solution]- Solution
 >
 > The log-likelihood is
@@ -638,3 +651,4 @@ publish: true
 > $$
 >
 > If at least one observation is positive, this is strictly negative, so the critical point is the maximum. If all observations are zero, the likelihood is maximized at the boundary limit $\lambda\to0^+$.
+-->

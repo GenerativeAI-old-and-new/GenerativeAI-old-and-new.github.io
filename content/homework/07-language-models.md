@@ -29,6 +29,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 >
 >     Verify that `torch.equal(x[0, 1:], y[0, :-1])` is true. Then decode one row of `x` and `y` and check the shift in readable form.
 
+<!--
 > [!solution]- Solution
 >
 > Assign one integer to each character. Sorting the characters makes the encoding reproducible.
@@ -85,6 +86,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 > ```
 >
 > The assertion checks the shift directly. The two printed strings show the same shift in text form.
+-->
 
 > [!problem|Causal Multi-Head Self-Attention]
 > Implement causal multi-head self-attention. For hidden states $H\in\mathbb R^{B\times T\times d}$, use learned linear maps to form queries, keys, and values with shape $(B,h,T,d_h)$, where $h$ is the number of heads and $d_h=d/h$. For each head, compute
@@ -108,6 +110,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 > 1.  In evaluation mode, temporarily return or save the attention probabilities $P$. Inspect `P[0, 0]` and verify that entries above the diagonal are zero. The normal forward method only needs to return the attention output.
 > 2.  Create hidden states `H1` and `H2` with the same prefix, `H1[:, :m] == H2[:, :m]`, but different values after position `m`. Verify that the corresponding outputs agree on `[:, :m]` up to numerical precision.
 
+<!--
 > [!solution]- Solution
 >
 > Register the lower-triangular mask as a buffer so that it moves with the module but is not trained. In evaluation mode, save the attention probabilities before dropout for inspection.
@@ -180,6 +183,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 > ```
 >
 > The second test changes only positions $m,\ldots,T-1$. The first $m$ outputs remain unchanged because they cannot attend to those positions.
+-->
 
 > [!problem|Train a Small GPT]
 > Build a decoder-only Transformer with the following structure:
@@ -213,6 +217,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 >
 > For a light first run, you can start with `block_size=64`, `batch_size=12`, `n_layer=4`, `n_head=4`, and `n_embd=128`, following nanoGPT's [small CPU configuration](https://github.com/karpathy/nanoGPT/blob/3adf61e154c3fe3fca428ad6bc3818b27a3b8291/README.md#L82-L88). Report the model size and main training choices, plot the losses, and show a text sample from the final model. There is no required validation-loss target.
 
+<!--
 > [!solution]- Solution
 >
 > Using the attention layer from Problem 7.2, define the MLP, Transformer block, and GPT model as follows.
@@ -380,6 +385,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 > ```
 >
 > Record the printed configuration and parameter count together with the loss plot. In a successful run, both losses fall early in training. If the training loss later falls while the validation loss rises, the model is overfitting. Use Problem 7.4 to generate the final text sample.
+-->
 
 > [!problem|Autoregressive Sampling]
 > Implement nanoGPT's autoregressive sampling loop and run it with `model.eval()` inside `torch.no_grad()`. At each step, keep only the most recent $T$ tokens if the sequence is longer than the context length, run the model, and select the logits from the final position. Divide the logits by `temperature`, optionally set all but the largest `top_k` logits to $-\infty$, apply softmax, and sample one token with `torch.multinomial`.
@@ -388,6 +394,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 >
 > Use the same checkpoint and prompt to generate text at two different temperatures, for example $0.7$ and $1.2$. Then fix the temperature and compare generation with and without a `top_k` cutoff. Choose `top_k` smaller than the vocabulary size; values such as 10 or 20 work for Tiny Shakespeare. Show representative samples and briefly describe how the generated text changes. Set the same random seed before each run so that the comparison is easier to interpret.
 
+<!--
 > [!solution]- Solution
 >
 > At each step, crop only the model input. Keep the full sequence in `idx`, and sample the next token from the final-position logits.
@@ -449,6 +456,7 @@ You may use standard PyTorch layers and tensor operations. Implement the next-to
 > ```
 >
 > With the same checkpoint, the lower-temperature sample chooses high-logit characters more often. The higher-temperature sample draws from a flatter distribution and therefore varies more. With `top_k=10`, only the ten largest logits can be sampled at each step. The exact strings depend on the trained checkpoint.
+-->
 
 ## Theory
 
@@ -463,6 +471,7 @@ $$
 > [!problem|Next-Token Training Objective]
 > Write the negative log-likelihood of the sequence $(w_1,\ldots,w_L)$. If the training input is $(w_1,\ldots,w_{L-1})$ and the labels are $(w_2,\ldots,w_L)$, which terms of the negative log-likelihood are included by the shifted cross-entropy loss? Explain how prepending a beginning-of-sequence token allows the model to include the term for $w_1$ as well.
 
+<!--
 > [!solution]- Solution
 >
 > The sequence negative log-likelihood is
@@ -493,10 +502,12 @@ $$
 > $$
 >
 > The first position then contributes $-\log p_\theta(w_1\mid\mathtt{BOS})$.
+-->
 
 > [!problem|Causal Masking and Parallel Training]
 > For a sequence of length four, write the $4\times4$ attention mask, using one when position $i$ may attend to position $j$ and zero otherwise. Explain why entries above the diagonal must be masked. Since the whole training sequence is available, why can the model still compute the outputs at all four positions in one forward pass?
 
+<!--
 > [!solution]- Solution
 >
 > The binary mask is
@@ -513,10 +524,12 @@ $$
 > Row $i$ may use positions up to and including $i$. For example, position $i$ predicts $w_{i+1}$, so allowing it to attend to position $i+1$ would reveal the target token.
 >
 > During training, the complete sequence is already available. The model computes all queries, keys, values, and attention scores in one set of batched matrix operations. Applying the mask before softmax removes the forbidden entries without requiring a separate forward pass for each position.
+-->
 
 > [!problem|Why Attention Logits Are Scaled]
 > Let $q,k\in\mathbb R^{d_h}$ be a query and key whose coordinates are independent, with mean zero and variance one. Compute the variance of $q^\top k$. Use the result to explain why attention divides this dot product by $\sqrt{d_h}$ before applying softmax.
 
+<!--
 > [!solution]- Solution
 >
 > The dot product is
@@ -547,6 +560,7 @@ $$
 > $$
 >
 > The scaled logits have standard deviation $1$, independent of the head dimension. Without the scaling, increasing $d_h$ makes softmax more saturated and its gradients smaller.
+-->
 
 > [!problem|Temperature and Top-k Sampling]
 > Given next-token logits $z\in\mathbb R^{|\mathcal V|}$, temperature sampling uses
@@ -560,6 +574,7 @@ $$
 >
 > Explain how decreasing or increasing $\tau$ changes the next-token distribution. Then explain what top-$k$ sampling changes before a token is sampled. Relate both choices to the differences you observed in Problem 7.4.
 
+<!--
 > [!solution]- Solution
 >
 > For two tokens $i$ and $j$,
@@ -573,3 +588,4 @@ $$
 > Decreasing $\tau$ magnifies logit differences and assigns more probability to the largest logits. If the largest logit is unique, the distribution approaches greedy selection as $\tau\to0$. Increasing $\tau$ flattens the distribution; as $\tau\to\infty$, it approaches the uniform distribution over the vocabulary.
 >
 > Top-$k$ keeps the $k$ largest logits, sets all others to $-\infty$, and renormalizes over the remaining tokens. Temperature changes all nonzero probabilities, whereas top-$k$ gives the removed tokens probability zero. This matches Problem 7.4: lower temperature and smaller $k$ select from high-logit continuations more often, while higher temperature and no cutoff allow a wider range of characters.
+-->

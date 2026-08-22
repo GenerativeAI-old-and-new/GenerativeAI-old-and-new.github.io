@@ -74,6 +74,7 @@ publish: true
 >
 >         where the step size $\epsilon_t$ depends on iteration $t$. Show that, with a well-chosen step size scheme $\{\epsilon_t\}$, gradient descent reaches the minimizer $(0,0)$ within at most two steps. Show your derivation.
 
+<!--
 > [!solution]- Solution
 >
 > **1. Closed-form GD iterates.**
@@ -224,6 +225,7 @@ publish: true
 > $$
 >
 > Then $x_1=0$ and $y_1=0$. With a scalar step size that changes by iteration, two steps are enough: choose $\epsilon_0=1/\gamma$ to set $y_1=0$, then choose $\epsilon_1=1$ to set $x_2=0$ while keeping $y_2=0$.
+-->
 
 ## Problem 2
 
@@ -248,6 +250,7 @@ publish: true
 >
 >     Then compare the optimizers: under a fixed step budget, which optimizer performs best on average across the specified initializations? For this comparison, use one chosen hyperparameter setting per optimizer, report how you selected it, and average the final objective over initializations. Name the winners and intuitively explain why they did well in this setting.
 
+<!--
 > [!solution]- Solution
 >
 > Solution notebook: [Problem 2 optimizer solution Colab](https://colab.research.google.com/drive/1cU08CK3iKwtBGpuim_mRAW3I4HrO4wkC?usp=sharing).
@@ -299,6 +302,7 @@ publish: true
 > | Adam | $\eta=\cdots,\beta_1=\cdots,\beta_2=\cdots$ | $\cdots$ | $\cdots$ |
 >
 > Adaptive methods rescale coordinates when gradient magnitudes change. Momentum can move faster through shallow regions, but it can also pass through a narrow minimum.
+-->
 
 ## Problem 3
 
@@ -315,6 +319,7 @@ publish: true
 >     1.  Understand the logic of Huber loss and explain why it is less sensitive to outliers than the mean square loss. You may consult references.
 >     2.  Modify the training data by introducing a few outliers, for example by setting the labels of the first five training samples to $10$. Keep the test data unchanged. Compare the performance of MSE and Huber loss on this dataset, and report your findings.
 
+<!--
 > [!solution]- Solution
 >
 > Solution notebook for the coding parts: [Full solution Colab](https://colab.research.google.com/drive/1D1dhC_Qk5GU75QAts_1iw12l3JfVrkwD?usp=sharing).
@@ -366,3 +371,4 @@ publish: true
 > where $r=\hat y-y$ is the residual. For small errors, it behaves like MSE, so it still encourages accurate fitting. For large errors, it grows only linearly, so a few outliers do not dominate the total loss. In the outlier experiment, MSE assigns quadratic penalty to the corrupted labels and pulls the fitted function toward them. Huber loss assigns only linear penalty to large residuals, so the fitted function changes less on the clean region.
 >
 > Record the architectures, initialization scales, learning rates, number of iterations, and train/test metrics used in the experiments. Loss curves or fitted-function plots show underfitting, instability, and outlier sensitivity.
+-->
