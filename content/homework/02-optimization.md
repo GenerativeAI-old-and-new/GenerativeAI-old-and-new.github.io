@@ -37,6 +37,7 @@ publish: true
 >     2.  At $\epsilon=\epsilon_1^*$, the $y$-coordinate converges to zero in one iteration.
 >
 >     Derive $\epsilon_1^*$ and show your reasoning. Also explain why the trajectories in the monotone cases exhibit an L-shape rather than moving straight to the origin.
+>
 > 3.  There exists another critical step size $\epsilon_2^*$ beyond which gradient descent fails to converge. Derive $\epsilon_2^*$ and explain the cases below:
 >     1.  If $\epsilon\in(\epsilon_1^*,\epsilon_2^*)$, the trajectory converges with damped oscillations.
 >     2.  If $\epsilon=\epsilon_2^*$, the trajectory oscillates indefinitely with constant amplitude.
@@ -51,6 +52,7 @@ publish: true
 >     2.  The optimal $\epsilon_{t_*}^*$ never lies in the monotonic decreasing region $(0,\epsilon_1^*)$ and may exhibit damped or even undamped oscillation. By sacrificing monotonic decrease, we can take larger steps and make faster progress within $t_*$ iterations.
 >
 >     In addition, derive the limit of $\epsilon_{t_*}^*$ as $t_*\to+\infty$.
+>
 > 8.  **Optional.** The studies above suggest that the efficiency of gradient descent decreases when $\gamma$ is very large. Consider the following approaches to speed up gradient descent:
 >     1.  **Per-coordinate step size.** Use different step sizes for different coordinates:
 >
@@ -74,7 +76,8 @@ publish: true
 >
 >         where the step size $\epsilon_t$ depends on iteration $t$. Show that, with a well-chosen step size scheme $\{\epsilon_t\}$, gradient descent reaches the minimizer $(0,0)$ within at most two steps. Show your derivation.
 
-<!--
+<!-- -->
+
 > [!solution]- Solution
 >
 > **1. Closed-form GD iterates.**
@@ -225,7 +228,6 @@ publish: true
 > $$
 >
 > Then $x_1=0$ and $y_1=0$. With a scalar step size that changes by iteration, two steps are enough: choose $\epsilon_0=1/\gamma$ to set $y_1=0$, then choose $\epsilon_1=1$ to set $x_2=0$ while keeping $y_2=0$.
--->
 
 ## Problem 2
 
@@ -250,7 +252,8 @@ publish: true
 >
 >     Then compare the optimizers: under a fixed step budget, which optimizer performs best on average across the specified initializations? For this comparison, use one chosen hyperparameter setting per optimizer, report how you selected it, and average the final objective over initializations. Name the winners and intuitively explain why they did well in this setting.
 
-<!--
+<!-- -->
+
 > [!solution]- Solution
 >
 > Solution notebook: [Problem 2 optimizer solution Colab](https://colab.research.google.com/drive/1cU08CK3iKwtBGpuim_mRAW3I4HrO4wkC?usp=sharing).
@@ -292,17 +295,16 @@ publish: true
 >
 > With the same initializations and the same step budget for every optimizer, the comparison entries are the average final objective and the number of runs ending in each well:
 >
-> | optimizer | hyperparameters | average final $f$ | left/right well counts |
-> | --- | --- | --- | --- |
-> | GD | $\eta=\cdots$ | $\cdots$ | $\cdots$ |
-> | Momentum | $\eta=\cdots,\beta=\cdots$ | $\cdots$ | $\cdots$ |
-> | SignGD | $\eta=\cdots$ | $\cdots$ | $\cdots$ |
-> | SoftSignGD | $\eta=\cdots,\tau=\cdots$ | $\cdots$ | $\cdots$ |
-> | RMSProp | $\eta=\cdots,\beta=\cdots$ | $\cdots$ | $\cdots$ |
-> | Adam | $\eta=\cdots,\beta_1=\cdots,\beta_2=\cdots$ | $\cdots$ | $\cdots$ |
+> | optimizer  | hyperparameters                             | average final $f$ | left/right well counts |
+> | ---------- | ------------------------------------------- | ----------------- | ---------------------- |
+> | GD         | $\eta=\cdots$                               | $\cdots$          | $\cdots$               |
+> | Momentum   | $\eta=\cdots,\beta=\cdots$                  | $\cdots$          | $\cdots$               |
+> | SignGD     | $\eta=\cdots$                               | $\cdots$          | $\cdots$               |
+> | SoftSignGD | $\eta=\cdots,\tau=\cdots$                   | $\cdots$          | $\cdots$               |
+> | RMSProp    | $\eta=\cdots,\beta=\cdots$                  | $\cdots$          | $\cdots$               |
+> | Adam       | $\eta=\cdots,\beta_1=\cdots,\beta_2=\cdots$ | $\cdots$          | $\cdots$               |
 >
 > Adaptive methods rescale coordinates when gradient magnitudes change. Momentum can move faster through shallow regions, but it can also pass through a narrow minimum.
--->
 
 ## Problem 3
 
@@ -319,7 +321,8 @@ publish: true
 >     1.  Understand the logic of Huber loss and explain why it is less sensitive to outliers than the mean square loss. You may consult references.
 >     2.  Modify the training data by introducing a few outliers, for example by setting the labels of the first five training samples to $10$. Keep the test data unchanged. Compare the performance of MSE and Huber loss on this dataset, and report your findings.
 
-<!--
+<!-- -->
+
 > [!solution]- Solution
 >
 > Solution notebook for the coding parts: [Full solution Colab](https://colab.research.google.com/drive/1D1dhC_Qk5GU75QAts_1iw12l3JfVrkwD?usp=sharing).
@@ -371,4 +374,3 @@ publish: true
 > where $r=\hat y-y$ is the residual. For small errors, it behaves like MSE, so it still encourages accurate fitting. For large errors, it grows only linearly, so a few outliers do not dominate the total loss. In the outlier experiment, MSE assigns quadratic penalty to the corrupted labels and pulls the fitted function toward them. Huber loss assigns only linear penalty to large residuals, so the fitted function changes less on the clean region.
 >
 > Record the architectures, initialization scales, learning rates, number of iterations, and train/test metrics used in the experiments. Loss curves or fitted-function plots show underfitting, instability, and outlier sensitivity.
--->
